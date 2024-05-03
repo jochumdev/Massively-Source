@@ -69,13 +69,14 @@
 		@include padding((_size(padding) * 4), (_size(padding) * 4));
 
 		header {
-			&.gh-article-header {
-				>.date {
-					margin-top: -2rem;
-				}
+			&.major {
+				.date {
+					text-align: center;
+				}				
 
 				>h1,
 				h2 {
+					text-align: center;
 					font-size: 3rem;
 					line-height: 1.1;
 					margin: 0 0 _size(element-margin) 0;
@@ -95,7 +96,7 @@
 
 			header {
 				&.major {
-					>.date {
+					>.image>.date {
 						margin-top: -1rem;
 						margin-bottom: _size(element-margin);
 					}

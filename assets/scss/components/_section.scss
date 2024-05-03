@@ -17,10 +17,15 @@
 
 		> .date {
 			display: block;
-			font-size: 0.8rem;
-			height: 1;
 			margin: 0 0 (_size(element-margin) * 0.5) 0;
 			position: relative;
+
+			font-size: 0.8rem;
+			line-height: 1.4rem;
+		}
+
+		>h1 {
+			margin: (_size(element-margin) * 2) 0 0 0;
 		}
 
 		> p {
@@ -50,7 +55,6 @@
 
 		&.major {
 			margin: 0 0 (_size(element-margin) * 2) 0;
-			text-align: center;
 
 			> :last-child {
 				margin-bottom: 0;
@@ -58,29 +62,6 @@
 
 			> p {
 				margin-top: 0;
-				text-align: center;
-			}
-
-			> .date {
-				font-size: 1rem;
-				margin: 0 0 (_size(element-margin) * 2) 0;
-
-				&::before, &::after {
-					content: '';
-					display: block;
-					position: absolute;
-					top: 50%;
-					width: calc(50% - 6rem);
-					border-top: solid 2px;
-				}
-
-				&::before {
-					left: 0;
-				}
-
-				&::after {
-					right: 0;
-				}
 			}
 		}
 
