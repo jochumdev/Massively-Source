@@ -17,7 +17,9 @@
     )
 );
 @use "@deloitte-digital-au/ddbreakpoints/lib/dd.breakpoints" as bp;
-@import "jarallax/dist/jarallax";
+
+@import 'node_modules/photoswipe/dist/photoswipe';
+@import 'jarallax/dist/jarallax';
 @import 'libs/vars';
 @import 'libs/functions';
 @import 'libs/mixins';

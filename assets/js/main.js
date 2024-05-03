@@ -67,7 +67,7 @@
 /* Add lightbox to gallery images */
 (function () {
     lightbox(
-        '.kg-image-card > .kg-image[width][height], .kg-gallery-image > img'
+        '.kg-image-card img, .kg-gallery-card img'
     );
 })();
 

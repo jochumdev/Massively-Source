@@ -51,57 +51,57 @@ function copy(done) {
     ];
 }
 
-function css(done) {
+function scss_dev(done) {
 
-    [
-        pump([
-            src('assets/scss/*.scss'),
-            // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
-            sass({ includePaths: ['node_modules'] }).on('error', sass.logError),
-            dest('assets/built', { sourcemaps: './' }),
-            livereload()
-        ]),
-        pump([
-            src('assets/scss/*.scss'),
-            // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
-            sass({ includePaths: ['node_modules'], outputStyle: 'compressed' }).on('error', sass.logError),
-            rename(function(path) { path.extname = '.min.css' }),
-            dest('assets/built', { sourcemaps: './' }),
-            livereload()
-        ], handleError(done))
-    ];
+    pump([
+        src('assets/scss/*.scss'),
+        // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
+        sass({ includePaths: ['node_modules'] }).on('error', sass.logError),
+        dest('assets/built', { sourcemaps: './' }),
+        livereload()
+    ], handleError(done))
 }
 
-function js(done) {
-    [
-        pump([
-            src([
-                // node modules
-                'node_modules/jarallax/dist/jarallax.js',
-                'node_modules/imagesloaded/imagesloaded.pkgd.js',
-                'node_modules/photoswipe/dist/umd/photoswipe.umd.min.js',
-                'node_modules/photoswipe/dist/umd/photoswipe-lightbox.umd.min.js',
-                'node_modules/reframe.js/dist/reframe.min.js',
+function scss_prod(done) {
+    pump([
+        src('assets/scss/*.scss'),
+        // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
+        sass({ includePaths: ['node_modules'], outputStyle: 'compressed' }).on('error', sass.logError),
+        rename(function(path) { path.extname = '.min.css' }),
+        dest('assets/built', { sourcemaps: './' }),
+        livereload()
+    ], handleError(done));
+}
 
-                // Hightlightjs.org -> downloaded
-                'assets/highlightjs/highlight.min.js',
+function js_dev(done) {
+    pump([
+        src([
+            // node modules
+            'node_modules/jarallax/dist/jarallax.js',
+            'node_modules/imagesloaded/imagesloaded.pkgd.js',
+            'node_modules/photoswipe/dist/photoswipe.js',
+            'node_modules/photoswipe/dist/photoswipe-ui-default.js',
+            'node_modules/reframe.js/dist/reframe.js',
 
-                // main code
-                'assets/js/lib/*.js',
-                'assets/js/*.js'
-            ], { sourcemaps: true }),
-            concat('source.js'),
-            // uglify(),
-            dest('assets/built/', { sourcemaps: '.' }),
-            livereload()
-        ]),
-        pump([
-            src('assets/built/source.js'),
-            uglify(),
-            rename(function(path) { path.extname = '.min.js' }),
-            dest('assets/built/')
-        ], handleError(done)),
-    ]
+            // Hightlightjs.org -> downloaded
+            'assets/highlightjs/highlight.js',
+
+            // main code
+            'assets/js/*.js'
+        ], { sourcemaps: true }),
+        concat('source.js'),
+        dest('assets/built/', { sourcemaps: '.' }),
+        livereload()
+    ], handleError(done));
+}
+
+function js_prod(done) {
+    pump([
+        src('assets/built/source.js'),
+        uglify(),
+        rename(function(path) { path.extname = '.min.js' }),
+        dest('assets/built/')
+    ], handleError(done));
 }
 
 function zipper(done) {
@@ -121,12 +121,15 @@ function zipper(done) {
     ], handleError(done));
 }
 
-const cssWatcher = () => watch('assets/scss/**/**', css);
-const jsWatcher = () => watch('assets/js/**', js);
+const jsBuilder = series(js_dev, js_prod)
+const scssBuilder = parallel(scss_dev, scss_prod)
+
+const cssWatcher = () => watch('assets/scss/**/**', scssBuilder);
+const jsWatcher = () => watch('assets/js/**', jsBuilder);
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs'], hbs);
 const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher);
 
-export const build = series(copy, css, js);
+export const build = series(copy, scssBuilder, jsBuilder);
 export const zip = series(build, zipper);
 export const all = series(build, serve, watcher);
 task('default', all);
