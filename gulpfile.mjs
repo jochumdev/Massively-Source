@@ -1,22 +1,21 @@
-const { series, watch, src, dest, parallel, task } = require('gulp');
-const pump = require('pump');
-const path = require('path');
-const releaseUtils = require('@tryghost/release-utils');
-const inquirer = require('inquirer');
+import { series, watch, src, dest, parallel, task } from 'gulp';
+import pump from 'pump';
+import path from 'path';
+import releaseUtils from '@tryghost/release-utils';
+import inquirer from 'inquirer';
 
 // gulp plugins and utils
-const livereload = require('gulp-livereload');
-const zip = require('gulp-zip');
-const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
-const gcopy = require('gulp-copy');
-const beeper = require('beeper');
-const fs = require('fs');
-var merge = require('merge-stream');
+import livereload from 'gulp-livereload';
+import { default as gZip } from 'gulp-zip';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import beeper from 'beeper';
+import fs from 'fs';
+
+import { createRequire } from "module";
 
 // sass
-var sourcemaps = require('gulp-sourcemaps');
-var sass = require('gulp-dart-sass');
+import sass from 'gulp-dart-sass';
 
 const REPO = 'TryGhost/Source';
 const REPO_READONLY = 'TryGhost/Source';
@@ -88,7 +87,8 @@ function js(done) {
 }
 
 function zipper(done) {
-    const filename = require('./package.json').name + '.zip';
+    const require = createRequire(import.meta.url);
+    const filename = require.resolve('./package.json').name + '.zip';
 
     pump([
         src([
@@ -100,7 +100,7 @@ function zipper(done) {
             '!yarn.lock',
             '!gulpfile.js'
         ]),
-        zip(filename),
+        gZip(filename),
         dest('dist/')
     ], handleError(done));
 }
@@ -109,13 +109,13 @@ const cssWatcher = () => watch('assets/scss/**/**', css);
 const jsWatcher = () => watch('assets/js/**', js);
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs'], hbs);
 const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher);
-const build = series(copy, css, js);
 
-exports.build = build;
-exports.zip = series(build, zipper);
-exports.default = series(build, serve, watcher);
+export const build = series(copy, css, js);
+export const zip = series(build, zipper);
+export const all = series(build, serve, watcher);
+task('default', all);
 
-exports.release = async () => {
+export const release = async () => {
     // @NOTE: https://yarnpkg.com/lang/en/docs/cli/version/
     // require(./package.json) can run into caching issues, this re-reads from file everytime on release
     let packageJSON = JSON.parse(fs.readFileSync('./package.json'));
