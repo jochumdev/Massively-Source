@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     {{!-- Preload main styles and scripts for better performance --}}
-    <link rel="preload" as="style" href="{{asset "built/screen.css"}}">
-    <link rel="preload" as="script" href="{{asset "built/source.js"}}">
+    <link rel="preload" as="style" href="{{asset "built/screen.css" hasMinFile="true"}}">
+    <link rel="preload" as="script" href="{{asset "built/source.js" hasMinFile="true"}}">
 
     {{!-- Fonts --}}
     <link rel="preload" as="style" href="{{asset "fonts/font-awesome.min.css"}}">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset "fonts/source-sans-pro/900.css"}}">
 
     {{!-- Theme assets - use the {{asset}} helper to reference styles & scripts, this will take care of caching and cache-busting automatically --}}
-    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css" hasMinFile="true"}}">
 
     {{!-- highlight.js
           TODO(jochumdev): use the asset helper.

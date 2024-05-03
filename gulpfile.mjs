@@ -10,6 +10,7 @@ import { default as gZip } from 'gulp-zip';
 import concat from 'gulp-concat';
 import uglify from 'gulp-uglify';
 import beeper from 'beeper';
+import rename from 'gulp-rename';
 import fs from 'fs';
 
 import { createRequire } from "module";
@@ -49,58 +50,75 @@ function copy(done) {
         src('node_modules/@tryghost/portal/umd/portal.min.js').pipe(dest('assets/jsdelivr/')),
         src('node_modules/@fontsource/source-sans-pro/**/*').pipe(dest('assets/fonts/source-sans-pro')),
         src('node_modules/@fontsource/merriweather/**/*').pipe(dest('assets/fonts/merriweather')),
-        done(),
+        done()
     ];
 }
 
 function css(done) {
-    pump([
-        src('assets/scss/*.scss'),
-        // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
-        sass({ includePaths: ['node_modules'] }).on('error', sass.logError),
-        dest('assets/built', { sourcemaps: './' }),
-        livereload()
-    ], handleError(done));
+
+    [
+        pump([
+            src('assets/scss/*.scss'),
+            // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
+            sass({ includePaths: ['node_modules'] }).on('error', sass.logError),
+            dest('assets/built', { sourcemaps: './' }),
+            livereload()
+        ]),
+        pump([
+            src('assets/scss/*.scss'),
+            // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
+            sass({ includePaths: ['node_modules'], outputStyle: 'compressed' }).on('error', sass.logError),
+            rename(function(path) { path.extname = '.min.css' }),
+            dest('assets/built', { sourcemaps: './' }),
+            livereload()
+        ], handleError(done))
+    ];
 }
 
 function js(done) {
-    pump([
-        src([
-            // node modules
-            'node_modules/jarallax/dist/jarallax.js',
-            'node_modules/imagesloaded/imagesloaded.pkgd.js',
-            'node_modules/photoswipe/dist/umd/photoswipe.umd.min.js',
-            'node_modules/photoswipe/dist/umd/photoswipe-lightbox.umd.min.js',
+    [
+        pump([
+            src([
+                // node modules
+                'node_modules/jarallax/dist/jarallax.js',
+                'node_modules/imagesloaded/imagesloaded.pkgd.js',
+                'node_modules/photoswipe/dist/umd/photoswipe.umd.min.js',
+                'node_modules/photoswipe/dist/umd/photoswipe-lightbox.umd.min.js',
 
-            'assets/highlightjs/highlight.min.js',
-            'assets/highlightjs/styles/*.min.js',
+                'assets/highlightjs/highlight.min.js',
+                'assets/highlightjs/styles/*.min.js',
 
-            // pull in lib files first so our own code can depend on it
-            'assets/js/lib/*.js',
-            'assets/js/*.js'
-        ], { sourcemaps: true }),
-        concat('source.js'),
-        // uglify(),
-        dest('assets/built/', { sourcemaps: '.' }),
-        livereload()
-    ], handleError(done));
+                // pull in lib files first so our own code can depend on it
+                'assets/js/lib/*.js',
+                'assets/js/*.js'
+            ], { sourcemaps: true }),
+            concat('source.js'),
+            // uglify(),
+            dest('assets/built/', { sourcemaps: '.' }),
+            livereload()
+        ]),
+        pump([
+            src('assets/built/source.js'),
+            uglify(),
+            rename(function(path) { path.extname = '.min.js' }),
+            dest('assets/built/')
+        ], handleError(done)),
+    ]
 }
 
 function zipper(done) {
-    const require = createRequire(import.meta.url);
-    const filename = require.resolve('./package.json').name + '.zip';
-
     pump([
         src([
             '**',
             '!.git', '!.git/**',
+            '!.gitkeep',
             '!node_modules', '!node_modules/**',
             '!dist', '!dist/**',
             '!yarn-error.log',
             '!yarn.lock',
             '!gulpfile.js'
         ]),
-        gZip(filename),
+        gZip('massively-source.zip'),
         dest('dist/')
     ], handleError(done));
 }

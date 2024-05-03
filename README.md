@@ -35,7 +35,7 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
 2. Install this theme over air
 3. Remove the theme on disc inside site123/content/themes/massively-source
 4. Symlink it to the deleted folder
-5. run `npm run dev`
+5. run `npm install && npm run dev`
 
 ## Authors
 
