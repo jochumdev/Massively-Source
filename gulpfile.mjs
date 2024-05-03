@@ -13,8 +13,6 @@ import beeper from 'beeper';
 import rename from 'gulp-rename';
 import fs from 'fs';
 
-import { createRequire } from "module";
-
 // sass
 import sass from 'gulp-dart-sass';
 
@@ -85,11 +83,10 @@ function js(done) {
                 'node_modules/photoswipe/dist/umd/photoswipe.umd.min.js',
                 'node_modules/photoswipe/dist/umd/photoswipe-lightbox.umd.min.js',
 
+                // Hightlight.js downloaded
                 'assets/highlightjs/highlight.min.js',
-                'assets/highlightjs/styles/*.min.js',
 
-                // pull in lib files first so our own code can depend on it
-                'assets/js/lib/*.js',
+                // main code
                 'assets/js/*.js'
             ], { sourcemaps: true }),
             concat('source.js'),
