@@ -1,29 +1,28 @@
 {
-    "name": "massively",
-    "description": "This is Massively, a text-heavy, article-oriented theme for Ghost.",
-    "demo": "https://massively.ghost.io",
-    "version": "1.1.0",
+    "name": "massively-source",
+    "description": "This is Massively-Source, a text-heavy, article-oriented theme based on Source for Ghost.",
+    "demo": "https://massively-source.ghost.io",
+    "version": "1.0.0",
     "engines": {
-        "ghost": ">=4.0.0",
-        "ghost-api": "v4"
+        "ghost": ">=5.80.0"
     },
     "license": "MIT",
-    "screenshots": {
-        "desktop": "assets/screenshot.jpg"
-    },
     "scripts": {
-        "dev": "gulp",
+        "dev": "npm install && gulp",
         "zip": "gulp zip",
-        "pretest": "gulp build",
         "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
-        "preship": "yarn test",
-        "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn version && git push --follow-tags; fi"
+        "lint": "npx stylelint \"assets/scss/*.scss\"",
+        "lintformatfix": "npx stylelint \"assets/scss/*.scss\" --formatter --fix",
+        "pretest": "gulp build",
+        "preship": "test",
+        "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then npm version && git push --follow-tags; else echo \"Uncomitted changes found.\" && exit 1; fi",
+        "postship": "git fetch && gulp release"
     },
     "author": {
         "name": "Ghost Foundation",
         "email": "hello@ghost.org",
-        "url": "https://ghost.org"
+        "url": "https://ghost.org/"
     },
     "gpm": {
         "type": "theme",
@@ -39,46 +38,163 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/TryGhost/Massively.git"
+        "url": "https://github.com/TryGhost/Massively-Source.git"
     },
-    "bugs": "https://github.com/TryGhost/Massively/issues",
-    "contributors": [
-        {
-            "name": "ajlkn",
-            "email": "aj@lkn.io",
-            "url": "https://twitter.com/ajlkn"
-        }
-    ],
+    "bugs": "https://github.com/TryGhost/Massively-Source/issues",
+    "contributors": "https://github.com/TryGhost/Massively-Source/graphs/contributors",
     "devDependencies": {
+        "@deloitte-digital-au/ddbreakpoints": "^2.0.4",
+        "@fontsource/merriweather": "^5.0.13",
+        "@fontsource/source-sans-pro": "^5.0.8",
+        "@fortawesome/fontawesome-free": "^6.5.2",
+        "@tryghost/portal": "^2.37.6",
+        "@tryghost/release-utils": "0.8.1",
+        "@tryghost/sodo-search": "^1.1.1",
         "beeper": "2.1.0",
         "gscan": "4.43.1",
-        "gulp": "5.0.0",
+        "gulp": "4.0.2",
+        "gulp-concat": "2.6.1",
+        "gulp-copy": "^4.0.1",
+        "gulp-dart-sass": "^1.1.0",
         "gulp-livereload": "4.0.2",
-        "gulp-sass": "5.1.0",
-        "gulp-sourcemaps": "3.0.0",
-        "gulp-watch": "5.0.1",
-        "gulp-zip": "6.0.0",
-        "node-sass": "9.0.0"
+        "gulp-postcss": "9.0.1",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-uglify": "3.0.2",
+        "gulp-zip": "5.1.0",
+        "imagesloaded": "^5.0.0",
+        "inquirer": "8.2.4",
+        "jarallax": "^2.2.0",
+        "photoswipe": "^5.4.3",
+        "pump": "3.0.0",
+        "stylelint": "^16.5.0",
+        "stylelint-config-standard": "^36.0.0",
+        "stylelint-config-standard-scss": "^13.1.0"
     },
+    "browserslist": [
+        "defaults"
+    ],
     "config": {
-        "posts_per_page": 12,
+        "posts_per_page": 16,
+        "image_sizes": {
+            "xs": {
+                "width": 160
+            },
+            "s": {
+                "width": 320
+            },
+            "m": {
+                "width": 600
+            },
+            "l": {
+                "width": 960
+            },
+            "xl": {
+                "width": 1200
+            },
+            "xxl": {
+                "width": 2000
+            }
+        },
+        "card_assets": true,
         "custom": {
+            "navigation_layout": {
+                "type": "select",
+                "options": [
+                    "Logo in the middle",
+                    "Logo on the left",
+                    "Stacked"
+                ],
+                "default": "Logo in the middle"
+            },
+            "header_and_footer_color": {
+                "type": "select",
+                "options": [
+                    "Background color",
+                    "Accent color"
+                ],
+                "default": "Background color"
+            },
             "title_font": {
                 "type": "select",
                 "options": [
+                    "Merriweather",
                     "Modern sans-serif",
-                    "Elegant serif"
+                    "Elegant serif",
+                    "Consistent mono"
                 ],
-                "default": "Modern sans-serif"
+                "default": "Merriweather"
             },
-            "body_font": {
+            "signup_heading": {
+                "type": "text",
+                "description": "Used in your footer across your theme, defaults to site title when empty"
+            },
+            "signup_subheading": {
+                "type": "text",
+                "description": "Defaults to site description when empty"
+            },
+            "header_style": {
                 "type": "select",
                 "options": [
-                    "Modern sans-serif",
-                    "Elegant serif"
+                    "Landing",
+                    "Highlight",
+                    "Magazine",
+                    "Search",
+                    "Off"
                 ],
-                "default": "Elegant serif"
+                "description": "Landing is recommended for all sites, Highlight & Magazine for those with more content",
+                "default": "Landing",
+                "group": "homepage"
+            },
+            "show_featured_posts": {
+                "type": "boolean",
+                "default": false,
+                "group": "homepage",
+                "visibility": "header_style:[Highlight, Magazine]"
+            },
+            "post_feed_style": {
+                "type": "select",
+                "options": [
+                    "List",
+                    "Grid"
+                ],
+                "default": "List",
+                "group": "homepage"
+            },
+            "show_publish_date": {
+                "type": "boolean",
+                "default": true,
+                "group": "homepage"
+            },
+            "social_github": {
+                "type": "text",
+                "description": "Github link",
+                "group": "social"
+            },
+            "social_linkedin": {
+                "type": "text",
+                "description": "LinkedIn link",
+                "group": "social"
+            },
+            "social_rss_feedly": {
+                "type": "boolean",
+                "default": false,
+                "description": "Feedly RSS link",
+                "group": "social"
+            },
+            "highlightjs_theme": {
+                "type": "select",
+                "options": [
+                    "github-dark-dimmed.min.css",
+                    "github-dark.min.css",
+                    "github.min.css"
+                ],
+                "default": "github-dark-dimmed.min.css"
             }
         }
+    },
+    "renovate": {
+        "extends": [
+            "@tryghost:theme"
+        ]
     }
 }

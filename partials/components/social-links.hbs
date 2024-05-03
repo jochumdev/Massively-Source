@@ -1,0 +1,18 @@
+{{#if website}}
+<a href="{{website}}" class="icon fa-globe" title="Website"><span class="label">Website</span></a>
+{{/if}}
+{{#if @custom.social_github}}
+<li><a href="{{@custom.social_github}}" class="icon fa-github" title="Github" target="_blank"><span class="label">Github</span></a></li>
+{{/if}}
+{{#if @site.twitter}}
+<li><a href="{{twitter_url @site.twitter}}" class="icon fa-twitter" title="Twitter" target="_blank"><span class="label">Twitter</span></a></li>
+{{/if}}
+{{#if @custom.social_linkedin}}
+<li><a href="{{@custom.social_linkedin}}" class="icon fa-linkedin" title="LinkedIn" target="_blank"><span class="label">LinkedIn</span></a></li>
+{{/if}}
+{{#if @site.facebook}}
+<li><a href="{{facebook_url @site.facebook}}" class="icon fa-facebook" title="Facebook" target="_blank"><span class="label">Facebook</span></a></li>
+{{/if}}
+{{#if @custom.social_rss_feedly}}
+<li><a href="https://feedly.com/i/subscription/feed/{{url absolute="true"}}rss/" class="icon fa-rss" target="_blank" rel="noopener"><span class="label" title="RSS">RSS</span></a></li>
+{{/if}}

@@ -2,77 +2,99 @@
 <html lang="{{@site.locale}}">
 <head>
 
-    {{!-- Document Settings --}}
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    {{!-- Base Meta --}}
+    {{!-- Basic meta - advanced meta is output with {{ghost_head}} below --}}
     <title>{{meta_title}}</title>
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {{!-- Preload main styles and scripts for better performance --}}
+    <link rel="preload" as="style" href="{{asset "built/screen.css"}}">
+    <link rel="preload" as="script" href="{{asset "built/source.js"}}">
 
-    {{!-- Styles'n'Scripts --}}
-    <link rel="stylesheet" type="text/css" href="{{asset "main/css/main.css"}}" />
-    <noscript><link rel="stylesheet" href="{{asset "main/css/noscript.css"}}" /></noscript>
+    {{!-- Fonts --}}
+    <link rel="preload" as="style" href="{{asset "fonts/font-awesome.min.css"}}">
+    <link rel="preload" as="style" href="{{asset "fonts/merriweather/300.css"}}">
+    <link rel="preload" as="style" href="{{asset "fonts/merriweather/300-italic.css"}}">
+    <link rel="preload" as="style" href="{{asset "fonts/merriweather/700.css"}}">
+    <link rel="preload" as="style" href="{{asset "fonts/merriweather/700-italic.css"}}">
+    <link rel="preload" as="style" href="{{asset "fonts/source-sans-pro/900.css"}}">
 
-    {{!-- This tag outputs SEO meta+structured data and other important settings --}}
-    {{ghost_head}}
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/font-awesome.min.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/merriweather/300.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/merriweather/300-italic.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/merriweather/700.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/merriweather/700-italic.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "fonts/source-sans-pro/900.css"}}">
 
-    {{#if @site.cover_image}}
-    <style>#wrapper>.bg {background-image: url({{asset "images/overlay.png"}}),linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)),url("{{img_url @site.cover_image}}") }</style>
+    {{!-- Theme assets - use the {{asset}} helper to reference styles & scripts, this will take care of caching and cache-busting automatically --}}
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}">
+
+    {{!-- highlight.js
+          TODO(jochumdev): use the asset helper.
+    --}}
+    {{#if @custom.highlightjs_theme }}
+    <link rel="preload" as="script" href="/assets/highlightjs/styles/{{ @custom.highlightjs_theme }}">
+    <link rel="stylesheet" type="text/css" href="/assets/highlightjs/styles/{{ @custom.highlightjs_theme }}">
     {{/if}}
 
+    <script>
+        /* The script for calculating the color contrast has been taken from
+        https://gomakethings.com/dynamically-changing-the-text-color-based-on-background-color-contrast-with-vanilla-js/ */
+        var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
+        accentColor = accentColor.trim().slice(1);
+        var r = parseInt(accentColor.substr(0, 2), 16);
+        var g = parseInt(accentColor.substr(2, 2), 16);
+        var b = parseInt(accentColor.substr(4, 2), 16);
+        var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        var textColor = (yiq >= 128) ? 'dark' : 'light';
+
+        document.documentElement.className = `has-${textColor}-text`;
+    </script>
+
+    {{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings, it should always be the last tag before the closing head tag --}}
+    {{ghost_head}}
 </head>
-<body class="is-preload {{body_class}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Modern sans-serif"}} has-sans-body{{/match}}">
+{{!-- TODO(jochumdev): Make font switching working
+<body class="is-preload {{body_class}} has-{{#match @custom.title_font "Elegant serif"}}serif{{else match @custom.title_font "Consistent mono"}}mono{{else}}sans{{/match}}-title has-{{#match @custom.body_font "Elegant serif"}}serif{{else}}sans{{/match}}-body">
+--}}
+<body class="is-preload {{body_class}}">
 
-    <div id="wrapper" {{#is "home"}}class="fade-in"{{/is}}>
+<img class="jarallax-img" src="{{img_url @site.cover_image}}" alt="">
 
-        {{!-- Intro --}}
-        {{#is "home"}}
-        <div id="intro">
-            <h1>{{@site.title}}</h1>
-            <p>{{@site.description}}</p>
-            <ul class="actions">
-                <li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
-            </ul>
-        </div>
-        {{/is}}
-
-        {{!-- Header --}}
-        <header id="header">
-            {{#if @site.logo}}
-                <a href="{{@site.url}}" class="logo image"><img src="{{@site.logo}}" alt="{{@site.title}}" /></a>
-            {{else}}
-                <a href="{{@site.url}}" class="logo">{{@site.title}}</a>
-            {{/if}}
-        </header>
-
-        {{!-- Nav --}}
-        {{#if @site.navigation}}
-            {{navigation}}
-        {{/if}}
-
-        {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}}
-        {{{body}}}
-
-        {{!-- The footer at the very bottom of the screen --}}
-        {{> copyright}}
-
+<div id="gh-viewport" class="gh-viewport">
+    
+    {{!-- Intro --}}
+    {{#is "home"}}
+    <div id="intro">
+        <h1>{{@site.title}}</h1>
+        <p>{{@site.description}}</p>
+        <ul class="actions">
+           <li><a href="#start" class="clear button icon solo fa-arrow-down">Continue</a></li>
+        </ul>
     </div>
+    {{/is}}
 
+    <div id="start"></div>
+    {{"navigation" navigationLayout=@custom.navigation_layout}}
 
-    {{!-- Theme Scripts --}}
-    <script src="{{asset "main/js/jquery.min.js"}}"></script>
-    <script src="{{asset "main/js/jquery.scrollex.min.js"}}"></script>
-    <script src="{{asset "main/js/jquery.scrolly.min.js"}}"></script>
-    <script src="{{asset "main/js/browser.min.js"}}"></script>
-    <script src="{{asset "main/js/breakpoints.min.js"}}"></script>
-    <script src="{{asset "main/js/util.js"}}"></script>
-    <script src="{{asset "main/js/main.js"}}"></script>
+    {{{body}}}
+    
+    {{> "components/footer"}}   
+</div>
 
-    {{!-- Ghost outputs important scripts & data with the {ghost_foot} tag
-    it should always be the very last thing before the closing body tag --}}
-    {{ghost_foot}}
+{{#is "post, page"}}
+    {{> "lightbox"}}
+{{/is}}
+
+{{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
+<script src="{{asset "built/source.js"}}"></script>
+
+{{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
+{{ghost_foot}}
+
+<script type="text/javascript">
+    hljs.highlightAll();
+</script>
 
 </body>
 </html>

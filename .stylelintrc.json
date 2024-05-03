@@ -1,0 +1,21 @@
+{
+    "extends": "stylelint-config-standard-scss",
+    "rules": {
+        "color-function-notation": [
+            "legacy"
+        ],
+        "color-no-hex": true,
+        "color-hex-length": "long",
+        "color-named": "never",
+        "alpha-value-notation": "number",
+        "declaration-block-no-redundant-longhand-properties": [
+            true,
+            {
+                "ignoreShorthands": ["/flex/"]
+            }
+        ],
+        "no-descending-specificity": null,
+        "scss/no-global-function-names": null,
+        "scss/at-if-no-null": null
+    }
+}

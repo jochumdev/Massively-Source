@@ -1,0 +1,73 @@
+{{!--
+    Parameters:
+    * feed (index, home, archive, recent)
+    * postFeedStyle (list, grid)
+    * showTitle (true, false)
+--}}
+
+<main id="gh-main">
+    <section class="posts">
+        {{!-- Homepage --}}
+        {{#match feed "home"}}
+            {{#match @custom.header_style "Highlight"}}
+                {{#if @custom.show_featured_posts}}
+                    {{#match posts.length ">=" 4}}
+                        {{#get "posts" include="authors"}}
+                            {{#foreach posts from="5" limit="12"}}
+                                {{> "post-card" lazyLoad=true}}
+                            {{/foreach}}
+                        {{/get}}
+                    {{/match}}
+                {{else}}
+                    {{#match posts.length ">=" 10}}
+                        {{#get "posts" include="authors" limit="22"}}
+                            {{#foreach posts from="11" limit="12"}}
+                                {{> "post-card" lazyLoad=true}}
+                            {{/foreach}}
+                        {{/get}}
+                    {{/match}}
+                {{/if}}
+            {{else match @custom.header_style "Magazine"}}
+                {{#match posts.length ">=" 7}}
+                    {{#get "posts" include="authors" limit="19"}}
+                        {{#foreach posts from="8" limit="12"}}
+                            {{> "post-card" lazyLoad=true}}
+                        {{/foreach}}
+                    {{/get}}
+                {{/match}}
+            {{else}}
+                {{#get "posts" include="authors" limit="12"}}
+                    {{#foreach posts}}
+                        {{> "post-card" lazyLoad=true}}
+                    {{/foreach}}
+                {{/get}}
+            {{/match}}
+        {{/match}}
+
+        {{!-- All posts --}}
+        {{#match feed "index"}}
+            {{#match pagination.page 2}}
+                {{#get "posts" include="authors" limit=@config.posts_per_page as |recent|}}
+                    {{#foreach recent}}
+                        {{> "post-card"}}
+                    {{/foreach}}
+                {{/get}}
+            {{/match}}
+            {{#foreach posts}}
+                {{> "post-card" lazyLoad=true}}
+            {{/foreach}}
+        {{/match}}
+
+        {{!-- Tag and author pages --}}
+        {{#match feed "archive"}}
+            {{#foreach posts}}
+                {{> "post-card" lazyLoad=true}}
+            {{/foreach}}
+        {{/match}}
+    </section>
+
+    {{!-- Pagination --}}
+    {{#match pagination.page ">=" 1}}
+        {{pagination}}
+    {{/match}}
+</main>

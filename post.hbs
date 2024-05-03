@@ -5,26 +5,28 @@ into the {body} of the default.hbs template --}}
 {{#post}}
 {{!-- Everything inside the #post tags pulls data from the post --}}
 
-<main id="main">
+<main id="gh-main">
 
     <section class="post">
 
         <header class="major">
+            {{#if @custom.show_publish_date}}
             <span class="date">{{date format="MMMM D, YYYY"}}</span>
+            {{/if}}
+            {{#if feature_image}}
+            <figure class="image main">
+                <img src="{{img_url feature_image}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" />
+                {{#if feature_image_caption}}
+                    <figcaption>{{feature_image_caption}}</figcaption>
+                {{/if}}
+            </figure>
+            {{/if}}
+
             <h1>{{title}}</h1>
             {{#if custom_excerpt}}
                 <p class="content">{{custom_excerpt}}</p>
             {{/if}}
         </header>
-
-        {{#if feature_image}}
-        <figure class="image main">
-            <img src="{{img_url feature_image}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" />
-            {{#if feature_image_caption}}
-                <figcaption>{{feature_image_caption}}</figcaption>
-            {{/if}}
-        </figure>
-        {{/if}}
 
         <div class="content">
             {{content}}
@@ -33,8 +35,8 @@ into the {body} of the default.hbs template --}}
         {{!-- Email subscribe form at the bottom of the page --}}
         {{#if @labs.subscribers}}
         <section class="subscribe-form">
-            <h3 class="subscribe-form-title">Subscribe to {{@site.title}}</h3>
-            <p>Get the latest posts delivered right to your inbox</p>
+            <h3 class="subscribe-form-title">Newsletter von {{@site.title}}</h3>
+            <p>Hol dir die neuesten Posts per E-Mail</p>
             {{subscribe_form placeholder="youremail@example.com"}}
         </section>
         {{/if}}
@@ -53,7 +55,7 @@ into the {body} of the default.hbs template --}}
                         {{#if bio}}
                         <p>{{bio}}</p>
                         {{else}}
-                        <p>Read more posts by this author.</p>
+                        <p>Mehr Inhalte von diesem Author.</p>
                         {{/if}}
                     </section>
                 </a>

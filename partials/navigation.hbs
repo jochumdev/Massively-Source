@@ -1,16 +1,44 @@
-<nav id="nav">
-    <ul class="links">
-        {{#foreach navigation}}
-        <li class="nav-{{slug}} {{#if current}}active{{/if}}"><a href="{{url absolute="true"}}">{{label}}</a></li>
-        {{/foreach}}
-    </ul>
-    <ul class="icons">
-        {{#if @site.twitter}}
-        <li><a href="{{twitter_url @site.twitter}}" class="icon fa-twitter" title="Twitter"><span class="label">Twitter</span></a></li>
-        {{/if}}
-        {{#if @site.facebook}}
-        <li><a href="{{facebook_url @site.facebook}}" class="icon fa-facebook" title="Facebook"><span class="label">Facebook</span></a></li>
-        {{/if}}
-        <li><a href="https://feedly.com/i/subscription/feed/{{@site.url}}/rss/" class="icon fa-rss" target="_blank" rel="noopener"><span class="label" title="RSS">RSS</span></a></li>
-    </ul>
-</nav>
+<header id="gh-navigation" class="gh-navigation is-{{#match navigationLayout "Logo on the left"}}left-logo{{else match navigationLayout "Stacked"}}stacked{{else}}middle-logo{{/match}}{{#match @custom.header_and_footer_color "Accent color"}} has-accent-color{{/match}} gh-outer">
+    <div class="gh-navigation-inner">
+
+        <div class="gh-navigation-brand">
+            <a class="gh-navigation-logo is-title" href="{{@site.url}}">
+                {{#if @site.logo}}
+                    <img src="{{@site.logo}}" alt="{{@site.title}}">
+                {{else}}
+                    {{@site.title}}
+                {{/if}}
+            </a>
+        </div>
+
+        <nav id="nav">
+            <ul class="links">
+                {{#foreach navigation}}
+                <li class="nav-{{slug}} {{#if current}}active{{/if}}"><a href="{{url absolute="true" }}">{{label}}</a></li>
+                {{/foreach}}
+            </ul>
+        </nav>
+
+
+        <div class="gh-navigation-actions">
+            <ul class="icons">
+                {{> "components/social-links"}}
+                <li aria-label="Search this site"><a class="gh-search gh-icon-button icon fa-search" data-ghost-search></a></li>
+            </ul>
+        </div>
+
+    </div>
+</header>
+
+{{!-- Mobile Menu --}}
+<a id="navPanelToggle" class="hidden" href="#navPanel">Menu</a>
+<div id="navPanel" data-hidden="false">
+    <nav>
+        <ul class="links">
+            {{#foreach navigation}}
+            <li class="nav-{{slug}} {{#if current}}active{{/if}}"><a href="{{url absolute="true"}}">{{label}}</a></li>
+            {{/foreach}}
+        </ul>
+    </nav>
+    <a href="#navPanel" class="close"></a>
+</div>
