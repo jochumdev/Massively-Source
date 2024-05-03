@@ -43,10 +43,10 @@ function hbs(done) {
 
 function copy(done) {
     [
-        src('node_modules/@tryghost/sodo-search/umd/*').pipe(dest('assets/jsdelivr/sodo-search/')),
-        src('node_modules/@tryghost/portal/umd/*').pipe(dest('assets/jsdelivr/')),
-        src('node_modules/@fontsource/source-sans-pro/**/*').pipe(dest('assets/fonts/source-sans-pro/')),
-        src('node_modules/@fontsource/merriweather/**/*').pipe(dest('assets/fonts/merriweather/')),
+        src('node_modules/@tryghost/sodo-search/umd/*', {encoding: false}).pipe(dest('assets/jsdelivr/sodo-search/')),
+        src('node_modules/@tryghost/portal/umd/*', {encoding: false}).pipe(dest('assets/jsdelivr/')),
+        src('node_modules/@fontsource/source-sans-pro/**/*', {encoding: false}).pipe(dest('assets/fonts/source-sans-pro/')),
+        src('node_modules/@fontsource/merriweather/**/*', {encoding: false}).pipe(dest('assets/fonts/merriweather/')),
         done()
     ];
 }
@@ -115,7 +115,7 @@ function zipper(done) {
             '!yarn-error.log',
             '!yarn.lock',
             '!gulpfile.js'
-        ]),
+        ], { encoding: false }),
         gZip('massively-source.zip'),
         dest('dist/')
     ], handleError(done));

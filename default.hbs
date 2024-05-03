@@ -12,12 +12,12 @@
     <link rel="preload" as="script" href="{{asset "built/source.js" hasMinFile="true"}}">
 
     {{!-- Fonts --}}
-    {{!-- <link rel="preload" as="style" href="{{asset "fonts/font-awesome.min.css" absolute="false"}}">
+    <link rel="preload" as="style" href="{{asset "fonts/font-awesome.min.css" absolute="false"}}">
     <link rel="preload" as="style" href="{{asset "fonts/merriweather/300.css" absolute="false"}}">
     <link rel="preload" as="style" href="{{asset "fonts/merriweather/300-italic.css" absolute="false"}}">
     <link rel="preload" as="style" href="{{asset "fonts/merriweather/700.css" absolute="false"}}">
     <link rel="preload" as="style" href="{{asset "fonts/merriweather/700-italic.css" absolute="false"}}">
-    <link rel="preload" as="style" href="{{asset "fonts/source-sans-pro/900.css" absolute="false"}}"> --}}
+    <link rel="preload" as="style" href="{{asset "fonts/source-sans-pro/900.css" absolute="false"}}">
 
     <link rel="stylesheet" type="text/css" href="{{asset "fonts/font-awesome.min.css" absolute="false"}}">
     <link rel="stylesheet" type="text/css" href="{{asset "fonts/merriweather/300.css" absolute="false"}}">
@@ -33,7 +33,7 @@
           TODO(jochumdev): use the asset helper.
     --}}
     {{#if @custom.highlightjs_theme }}
-    {{!-- <link rel="preload" as="style" href="/assets/highlightjs/styles/{{ @custom.highlightjs_theme }}"> --}}
+    <link rel="preload" as="style" href="/assets/highlightjs/styles/{{ @custom.highlightjs_theme }}">
     <link rel="stylesheet" type="text/css" href="/assets/highlightjs/styles/{{ @custom.highlightjs_theme }}">
     {{/if}}
 
