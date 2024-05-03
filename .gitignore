@@ -30,6 +30,8 @@ changelog.md.bk
 assets/built/*
 !assets/built/.gitkeep
 
+assets/jsdelivr/*
+!assets/jsdelivr/.gitkeep
 assets/fonts/merriweather/*
 !assets/fonts/merriweather/.gitkeep
 assets/fonts/source-sans-pro/*
