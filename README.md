@@ -10,7 +10,7 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
 ### for users
 
 - Fast
-- Works well without JavaScript
+- Uses HTML5 as much as possible, works well without JavaScript
 - No CDN
 - Parallax effect background image
 - Automatic higlighting of code in Markdown
@@ -21,28 +21,13 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
     - @tryghost/sodo-Search, @tryghost/portal GPR compatible
     - Source Sans Pro, Merriweather fonts GPR compatible (no cdn)
 - No jQuery
+- No more javascript grid
 - scss using dart-sass
 - Parallax effect background using jarallax
 - Customizeable over theme custom parameters
 - Highlight.js
 - Automaticaly updates and copies all code using "npm" and Gulp
 - single .js for all source with the help of Gulp
-
-## Known Bugs/Todos
-
-- Implement Dark/Light color switcher with a `config.custom` for the default
-- Test everything with javascript disabled
-- Remove all css which isn't needed
-- Fix feature_image sizes
-- Make Font switching work
-- Use the asset helper in `default.hbs`
-- Fix errors/warnings found by gscan.
-- i18n using [polyglot.js](https://github.com/airbnb/polyglot.js)
-- Benchmark with regulary with [webpagetest.org](https://www.webpagetest.org/)
-- Integrate and remove [ghost.scss](assets/scss/layout/_ghost.scss)
-- Upgrade all deps in package.json using `ncu -a` and fix gulpfile.js
-- Maybe use rollup instead/together with Gulp.
-- Implement https://ghost.org/docs/themes/helpers/asset/ - hasMinFile
 
 ## Development
 
