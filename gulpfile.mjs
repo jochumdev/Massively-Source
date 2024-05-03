@@ -43,11 +43,10 @@ function hbs(done) {
 
 function copy(done) {
     [
-        src('node_modules/@tryghost/sodo-search/umd/main.css').pipe(dest('assets/jsdelivr/sodo-search')),
-        src('node_modules/@tryghost/sodo-search/umd/sodo-search.min.js').pipe(dest('assets/jsdelivr/sodo-search')),
-        src('node_modules/@tryghost/portal/umd/portal.min.js').pipe(dest('assets/jsdelivr/')),
-        src('node_modules/@fontsource/source-sans-pro/**/*').pipe(dest('assets/fonts/source-sans-pro')),
-        src('node_modules/@fontsource/merriweather/**/*').pipe(dest('assets/fonts/merriweather')),
+        src('node_modules/@tryghost/sodo-search/umd/*').pipe(dest('assets/jsdelivr/sodo-search/')),
+        src('node_modules/@tryghost/portal/umd/*').pipe(dest('assets/jsdelivr/')),
+        src('node_modules/@fontsource/source-sans-pro/**/*').pipe(dest('assets/fonts/source-sans-pro/')),
+        src('node_modules/@fontsource/merriweather/**/*').pipe(dest('assets/fonts/merriweather/')),
         done()
     ];
 }
@@ -82,11 +81,13 @@ function js(done) {
                 'node_modules/imagesloaded/imagesloaded.pkgd.js',
                 'node_modules/photoswipe/dist/umd/photoswipe.umd.min.js',
                 'node_modules/photoswipe/dist/umd/photoswipe-lightbox.umd.min.js',
+                'node_modules/reframe.js/dist/reframe.min.js',
 
-                // Hightlight.js downloaded
+                // Hightlightjs.org -> downloaded
                 'assets/highlightjs/highlight.min.js',
 
                 // main code
+                'assets/js/lib/*.js',
                 'assets/js/*.js'
             ], { sourcemaps: true }),
             concat('source.js'),
