@@ -152,11 +152,9 @@
         margin-bottom: 0;
       }
 
-<<<<<<< HEAD
       &:nth-child(2n - 1) {
         border-left: 0;
       }
-=======
 			header>h2 {
 				height: 2.4em;
 			}
@@ -164,7 +162,6 @@
 			>:last-child {
 				margin-bottom: 0;
 			}
->>>>>>> ad11b72 (fix: post list header size)
 
       &:nth-child(-n + 2) {
         border-top: 0;

@@ -1,15 +1,9 @@
 import i18n from "i18next";
 import HttpBackend from "i18next-http-backend";
 // import BackendAdapter from 'i18next-multiload-backend-adapter';
-<<<<<<< Updated upstream
-import Cache from "i18next-localstorage-cache";
-import postProcessor from "i18next-sprintf-postprocessor";
-import LanguageDetector from "i18next-browser-languagedetector";
-=======
 import Cache from 'i18next-localstorage-cache';
-import sprintf from 'i18next-sprintf-postprocessor';
+// import sprintf from 'i18next-sprintf-postprocessor';
 import LanguageDetector from 'i18next-browser-languagedetector';
->>>>>>> Stashed changes
 
 import locI18next from "loc-i18next";
 
@@ -25,7 +19,7 @@ import settings from "./settings";
 // })
 i18n.use(HttpBackend)
     .use(Cache)
-    .use(LanguageDetector)
+    .use(LanguageDetector);
 
 
 i18n.myInit = function() {
@@ -60,6 +54,9 @@ i18n.myInit = function() {
             escapeValue: false // to allow interpolation in HTML
         },
     });
+
+    return i18n.promise;
+}
 
 i18n.myInit = function () {
   if (i18n.isInitialized || i18n.isInitializing) {
