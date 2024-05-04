@@ -11,7 +11,7 @@
   position: relative;
   margin: 0 auto;
 
-  // width: calc(100% - #{_size(padding) * 2});
+  width: calc(100% - #{_size(padding) * 2});
   max-width: _size(gh-viewport);
   z-index: 2;
 
@@ -118,7 +118,9 @@
       }
     }
   }
+}
 
+.gh-post-list {
   > .posts {
     display: grid;
     overflow: hidden;
@@ -212,6 +214,20 @@
 
   @include bp.get(xs) {
     width: 100%;
+  }
+}
+
+#gh-main.post_index {
+  >.gh-article {
+    padding: 2rem 4rem;
+  }
+
+  >.gh-post-list {
+    border-color: _palette(border);
+    border-left-width: 2px;
+    border-style: solid;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
   }
 }
 

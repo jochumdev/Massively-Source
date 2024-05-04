@@ -2,10 +2,9 @@
     Parameters:
     * feed (index, home, archive, recent)
     * postFeedStyle (list, grid)
-    * showTitle (true, false)
 --}}
 
-<main id="gh-main">
+<section class="gh-post-list">
     <section class="posts">
         {{!-- Homepage --}}
         {{#match feed "home"}}
@@ -70,4 +69,4 @@
     {{#match pagination.page ">=" 1}}
         {{pagination}}
     {{/match}}
-</main>
+</section>

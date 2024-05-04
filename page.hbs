@@ -6,7 +6,7 @@
 <main id="gh-main">
     <article class="gh-article {{post_class}}">
         {{#match @page.show_title_and_feature_image}}
-        {{> "components/post-header"}}
+        {{> "components/post-header" titleFirst=false}}
         {{/match}}
 
         <div class="content is-body">

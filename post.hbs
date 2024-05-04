@@ -7,7 +7,7 @@ into the {body} of the default.hbs template --}}
 
 <main id="gh-main">
     <article class="gh-article {{post_class}}">
-        {{> "components/post-header"}}
+        {{> "components/post-header" titleFirst=false}}
 
         <div class="content">
             {{content}}
