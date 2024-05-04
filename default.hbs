@@ -8,8 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     {{!-- Preload main styles and scripts for better performance --}}
-    <link rel="preload" as="style" href="{{asset "built/screen.css" hasMinFile="true"}}">
-    <link rel="preload" as="script" href="{{asset "built/source.js" hasMinFile="true"}}">
+    <link rel="preload" as="style" href="/public/cards.min.css">
+    <link rel="preload" as="style" href="{{asset "build/screen.css" hasMinFile="true"}}">
+    <link rel="preload" as="script" href="{{asset "build/main.js" hasMinFile="true"}}">
+
+    {{#match custom.i18n "!=" ""}}
+    <link rel="preload" as="script" href="{{asset "build/i18n.js" hasMinFile="true"}}">
+    {{/match}}
 
     {{!-- Fonts --}}
     <link rel="preload" as="style" href="{{asset "fonts/font-awesome.min.css" absolute="false"}}">
@@ -27,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset "fonts/source-sans-pro/900.css" absolute="false"}}">
 
     {{!-- Theme assets - use the {{asset}} helper to reference styles & scripts, this will take care of caching and cache-busting automatically --}}
-    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css" hasMinFile="true"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "build/screen.css" hasMinFile="true"}}">
 
     {{!-- highlight.js
           TODO(jochumdev): use the asset helper.
@@ -59,6 +64,26 @@
 --}}
 <body class="is-preload {{body_class}}">
 
+{{!-- i18n: Translate the page. --}}
+{{#match custom.i18n "!=" ""}}
+<script src="{{asset "build/i18n.js" hasMinFile="true"}}"></script>
+<script type="text/javascript">
+
+const sKeys = theme.sKeys;
+var settings = theme.s;
+
+(async function () {
+    settings.setCfg(sKeys.I18N, {{#match custom.i18n "==" ""}}false{{else}}true{{/match}});
+    settings.setCfg(sKeys.I18N_LANGUAGES, '{{@custom.i18n}}'.split(','));
+    settings.setCfg(sKeys.I18N_NAMESPACES, '{{@custom.i18n_namespaces}}'.split(','));
+    settings.setCfg(sKeys.I18N_DEFAULT_LANGUAGE, '{{@site.locale}}');
+
+    await theme.i18n.myInit();
+    theme.localize('.i18n-target');
+})();
+</script>
+{{/match}}
+
 <img class="jarallax-img" src="{{img_url @site.cover_image}}" alt="">
 
 <div id="gh-viewport" class="gh-viewport">
@@ -87,7 +112,7 @@
 {{/is}}
 
 {{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
-<script src="{{asset "built/source.js"}}"></script>
+<script src="{{asset "build/main.js" hasMinFile="true"}}"></script>
 
 {{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}

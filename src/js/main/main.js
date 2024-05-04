@@ -15,7 +15,7 @@
     if (intro) {
         var btn = intro.querySelector('.clear')
         if (btn) {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 intro.classList.add('hidden');
                 intro.remove();
             });
@@ -43,14 +43,14 @@
             nav.setAttribute('data-hidden', 'true');
         }
     };
-    
-    btnToggle.addEventListener('click', function() {
+
+    btnToggle.addEventListener('click', function () {
         toggle();
     });
-    btnClose.addEventListener('click', function() {
+    btnClose.addEventListener('click', function () {
         toggle();
     });
-    
+
     // Initial hide.
     toggle();
 })();
@@ -61,7 +61,7 @@
 (function () {
     jarallax(document.getElementsByTagName('body'), {
         speed: 0.0,
-      });
+    });
 })();
 
 /* Add lightbox to gallery images */
@@ -99,7 +99,7 @@
 /* Responsive HTML table */
 (function () {
     const tables = document.querySelectorAll('.gh-content > table:not(.gist table)');
-    
+
     tables.forEach(function (table) {
         const wrapper = document.createElement('div');
         wrapper.className = 'gh-table';

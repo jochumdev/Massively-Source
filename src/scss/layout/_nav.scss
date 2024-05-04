@@ -5,6 +5,53 @@
 ///
 
 /* Nav */
+#gh-language-switcher {
+	display: flex;
+	width: calc(100% - #{_size(padding) * 2});
+	margin: 0 auto;
+	// margin-bottom: -2.8rem;
+	overflow: hidden;
+	max-width: _size(gh-viewport);
+	height: 2.5rem;
+	z-index: 2;
+
+	>.space {
+		display: flex;
+		flex-grow: 1;
+	}
+
+	>.main {
+		@include color-list(invert);
+		@include color-typography(invert);
+		@include vendor('transition', ('transform 1s ease',
+				'opacity 1s ease'
+			));
+		margin: 0;
+		padding: 0;
+		background: rgb(255 255 255 / 0.175);
+		height: 100%;
+
+		padding: 0.5rem;
+
+		>.gh-langselect {
+			display: inline-block;
+			list-style: none;
+			padding: 0;
+
+			>a {
+				>img {
+					max-height: 1.5rem;
+					opacity: 0.9;
+				}
+			}
+
+			&:nth-child(odd) {
+				padding-right: 0.5em;
+			}
+		}
+	}
+}
+
 
 #gh-navigation {
 	@include color-list(invert);

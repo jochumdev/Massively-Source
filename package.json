@@ -9,7 +9,7 @@
     "license": "MIT",
     "scripts": {
         "dev": "gulp",
-        "zip": "gulp zip",
+        "zip": "gulp build && gulp zip && gscan -z dist/massively-source.zip",
         "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
         "lint": "npx stylelint \"assets/scss/*.scss\"",
@@ -43,13 +43,20 @@
     "bugs": "https://github.com/TryGhost/Massively-Source/issues",
     "contributors": "https://github.com/TryGhost/Massively-Source/graphs/contributors",
     "devDependencies": {
+        "@babel/preset-env": "^7.24.5",
         "@deloitte-digital-au/ddbreakpoints": "^2.0.4",
         "@fontsource/merriweather": "^5.0.13",
         "@fontsource/source-sans-pro": "^5.0.8",
+        "@rollup/plugin-babel": "^6.0.4",
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/stream": "^3.0.1",
         "@tryghost/portal": "^2.37.6",
         "@tryghost/release-utils": "0.8.1",
         "@tryghost/sodo-search": "^1.1.1",
         "beeper": "3.0.0",
+        "eventemitter3": "^5.0.1",
         "gscan": "4.43.1",
         "gulp": "5.0.0",
         "gulp-concat": "2.6.1",
@@ -59,20 +66,34 @@
         "gulp-rename": "^2.0.0",
         "gulp-uglify": "3.0.2",
         "gulp-zip": "6.0.0",
+        "i18next": "^23.11.3",
+        "i18next-browser-languagedetector": "^7.2.1",
+        "i18next-http-backend": "^2.5.1",
+        "i18next-localstorage-cache": "^1.1.1",
+        "i18next-multiload-backend-adapter": "^2.3.0",
+        "i18next-scanner": "^4.4.0",
+        "i18next-sprintf-postprocessor": "^0.2.2",
         "imagesloaded": "^5.0.0",
+        "import": "^0.0.6",
         "inquirer": "9.2.20",
         "jarallax": "^2.2.0",
+        "loc-i18next": "^0.1.6",
         "photoswipe": "^4.1.3",
         "pump": "3.0.0",
         "reframe.js": "^4.0.2",
         "stylelint": "^16.5.0",
         "stylelint-config-standard": "^36.0.0",
-        "stylelint-config-standard-scss": "^13.1.0"
+        "stylelint-config-standard-scss": "^13.1.0",
+        "vinyl-buffer": "^1.0.1",
+        "vinyl-source-stream": "^2.0.0"
     },
     "browserslist": [
         "defaults"
     ],
     "config": {
+        "theme_languages": [
+            "de"
+        ],
         "posts_per_page": 16,
         "image_sizes": {
             "xs": {
@@ -96,6 +117,18 @@
         },
         "card_assets": true,
         "custom": {
+            "i18n": {
+                "type": "text",
+                "default": "",
+                "description": "Enable the experimental translation feature, example: en,de,fr",
+                "group": "site"
+            },
+            "i18n_namespaces": {
+                "type": "text",
+                "default": "theme",
+                "description": "Namespaces for i18next, example: theme,test1,test2",
+                "group": "site"
+            },
             "navigation_layout": {
                 "type": "select",
                 "options": [
@@ -103,7 +136,8 @@
                     "Logo on the left",
                     "Stacked"
                 ],
-                "default": "Logo in the middle"
+                "default": "Logo in the middle",
+                "group": "site"
             },
             "header_and_footer_color": {
                 "type": "select",
@@ -111,7 +145,8 @@
                     "Background color",
                     "Accent color"
                 ],
-                "default": "Background color"
+                "default": "Background color",
+                "group": "site"
             },
             "title_font": {
                 "type": "select",
@@ -121,15 +156,18 @@
                     "Elegant serif",
                     "Consistent mono"
                 ],
-                "default": "Merriweather"
+                "default": "Merriweather",
+                "group": "site"
             },
             "signup_heading": {
                 "type": "text",
-                "description": "Used in your footer across your theme, defaults to site title when empty"
+                "description": "Used in your footer across your theme, defaults to site title when empty",
+                "group": "site"
             },
             "signup_subheading": {
                 "type": "text",
-                "description": "Defaults to site description when empty"
+                "description": "Defaults to site description when empty",
+                "group": "site"
             },
             "header_style": {
                 "type": "select",
@@ -167,18 +205,18 @@
             "social_github": {
                 "type": "text",
                 "description": "Github link",
-                "group": "social"
+                "group": "site"
             },
             "social_linkedin": {
                 "type": "text",
                 "description": "LinkedIn link",
-                "group": "social"
+                "group": "site"
             },
             "social_rss_feedly": {
                 "type": "boolean",
                 "default": false,
                 "description": "Feedly RSS link",
-                "group": "social"
+                "group": "site"
             },
             "highlightjs_theme": {
                 "type": "select",
@@ -187,7 +225,8 @@
                     "github-dark.min.css",
                     "github.min.css"
                 ],
-                "default": "github-dark-dimmed.min.css"
+                "default": "github-dark-dimmed.min.css",
+                "group": "site"
             }
         }
     },

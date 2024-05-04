@@ -1,3 +1,12 @@
+{{#match custom.i18n "!=" ""}}
+<div id="gh-language-switcher">
+    <div class="gh-langswitcher space"></div>
+    <ul class="gh-langswitcher main">
+        <li class="gh-langselect en"><a href="/en/"><img src="/assets/images/i18n/en.png" alt="en"></a></li>
+        <li class="gh-langselect de"><a href="/de/"><img src="/assets/images/i18n/de.png" alt="de"></a></li>
+    </ul>
+</div>
+{{/match}}
 <header id="gh-navigation" class="gh-navigation is-{{#match navigationLayout "Logo on the left"}}left-logo{{else match navigationLayout "Stacked"}}stacked{{else}}middle-logo{{/match}}{{#match @custom.header_and_footer_color "Accent color"}} has-accent-color{{/match}} gh-outer">
     <div class="gh-navigation-inner">
 
@@ -13,9 +22,7 @@
 
         <nav id="nav">
             <ul class="links">
-                {{#foreach navigation}}
-                <li class="nav-{{slug}} {{#if current}}active{{/if}}"><a href="{{url absolute="true" }}">{{label}}</a></li>
-                {{/foreach}}
+                {{> "components/nav-links"}}
             </ul>
         </nav>
 
@@ -33,12 +40,48 @@
 {{!-- Mobile Menu --}}
 <a id="navPanelToggle" class="hidden" href="#navPanel">Menu</a>
 <div id="navPanel" data-hidden="false">
-    <nav>
+    <nav id="panel-nav">
         <ul class="links">
-            {{#foreach navigation}}
-            <li class="nav-{{slug}} {{#if current}}active{{/if}}"><a href="{{url absolute="true"}}">{{label}}</a></li>
-            {{/foreach}}
+            {{> "components/nav-links"}}
         </ul>
     </nav>
     <a href="#navPanel" class="close"></a>
 </div>
+
+{{!--
+  Hack to implement language switching.
+  TODO(jochumdev): find a better way!
+  --}}
+{{#match custom.i18n "!=" ""}}
+<script type="text/javascript">
+(async function() {
+    // Create language switchers.
+    const langs = theme.s.getCfg(sKeys.I18N_LANGUAGES);
+    var switchers = '';
+    langs.forEach(function(lang) {
+        switchers += '<li class="gh-langselect '+lang+'"><a href="/'+lang+'/">'+'<img src="/assets/images/i18n/'+lang+'.png" alt="'+lang+'" /></a></li>';
+    });
+
+    var switcher = document.querySelector('#gh-language-switcher ul');
+    switcher.innerHTML = switchers;
+
+
+    // Wait for i18next to be ready.
+    await theme.i18n.myInit();
+
+    // Update nav menus.
+    const language = theme.i18n.language;
+    const navs = [document.getElementById('nav'), document.getElementById('panel-nav')];
+
+    for (n = 0; n < navs.length; n++) {
+        var navLinks = navs[n].querySelectorAll('.links>li>a');
+
+        for (i = 0; i < navLinks.length; i++) {
+            var el = navLinks[i];
+            var link = el.getAttribute("href");
+            el.setAttribute("href", "/" + language + "/" + link.substring(4));
+        };
+    };
+})();
+</script>
+{{/match}}

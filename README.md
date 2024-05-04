@@ -10,6 +10,7 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
 ### for users
 
 - Fast
+- Translateable using [i18next](https://www.i18next.com/) on client as well as some hacks to translate routes.
 - Uses HTML5 as much as possible, works well without JavaScript
 - No CDN
 - Parallax effect background image
@@ -21,13 +22,17 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
     - @tryghost/sodo-Search, @tryghost/portal GPR compatible
     - Source Sans Pro, Merriweather fonts GPR compatible (no cdn)
 - No jQuery
+- [rollup](https://rollupjs.org/) with gulp for javascript.
+- i18n using [i18next](https://www.i18next.com/) as well as dynamic routing 
+    - Using [loc-i18next](https://github.com/mthh/loc-i18next) for data-i18n="" translations.
+    - Dynamic routing with https://example.com/{de,en,fr,it}/ routes.
+    - No i18n / javascript = english.
 - No more javascript grid
 - scss using dart-sass
 - Parallax effect background using jarallax
 - Customizeable over theme custom parameters
 - Highlight.js
 - Automaticaly updates and copies all code using "npm" and Gulp
-- single .js for all source with the help of Gulp
 
 ## Development
 

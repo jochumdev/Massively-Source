@@ -27,8 +27,8 @@ config.json
 changelog.md
 changelog.md.bk
 
-assets/built/*
-!assets/built/.gitkeep
+assets/build/*
+!assets/build/.gitkeep
 
 assets/jsdelivr/*
 !assets/jsdelivr/.gitkeep

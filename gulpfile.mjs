@@ -16,6 +16,22 @@ import fs from 'fs';
 // sass
 import sass from 'gulp-dart-sass';
 
+// Rollup for i18n
+import source from 'vinyl-source-stream';
+import buffer from 'vinyl-buffer';
+import rollup from '@rollup/stream';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import { babel } from '@rollup/plugin-babel';
+import terser from '@rollup/plugin-terser';
+
+// i18next
+import scanner from 'i18next-scanner';
+import vfs from 'vinyl-fs';
+import sort from 'gulp-sort';
+
+const PACKAGE_JSON = JSON.parse(fs.readFileSync('./package.json'));
+
 const REPO = 'TryGhost/Source';
 const REPO_READONLY = 'TryGhost/Source';
 const CHANGELOG_PATH = path.join(process.cwd(), '.', 'changelog.md');
@@ -43,37 +59,45 @@ function hbs(done) {
 
 function copy(done) {
     [
-        src('node_modules/@tryghost/sodo-search/umd/*', {encoding: false}).pipe(dest('assets/jsdelivr/sodo-search/')),
-        src('node_modules/@tryghost/portal/umd/*', {encoding: false}).pipe(dest('assets/jsdelivr/')),
-        src('node_modules/@fontsource/source-sans-pro/**/*', {encoding: false}).pipe(dest('assets/fonts/source-sans-pro/')),
-        src('node_modules/@fontsource/merriweather/**/*', {encoding: false}).pipe(dest('assets/fonts/merriweather/')),
+        src('node_modules/@tryghost/sodo-search/umd/*', { encoding: false }).pipe(dest('assets/jsdelivr/sodo-search/')),
+        src('node_modules/@tryghost/portal/umd/*', { encoding: false }).pipe(dest('assets/jsdelivr/')),
+        src('node_modules/@fontsource/source-sans-pro/**/*', { encoding: false }).pipe(dest('assets/fonts/source-sans-pro/')),
+        src('node_modules/@fontsource/merriweather/**/*', { encoding: false }).pipe(dest('assets/fonts/merriweather/')),
         done()
     ];
 }
 
+/*
+ * SCSS
+ */
 function scss_dev(done) {
 
     pump([
-        src('assets/scss/*.scss'),
+        src('src/scss/*.scss'),
         // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
         sass({ includePaths: ['node_modules'] }).on('error', sass.logError),
-        dest('assets/built', { sourcemaps: './' }),
+        dest('assets/build', { sourcemaps: './' }),
         livereload()
     ], handleError(done))
 }
 
 function scss_prod(done) {
     pump([
-        src('assets/scss/*.scss'),
+        src('src/scss/*.scss'),
         // sass({outputStyle: 'compressed', includePaths: ['node_modules']}).on('error', sass.logError),
         sass({ includePaths: ['node_modules'], outputStyle: 'compressed' }).on('error', sass.logError),
-        rename(function(path) { path.extname = '.min.css' }),
-        dest('assets/built', { sourcemaps: './' }),
+        rename(function (path) { path.extname = '.min.css' }),
+        dest('assets/build', { sourcemaps: './' }),
         livereload()
     ], handleError(done));
 }
+const scssBuilder = parallel(scss_dev, scss_prod)
 
-function js_dev(done) {
+
+/*
+ * JavaScript
+ */
+function js_main(done) {
     pump([
         src([
             // node modules
@@ -87,58 +111,207 @@ function js_dev(done) {
             'assets/highlightjs/highlight.js',
 
             // main code
-            'assets/js/*.js'
+            'src/js/main/lib/*',
+            'src/js/main/main.js'
         ], { sourcemaps: true }),
-        concat('source.js'),
-        dest('assets/built/', { sourcemaps: '.' }),
+        concat('main.js'),
+        dest('assets/build/', { sourcemaps: '.' }),
         livereload()
-    ], handleError(done));
-}
+    ], handleError(done))
+};
 
-function js_prod(done) {
+function js_main_prod(done) {
     pump([
-        src('assets/built/source.js'),
+        src('assets/build/main.js'),
         uglify(),
-        rename(function(path) { path.extname = '.min.js' }),
-        dest('assets/built/')
+        rename(function (path) { path.extname = '.min.js' }),
+        dest('assets/build/')
     ], handleError(done));
 }
 
-function zipper(done) {
+function js_i18n(done) {
+    pump([
+        rollup({
+        input: 'src/js/i18n/i18n.js',
+        output: {
+            name: 'theme',
+            format: 'iife',
+        },
+        plugins: [
+            nodeResolve({
+                browser: true,
+                jsnext: false,
+                main: false,
+                preferBuiltins: false
+            }),
+            commonjs({
+                include: ['node_modules/**'],
+                exclude: [],
+            }),
+            // babel({
+            //     babelHelpers: 'bundled',
+            //     exclude: "node_modules/**",
+            //     presets: ["@babel/preset-env"],
+            // }),
+        ]
+    }),
+    source('i18n.js', './assets/js/i18n'),
+    buffer(),
+    dest('assets/build/'),
+], handleError(done));
+};
+
+function js_i18n_prod(done) {
+    pump([
+        rollup({
+        input: 'src/js/i18n/i18n.js',
+        output: {
+            name: 'theme',
+            format: 'iife',
+        },
+        plugins: [
+            nodeResolve({
+                browser: true,
+                jsnext: false,
+                main: false,
+                preferBuiltins: false
+            }),
+            commonjs({
+                include: ['node_modules/**'],
+                exclude: [],
+            }),
+            // babel({
+            //     babelHelpers: 'bundled',
+            //     exclude: "node_modules/**",
+            //     presets: ["@babel/preset-env"],
+            // }),
+            terser(),
+        ]
+    }),
+    source('i18n.min.js', './assets/js/i18n'),
+    buffer(),
+    dest('assets/build/'),
+], handleError(done));
+}
+
+const jsBuilder = series(js_main, js_main_prod, js_i18n, js_i18n_prod)
+
+
+task('i18next', function() {
+    const options = {
+        "compatibilityJSON": "v3",
+        "debug": false,
+        "sort": false,
+        "attr": {
+            "extensions": [
+                ".hbs"
+            ],
+            "list": [
+                "data-i18n"
+            ]
+        },
+        "func": {
+            "list": [
+                "i18next.t",
+                "i18n.t"
+            ],
+            "extensions": [
+                ".js",
+                ".jsx"
+            ]
+        },
+        "trans": {
+            "component": "Trans",
+            "i18nKey": "i18nKey",
+            "defaultsKey": "defaults",
+            "extensions": [
+                ".js",
+                ".jsx"
+            ],
+            "fallbackKey": false,
+            "supportBasicHtmlNodes": true,
+            "keepBasicHtmlNodesFor": [
+                "br",
+                "strong",
+                "i",
+                "p"
+            ],
+            "acorn": {
+                "ecmaVersion": 2020,
+                "sourceType": "module"
+            }
+        },
+        "lngs": PACKAGE_JSON.config.theme_languages,
+        "fallbackLng": "en",
+        "ns": [
+            "theme",
+            "translation"
+        ],
+        "defaultLng": "en",
+        "defaultNs": "translation",
+        "defaultValue": "",
+        "resource": {
+            "loadPath": "assets/i18n/{{lng}}/{{ns}}.json",
+            "savePath": "i18n/{{lng}}/{{ns}}.json",
+            "jsonIndent": 2,
+            "lineEnding": "\n"
+        },
+        "keySeparator": ".",
+        "nsSeparator": ":",
+        "context": true,
+        "contextFallback": true,
+        "contextSeparator": "_",
+        "contextDefaultValues": [],
+        "plural": true,
+        "pluralFallback": true,
+        "pluralSeparator": "_",
+        "interpolation": {
+            "prefix": "{{",
+            "suffix": "}}"
+        },
+        "metadata": {},
+        "allowDynamicKeys": false
+    };
+
+    return vfs.src(['*.hbs','./partials/**/*.hbs'])
+        .pipe(sort()) // Sort files in stream by path
+        .pipe(scanner(options))
+        .pipe(vfs.dest('assets'))
+
+});
+
+
+task('zip', function (done) {
     pump([
         src([
             '**',
-            '!.git', '!.git/**',
-            '!.gitkeep',
+            '!src', '!src/**',
+            '!.git*', '!.git/**',
+            '!.trunk', '!.trunk/**',
             '!node_modules', '!node_modules/**',
             '!dist', '!dist/**',
+            '!package-lock.json',
             '!yarn-error.log',
             '!yarn.lock',
-            '!gulpfile.js'
+            '!gulpfile.mjs',
+            '!.stylelintrc.json',
         ], { encoding: false }),
         gZip('massively-source.zip'),
         dest('dist/')
     ], handleError(done));
-}
+});
 
-const jsBuilder = series(js_dev, js_prod)
-const scssBuilder = parallel(scss_dev, scss_prod)
-
-const cssWatcher = () => watch('assets/scss/**/**', scssBuilder);
-const jsWatcher = () => watch('assets/js/**', jsBuilder);
+const cssWatcher = () => watch('src/scss/**/**', scssBuilder);
+const jsWatcher = () => watch('src/js/**', jsBuilder);
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs'], hbs);
 const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher);
 
 export const build = series(copy, scssBuilder, jsBuilder);
-export const zip = series(build, zipper);
 export const all = series(build, serve, watcher);
 task('default', all);
 
 export const release = async () => {
-    // @NOTE: https://yarnpkg.com/lang/en/docs/cli/version/
-    // require(./package.json) can run into caching issues, this re-reads from file everytime on release
-    let packageJSON = JSON.parse(fs.readFileSync('./package.json'));
-    const newVersion = packageJSON.version;
+    const newVersion = PACKAGE_JSON.version;
 
     if (!newVersion || newVersion === '') {
         console.log(`Invalid version: ${newVersion}`);
