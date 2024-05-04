@@ -261,6 +261,7 @@
     ],
     "config": {
         "theme_languages": [
+            "en",
             "de"
         ],
         "posts_per_page": 16,

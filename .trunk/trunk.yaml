@@ -20,9 +20,9 @@ lint:
     - checkov@3.2.79
     - git-diff-check
     - markdownlint@0.40.0
+    - osv-scanner@1.7.2
     - oxipng@9.1.1
-    - prettier@3.2.5
-    - stylelint@16.5.0
+    - renovate@37.339.0
     - trivy@0.50.4
     - trufflehog@3.75.0
     - yamllint@1.35.1

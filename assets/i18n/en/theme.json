@@ -1,0 +1,23 @@
+{
+  "featured": "Featured",
+  "social": {
+    "website": "Website"
+  },
+  "subscribe": "Subscribe",
+  "pswp": {
+    "close": "Close (ESC)",
+    "share": "Share",
+    "toggle": "Toggle",
+    "zoom": "Zoom",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "pagination": {
+    "newer": "Newer content",
+    "x_of_x": "Page {{page}} of {{pages}}",
+    "older": "Older content"
+  },
+  "read-more": "Read more",
+  "author": "Author",
+  "more-from-this-author": "More of this Author"
+}

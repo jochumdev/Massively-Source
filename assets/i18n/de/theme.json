@@ -5,10 +5,9 @@
   "read-more": "Weiterlesen",
   "author": "Author",
   "more-from-this-author": "Mehr von diesem Author.",
-  "page_x_of_x": "Seite %d von %d",
   "featured": "Vorgestellt",
-  "copyright_design": "Design von @HTML5 UP und @jochumdev",
-  "published_with": "Publiziert mit Ghost",
+  "copyright_design": "Design von <a href=\"https://html5up.net\" target=\"_blank\">HTML5 UP</a> and <a href=\"https://jochum.dev\" target=\"_blank\">jochumdev</a>",
+  "published_with": "Publiziert mit <a href=\"https://ghost.org\" target=\"_blank\">Ghost</a>",
   "subscribe": "Abonnieren",
   "pswp": {
     "close": "Schließen (Esc)",
@@ -18,6 +17,9 @@
     "previous": "Vorheriges",
     "next": "Nächstes"
   },
-  "newer_content": "Neuere Inhalte",
-  "older_content": "Ältere Inhalte"
+  "pagination": {
+    "newer": "Neuere Inhalte",
+    "x_of_x": "Seite {{page}} von {{pages}}",
+    "older": "Ältere Inhalte"
+  }
 }

@@ -1,16 +1,18 @@
 <footer>
+    {{#match pages ">" "1"}}
     <nav class="pagination" role="navigation">
         {{#if prev}}
-        <a class="previous newer-posts i18n-target" href="{{page_url prev}}" data-i18n="[html]theme:newer_content">Newer content</a>
+        <a class="previous newer-posts i18n-target" href="{{page_url prev}}" data-i18n="[html]theme:pagination.newer">Newer content</a>
         {{else}}
         <div class="spacer"></div>
         {{/if}}
-        <span class="page i18n-target" data-i18n="[html]theme:page_x_of_x" data-i18n-options=\'"{"page": "{{page}}", "pages": "{{pages}}"}'>Page {{page}} of {{pages}}</span>
+        <span class="page i18n-target i18n-options" data-i18n="[html]theme:pagination.x_of_x" i18n-options='{{#json_pairs}}page {{page}} pages {{pages}}{{/json_pairs}}'></span>
 
         {{#if next}}
-        <a class="next older-posts i18n-target" href="{{page_url next}}" data-i18n="[html]theme:older_content">Older content</a>
+        <a class="next older-posts i18n-target" href="{{page_url next}}" data-i18n="[html]theme:pagination.older">Older content</a>
         {{else}}
         <div class="spacer"></div>
         {{/if}}
     </nav>
+    {{/match}}
 </footer>
