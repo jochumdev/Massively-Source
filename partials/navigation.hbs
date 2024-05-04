@@ -79,15 +79,20 @@
     for (n = 0; n < navs.length; n++) {
         var navLinks = navs[n].querySelectorAll('.links>li');
 
+        var activeEL = null;
         for (i = 0; i < navLinks.length; i++) {
             var el = navLinks[i];
             var link = el.firstChild.getAttribute("href");
             var langLink = "/" + language + "/" + link.substring(4)
             if (theme.util.pathIsCurrent(langLink)) {
-                el.classList.add("active");
+                activeEL = el;
             }
             el.firstChild.setAttribute("href", langLink);
         };
+
+        if (activeEL != null) {
+            activeEL.classList.add("active");
+        }
     };
 })();
 </script>
