@@ -10,12 +10,10 @@
     "scripts": {
         "dev": "gulp",
         "zip": "gulp build && gulp zip && gscan -z dist/massively-source.zip",
-        "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
         "lint": "npx stylelint \"assets/scss/*.scss\"",
         "lintformatfix": "npx stylelint \"assets/scss/*.scss\" --formatter --fix",
         "pretest": "gulp build",
-        "preship": "test",
         "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then npm version && git push --follow-tags; else echo \"Uncomitted changes found.\" && exit 1; fi",
         "postship": "git fetch && gulp release"
     },
@@ -138,26 +136,6 @@
                     "Stacked"
                 ],
                 "default": "Logo in the middle",
-                "group": "site"
-            },
-            "header_and_footer_color": {
-                "type": "select",
-                "options": [
-                    "Background color",
-                    "Accent color"
-                ],
-                "default": "Background color",
-                "group": "site"
-            },
-            "title_font": {
-                "type": "select",
-                "options": [
-                    "Merriweather",
-                    "Modern sans-serif",
-                    "Elegant serif",
-                    "Consistent mono"
-                ],
-                "default": "Merriweather",
                 "group": "site"
             },
             "signup_heading": {
