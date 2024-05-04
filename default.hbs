@@ -10,11 +10,7 @@
     {{!-- Preload main styles and scripts for better performance --}}
     <link rel="preload" as="style" href="/public/cards.min.css">
     <link rel="preload" as="style" href="{{asset "build/screen.css" hasMinFile="true"}}">
-    <link rel="preload" as="script" href="{{asset "build/main.js" hasMinFile="true"}}">
-
-    {{#match custom.i18n "!=" ""}}
-    <link rel="preload" as="script" href="{{asset "build/i18n.js" hasMinFile="true"}}">
-    {{/match}}
+    <link rel="preload" as="script" href="{{asset "build/theme.js" hasMinFile="true"}}">
 
     {{!-- Fonts --}}
     <link rel="preload" as="style" href="{{asset "fonts/font-awesome.min.css" absolute="false"}}">
@@ -64,19 +60,20 @@
 --}}
 <body class="is-preload {{body_class}}">
 
+<script type="text/javascript" src="{{asset "build/theme.js" hasMinFile="true"}}"></script>
+
 {{!-- i18n: Translate the page. --}}
 {{#match custom.i18n "!=" ""}}
-<script src="{{asset "build/i18n.js" hasMinFile="true"}}"></script>
 <script type="text/javascript">
 
-const sKeys = theme.sKeys;
-var settings = theme.s;
-
 (async function () {
-    settings.setCfg(sKeys.I18N, {{#match custom.i18n "==" ""}}false{{else}}true{{/match}});
-    settings.setCfg(sKeys.I18N_LANGUAGES, '{{@custom.i18n}}'.split(','));
-    settings.setCfg(sKeys.I18N_NAMESPACES, '{{@custom.i18n_namespaces}}'.split(','));
-    settings.setCfg(sKeys.I18N_DEFAULT_LANGUAGE, '{{@site.locale}}');
+    const settings = theme.settings;
+    const SKEYS = settings.KEYS;
+
+    settings.Set(SKEYS.I18N, {{#match custom.i18n "==" ""}}false{{else}}true{{/match}});
+    settings.Set(SKEYS.I18N_LANGUAGES, '{{@custom.i18n}}'.split(','));
+    settings.Set(SKEYS.I18N_NAMESPACES, '{{@custom.i18n_namespaces}}'.split(','));
+    settings.Set(SKEYS.I18N_DEFAULT_LANGUAGE, '{{@site.locale}}');
 
     await theme.i18n.myInit();
     theme.localize('.i18n-target');
@@ -111,14 +108,14 @@ var settings = theme.s;
     {{> "lightbox"}}
 {{/is}}
 
-{{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
-<script src="{{asset "build/main.js" hasMinFile="true"}}"></script>
-
 {{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}
 
+{{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
 <script type="text/javascript">
-    hljs.highlightAll();
+(async function () {
+    theme.functional.init();
+})();
 </script>
 
 </body>

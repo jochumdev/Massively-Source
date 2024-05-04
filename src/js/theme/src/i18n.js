@@ -7,6 +7,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import locI18next from "loc-i18next";
 
+import settings from './settings';
+
 // i18n.use(BackendAdapter).init({
 //     backend: {
 //         backend: HttpBackend,
@@ -27,7 +29,7 @@ i18n.myInit = function() {
     }
 
     i18n.promise = theme.i18n.init({
-        ns: settings.getCfg(sKeys.I18N_NAMESPACES),
+        ns: settings.Get(settings.KEYS.I18N_NAMESPACES),
         backend: {
             loadPath: '/assets/i18n/\{{lng}}/\{{ns}}.json',
         },
@@ -55,31 +57,4 @@ var localize = locI18next.init(i18n, {
     document: window.document,
 });
 
-const sKeys = {
-    I18N: 'i18n',
-    I18N_DEFAULT_LANGUAGE: 'i18n_default_language',
-    I18N_LANGUAGES: 'i18n_languages',
-    I18N_NAMESPACES: 'i18n_namespaces',
-}
-
-class Settings {
-    constructor() {
-        this.data = {};
-    }
-
-    all() {
-        return this.data;
-    }
-
-    setCfg(key, val) {
-        this.data[key] = val;
-        return val;
-    }
-
-    getCfg(key) {
-        return this.data[key];
-    }
-}
-var s = new Settings();
-
-export default { i18n, localize, sKeys, s };
+export { i18n, localize };

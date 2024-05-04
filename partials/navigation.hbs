@@ -55,8 +55,11 @@
 {{#match custom.i18n "!=" ""}}
 <script type="text/javascript">
 (async function() {
+    const settings = theme.settings;
+    const SKEYS = settings.KEYS;
+
     // Create language switchers.
-    const langs = theme.s.getCfg(sKeys.I18N_LANGUAGES);
+    const langs = settings.Get(SKEYS.I18N_LANGUAGES);
     var switchers = '';
     langs.forEach(function(lang) {
         switchers += '<li class="gh-langselect '+lang+'"><a href="/'+lang+'/">'+'<img src="/assets/images/i18n/'+lang+'.png" alt="'+lang+'" /></a></li>';

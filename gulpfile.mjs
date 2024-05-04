@@ -97,42 +97,10 @@ const scssBuilder = parallel(scss_dev, scss_prod)
 /*
  * JavaScript
  */
-function js_main(done) {
-    pump([
-        src([
-            // node modules
-            'node_modules/jarallax/dist/jarallax.js',
-            'node_modules/imagesloaded/imagesloaded.pkgd.js',
-            'node_modules/photoswipe/dist/photoswipe.js',
-            'node_modules/photoswipe/dist/photoswipe-ui-default.js',
-            'node_modules/reframe.js/dist/reframe.js',
-
-            // Hightlightjs.org -> downloaded
-            'assets/highlightjs/highlight.js',
-
-            // main code
-            'src/js/main/lib/*',
-            'src/js/main/main.js'
-        ], { sourcemaps: true }),
-        concat('main.js'),
-        dest('assets/build/', { sourcemaps: '.' }),
-        livereload()
-    ], handleError(done))
-};
-
-function js_main_prod(done) {
-    pump([
-        src('assets/build/main.js'),
-        uglify(),
-        rename(function (path) { path.extname = '.min.js' }),
-        dest('assets/build/')
-    ], handleError(done));
-}
-
-function js_i18n(done) {
+function js(done) {
     pump([
         rollup({
-        input: 'src/js/i18n/i18n.js',
+        input: 'src/js/theme/index.js',
         output: {
             name: 'theme',
             format: 'iife',
@@ -155,16 +123,16 @@ function js_i18n(done) {
             // }),
         ]
     }),
-    source('i18n.js', './assets/js/i18n'),
+    source('theme.js', './assets/js/theme'),
     buffer(),
     dest('assets/build/'),
 ], handleError(done));
 };
 
-function js_i18n_prod(done) {
+function js_prod(done) {
     pump([
         rollup({
-        input: 'src/js/i18n/i18n.js',
+        input: 'src/js/theme/index.js',
         output: {
             name: 'theme',
             format: 'iife',
@@ -188,13 +156,13 @@ function js_i18n_prod(done) {
             terser(),
         ]
     }),
-    source('i18n.min.js', './assets/js/i18n'),
+    source('theme.min.js', './assets/js/theme'),
     buffer(),
     dest('assets/build/'),
 ], handleError(done));
 }
 
-const jsBuilder = series(js_main, js_main_prod, js_i18n, js_i18n_prod)
+const jsBuilder = series(js, js_prod)
 
 
 task('i18next', function() {
