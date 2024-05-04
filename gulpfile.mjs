@@ -55,21 +55,14 @@ function hbs(done) {
 }
 
 function copy(done) {
-  [
-    src("node_modules/@tryghost/sodo-search/umd/*", { encoding: false }).pipe(
-      dest("assets/jsdelivr/sodo-search/"),
-    ),
-    src("node_modules/@tryghost/portal/umd/*", { encoding: false }).pipe(
-      dest("assets/jsdelivr/"),
-    ),
-    src("node_modules/@fontsource/source-sans-pro/**/*", {
-      encoding: false,
-    }).pipe(dest("assets/fonts/source-sans-pro/")),
-    src("node_modules/@fontsource/merriweather/**/*", { encoding: false }).pipe(
-      dest("assets/fonts/merriweather/"),
-    ),
-    done(),
-  ];
+    [
+        src('node_modules/@tryghost/sodo-search/**/*', { encoding: false }).pipe(dest('assets/jsdelivr/sodo-search/')),
+        src('node_modules/@tryghost/portal/**/*', { encoding: false }).pipe(dest('assets/jsdelivr/portal/')),
+        src('node_modules/@tryghost/comments-ui/**/*', { encoding: false }).pipe(dest('assets/jsdelivr/comments-ui/')),
+        src('node_modules/@fontsource/source-sans-pro/**/*', { encoding: false }).pipe(dest('assets/fonts/source-sans-pro/')),
+        src('node_modules/@fontsource/merriweather/**/*', { encoding: false }).pipe(dest('assets/fonts/merriweather/')),
+        done()
+    ];
 }
 
 /*
