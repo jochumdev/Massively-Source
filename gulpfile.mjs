@@ -100,7 +100,7 @@ const scssBuilder = parallel(scss_dev, scss_prod)
 function js(done) {
     pump([
         rollup({
-        input: 'src/js/theme/index.js',
+        input: 'src/js/index.js',
         output: {
             name: 'theme',
             format: 'iife',
@@ -123,7 +123,7 @@ function js(done) {
             // }),
         ]
     }),
-    source('theme.js', './assets/js/theme'),
+    source('theme.js', './assets/js'),
     buffer(),
     dest('assets/build/'),
 ], handleError(done));
@@ -132,7 +132,7 @@ function js(done) {
 function js_prod(done) {
     pump([
         rollup({
-        input: 'src/js/theme/index.js',
+        input: 'src/js/index.js',
         output: {
             name: 'theme',
             format: 'iife',
@@ -156,7 +156,7 @@ function js_prod(done) {
             terser(),
         ]
     }),
-    source('theme.min.js', './assets/js/theme'),
+    source('theme.min.js', './assets/js'),
     buffer(),
     dest('assets/build/'),
 ], handleError(done));

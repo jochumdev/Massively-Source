@@ -1,7 +1,6 @@
 import lightbox from '../lib/lightbox';
 import reframe from 'reframe.js';
 import { jarallax } from 'jarallax';
-import hljs from '../../../../assets/highlightjs/es/highlight.js';
 
 function init() {
     /* 

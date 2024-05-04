@@ -77,12 +77,18 @@
     const navs = [document.getElementById('nav'), document.getElementById('panel-nav')];
 
     for (n = 0; n < navs.length; n++) {
-        var navLinks = navs[n].querySelectorAll('.links>li>a');
+        var navLinks = navs[n].querySelectorAll('.links>li');
 
         for (i = 0; i < navLinks.length; i++) {
             var el = navLinks[i];
-            var link = el.getAttribute("href");
-            el.setAttribute("href", "/" + language + "/" + link.substring(4));
+            var link = el.firstChild.getAttribute("href");
+            var langLink = "/" + language + "/" + link.substring(4)
+            if (theme.util.pathIsCurrent(langLink)) {
+                el.classList.add("active");
+            } else {
+                console.log(window.location.href, langLink);
+            }
+            el.firstChild.setAttribute("href", langLink);
         };
     };
 })();

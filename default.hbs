@@ -10,6 +10,7 @@
     {{!-- Preload main styles and scripts for better performance --}}
     <link rel="preload" as="style" href="/public/cards.min.css">
     <link rel="preload" as="style" href="{{asset "build/screen.css" hasMinFile="true"}}">
+    <link rel="preload" as="script" href="{{asset "highlightjs/highlight.js" hasMinFile="true"}}">
     <link rel="preload" as="script" href="{{asset "build/theme.js" hasMinFile="true"}}">
 
     {{!-- Fonts --}}
@@ -60,6 +61,7 @@
 --}}
 <body class="is-preload {{body_class}}">
 
+<script type="text/javascript" src="{{asset "highlightjs/highlight.js" hasMinFile="true"}}"></script>
 <script type="text/javascript" src="{{asset "build/theme.js" hasMinFile="true"}}"></script>
 
 {{!-- i18n: Translate the page. --}}
