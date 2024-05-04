@@ -6,7 +6,7 @@ function pathIsCurrent(path) {
     cu += u.hash;
   }
 
-  return cu === path;
-}
+    return cu === path || cu.substring(0, path.length) === path;
+};
 
 export default { pathIsCurrent };
