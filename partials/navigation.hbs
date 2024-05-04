@@ -85,8 +85,6 @@
             var langLink = "/" + language + "/" + link.substring(4)
             if (theme.util.pathIsCurrent(langLink)) {
                 el.classList.add("active");
-            } else {
-                console.log(window.location.href, langLink);
             }
             el.firstChild.setAttribute("href", langLink);
         };
