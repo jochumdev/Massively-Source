@@ -5,25 +5,13 @@
 
 <main id="gh-main">
     <article class="gh-article {{post_class}}">
-        <section class="post">
+        {{#match @page.show_title_and_feature_image}}
+        {{> "components/post-header"}}
+        {{/match}}
 
-            {{#match @page.show_title_and_feature_image}}
-            <header class="major">
-                {{> "feature-image"}}
-
-                {{#if @custom.show_publish_date}}
-                <span class="date">{{date format="MMMM D, YYYY"}}</span>
-                {{/if}}
-
-                <h1>{{title}}</h1>
-            </header>
-            {{/match}}
-
-            <div class="content is-body">
-                {{content}}
-            </div>
-
-        </section>
+        <div class="content is-body">
+            {{content}}
+        </div>
     </article>
 </main>
 

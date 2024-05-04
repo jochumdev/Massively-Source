@@ -65,24 +65,30 @@
     text-align: center;
   }
 
-  > .post {
-    @include padding((_size(padding) * 4), (_size(padding) * 4));
+	>.gh-article {
+		@include padding(calc(_size(padding) * 4), calc(_size(padding) * 4));
 
-    header {
-      &.major {
-        .date {
-          text-align: center;
-        }
+		.gh-article-header {
+			margin-bottom: _size(padding);
 
-        > h1,
-        h2 {
-          text-align: center;
-          font-size: 3rem;
-          line-height: 1.1;
-          margin: 0 0 _size(element-margin);
-        }
-      }
-    }
+			>* {
+				text-align: center;
+			}
+
+			>h1 {
+				font-size: 3rem;
+				line-height: 1.1;
+				margin: _size(element-margin) auto;
+			}
+
+			>.gh-article-excerpt {
+				max-width: 1024px;
+				margin: 0 auto;
+				font-size: 1.1rem;
+				line-height: 2;
+				font-style: italic;
+			}			
+		}
 
     &.featured {
       text-align: center;
@@ -203,13 +209,13 @@
 }
 
 // TODO(jochumdev): Make font switching working
-.has-serif-title #gh-main > .posts header > h2,
-.has-serif-title #gh-main > .post header.major > h1,
-.has-serif-title #gh-main > .post header.major > h2 {
-  font-family: _font(family);
+.has-serif-title #gh-main>.posts header>h2,
+.has-serif-title #gh-main>.post .gh-article-header>h1,
+.has-serif-title #gh-main>.post .gh-article-header>h2 {
+	font-family: _font(family);
 }
 
-.has-sans-body header.major > p,
+.has-sans-body .gh-article-header>p,
 .has-sans-body .posts article p {
   font-family: _font(family-heading);
 }

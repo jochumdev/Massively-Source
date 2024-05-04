@@ -1883,16 +1883,6 @@ Search                         LOGO                    Login Subscribe
 
 /* 14.1. Article */
 
-.gh-article {
-  --container-width: 1120px;
-
-  word-break: break-word;
-}
-
-.gh-article-header {
-  margin: clamp(40px, 3.64vw + 25.45px, 72px) 0 40px;
-}
-
 .gh-article-tag {
   margin-bottom: 12px;
   font-size: 1.3rem;
@@ -1906,14 +1896,6 @@ Search                         LOGO                    Login Subscribe
   font-size: calc(clamp(3.4rem, 1.36vw + 2.85rem, 4.6rem) * var(--factor, 1));
   line-height: 1.1;
   letter-spacing: -0.022em;
-}
-
-.gh-article-excerpt {
-  margin-top: clamp(12px, 0.45vw + 10.18px, 16px);
-  max-width: 720px;
-  font-size: clamp(1.5rem, 0.45vw + 1.32rem, 1.9rem);
-  line-height: 1.4;
-  letter-spacing: -0.018em;
 }
 
 .gh-article-meta {
@@ -2373,9 +2355,8 @@ blockquote.kg-blockquote-alt {
 /* Caption */
 
 figcaption {
-  margin-top: 12px;
-  font-size: 1.4rem;
-  text-align: center;
+    font-size: 1.4rem;
+    text-align: center;
 }
 
 .kg-card.kg-width-full figcaption {

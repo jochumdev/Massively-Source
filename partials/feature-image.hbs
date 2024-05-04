@@ -10,7 +10,16 @@
             alt="{{title}}"
         >
         {{#if feature_image_caption}}
-            <figcaption>{{feature_image_caption}}</figcaption>
+            <figcaption>
+                {{#if @custom.show_publish_date}}
+                    {{date format="MMMM D, YYYY"}}&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                {{/if}}
+                {{feature_image_caption}}
+            </figcaption>
         {{/if}}
     </figure>
+{{else}}
+    {{#if @custom.show_publish_date}}
+        <figcaption>{{date format="MMMM D, YYYY"}}</figcaption>
+    {{/if}}
 {{/if}}
