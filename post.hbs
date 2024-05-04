@@ -35,14 +35,13 @@ into the {body} of the default.hbs template --}}
             </div>
 
         </footer>
-
-        {{!--
-        <section class="post-full-comments">
-            If you want to embed comments, this is a good place to do it!
-        </section>
-        --}}
     </article>
 
+    {{#if comments}}
+        <div class="gh-comments gh-canvas">
+            {{comments}}
+        </div>
+    {{/if}}
 </main>
 
 {{/post}}
