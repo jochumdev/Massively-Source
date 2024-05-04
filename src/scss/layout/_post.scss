@@ -152,9 +152,19 @@
         margin-bottom: 0;
       }
 
+<<<<<<< HEAD
       &:nth-child(2n - 1) {
         border-left: 0;
       }
+=======
+			header>h2 {
+				height: 2.4em;
+			}
+
+			>:last-child {
+				margin-bottom: 0;
+			}
+>>>>>>> ad11b72 (fix: post list header size)
 
       &:nth-child(-n + 2) {
         border-top: 0;
@@ -210,12 +220,12 @@
 
 // TODO(jochumdev): Make font switching working
 .has-serif-title #gh-main>.posts header>h2,
-.has-serif-title #gh-main>.post .gh-article-header>h1,
-.has-serif-title #gh-main>.post .gh-article-header>h2 {
+.has-serif-title #gh-main>.gh-article-header>h1,
+.has-serif-title #gh-main>.gh-article-header>h2 {
 	font-family: _font(family);
 }
 
 .has-sans-body .gh-article-header>p,
-.has-sans-body .posts article p {
-  font-family: _font(family-heading);
+.has-sans-body .gh-article p {
+	font-family: _font(family-heading);
 }
