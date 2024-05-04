@@ -5,5 +5,19 @@
   "read-more": "Weiterlesen",
   "author": "Author",
   "more-from-this-author": "Mehr von diesem Author.",
-  "page_x_of_x": "Seite %d von %d"
+  "page_x_of_x": "Seite %d von %d",
+  "featured": "Vorgestellt",
+  "copyright_design": "Design von @HTML5 UP und @jochumdev",
+  "published_with": "Publiziert mit Ghost",
+  "subscribe": "Abonnieren",
+  "pswp": {
+    "close": "Schließen (Esc)",
+    "share": "Teilen",
+    "toggle": "Vollbildmodus einschalten",
+    "zoom": "Zoomen",
+    "previous": "Vorheriges",
+    "next": "Nächstes"
+  },
+  "newer_content": "Neuere Inhalte",
+  "older_content": "Ältere Inhalte"
 }

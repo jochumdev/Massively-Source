@@ -1,14 +1,14 @@
 <footer>
     <nav class="pagination" role="navigation">
         {{#if prev}}
-        <a class="previous newer-posts" href="{{page_url prev}}">Neuere Inhalte</a>
+        <a class="previous newer-posts i18n-target" href="{{page_url prev}}" data-i18n="[html]theme:newer_content">Newer content</a>
         {{else}}
         <div class="spacer"></div>
         {{/if}}
-        <span class="page i18n-target" data-i18n="[html]theme:page_x_of_x" data-i18n-options=\'"{"page": "{{page}}", "pages": "{{pages}}"}'> />Page {{page}} of {{pages}}</span>
+        <span class="page i18n-target" data-i18n="[html]theme:page_x_of_x" data-i18n-options=\'"{"page": "{{page}}", "pages": "{{pages}}"}'>Page {{page}} of {{pages}}</span>
 
         {{#if next}}
-        <a class="next older-posts" href="{{page_url next}}">&Auml;ltere Inhalte</a>
+        <a class="next older-posts i18n-target" href="{{page_url next}}" data-i18n="[html]theme:older_content">Older content</a>
         {{else}}
         <div class="spacer"></div>
         {{/if}}
