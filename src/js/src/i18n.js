@@ -41,7 +41,14 @@ i18n.myInit = function() {
 
             // optional conversion function to use to modify the detected language code
             convertDetectedLanguage: 'Iso15897',
-            convertDetectedLanguage: (lng) => lng.replace('-', '_')
+            convertDetectedLanguage: (lng) => {
+                const l = lng.replace('-', '_');
+                if (settings.Get(settings.KEYS.I18N_LANGUAGES).includes(l)) {
+                    return l;
+                }
+
+                return settings.Get(settings.KEYS.I18N_DEFAULT_LANGUAGE);
+            }
         }
     });
 
