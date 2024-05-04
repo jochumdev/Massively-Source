@@ -1,6 +1,6 @@
 /*! `php` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: PHP
@@ -21,36 +21,40 @@ var hljsGrammar = (function () {
     const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
     const IDENT_RE = regex.concat(
       /[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/,
-      NOT_PERL_ETC);
+      NOT_PERL_ETC,
+    );
     // Will not detect camelCase classes
     const PASCAL_CASE_CLASS_NAME_RE = regex.concat(
       /(\\?[A-Z][a-z0-9_\x7f-\xff]+|\\?[A-Z]+(?=[A-Z][a-z0-9_\x7f-\xff])){1,}/,
-      NOT_PERL_ETC);
+      NOT_PERL_ETC,
+    );
     const VARIABLE = {
-      scope: 'variable',
-      match: '\\$+' + IDENT_RE,
+      scope: "variable",
+      match: "\\$+" + IDENT_RE,
     };
     const PREPROCESSOR = {
-      scope: 'meta',
+      scope: "meta",
       variants: [
         { begin: /<\?php/, relevance: 10 }, // boost for obvious PHP
         { begin: /<\?=/ },
         // less relevant per PSR-1 which says not to use short-tags
         { begin: /<\?/, relevance: 0.1 },
-        { begin: /\?>/ } // end php tag
-      ]
+        { begin: /\?>/ }, // end php tag
+      ],
     };
     const SUBST = {
-      scope: 'subst',
+      scope: "subst",
       variants: [
         { begin: /\$\w+/ },
         {
           begin: /\{\$/,
-          end: /\}/
-        }
-      ]
+          end: /\}/,
+        },
+      ],
     };
-    const SINGLE_QUOTED = hljs.inherit(hljs.APOS_STRING_MODE, { illegal: null, });
+    const SINGLE_QUOTED = hljs.inherit(hljs.APOS_STRING_MODE, {
+      illegal: null,
+    });
     const DOUBLE_QUOTED = hljs.inherit(hljs.QUOTE_STRING_MODE, {
       illegal: null,
       contains: hljs.QUOTE_STRING_MODE.contains.concat(SUBST),
@@ -60,8 +64,12 @@ var hljsGrammar = (function () {
       begin: /<<<[ \t]*(?:(\w+)|"(\w+)")\n/,
       end: /[ \t]*(\w+)\b/,
       contains: hljs.QUOTE_STRING_MODE.contains.concat(SUBST),
-      'on:begin': (m, resp) => { resp.data._beginMatch = m[1] || m[2]; },
-      'on:end': (m, resp) => { if (resp.data._beginMatch !== m[1]) resp.ignoreMatch(); },
+      "on:begin": (m, resp) => {
+        resp.data._beginMatch = m[1] || m[2];
+      },
+      "on:end": (m, resp) => {
+        if (resp.data._beginMatch !== m[1]) resp.ignoreMatch();
+      },
     };
 
     const NOWDOC = hljs.END_SAME_AS_BEGIN({
@@ -69,32 +77,25 @@ var hljsGrammar = (function () {
       end: /[ \t]*(\w+)\b/,
     });
     // list of valid whitespaces because non-breaking space might be part of a IDENT_RE
-    const WHITESPACE = '[ \t\n]';
+    const WHITESPACE = "[ \t\n]";
     const STRING = {
-      scope: 'string',
-      variants: [
-        DOUBLE_QUOTED,
-        SINGLE_QUOTED,
-        HEREDOC,
-        NOWDOC
-      ]
+      scope: "string",
+      variants: [DOUBLE_QUOTED, SINGLE_QUOTED, HEREDOC, NOWDOC],
     };
     const NUMBER = {
-      scope: 'number',
+      scope: "number",
       variants: [
         { begin: `\\b0[bB][01]+(?:_[01]+)*\\b` }, // Binary w/ underscore support
         { begin: `\\b0[oO][0-7]+(?:_[0-7]+)*\\b` }, // Octals w/ underscore support
         { begin: `\\b0[xX][\\da-fA-F]+(?:_[\\da-fA-F]+)*\\b` }, // Hex w/ underscore support
         // Decimals w/ underscore support, with optional fragments and scientific exponent (e) suffix.
-        { begin: `(?:\\b\\d+(?:_\\d+)*(\\.(?:\\d+(?:_\\d+)*))?|\\B\\.\\d+)(?:[eE][+-]?\\d+)?` }
+        {
+          begin: `(?:\\b\\d+(?:_\\d+)*(\\.(?:\\d+(?:_\\d+)*))?|\\B\\.\\d+)(?:[eE][+-]?\\d+)?`,
+        },
       ],
-      relevance: 0
+      relevance: 0,
     };
-    const LITERALS = [
-      "false",
-      "null",
-      "true"
-    ];
+    const LITERALS = ["false", "null", "true"];
     const KWS = [
       // Magic constants:
       // <https://www.php.net/manual/en/language.constants.predefined.php>
@@ -194,7 +195,7 @@ var hljsGrammar = (function () {
       "void",
       "while",
       "xor",
-      "yield"
+      "yield",
     ];
 
     const BUILT_INS = [
@@ -291,7 +292,7 @@ var hljsGrammar = (function () {
       "php_user_filter",
       "self",
       "static",
-      "stdClass"
+      "stdClass",
     ];
 
     /** Dual-case keywords
@@ -303,7 +304,7 @@ var hljsGrammar = (function () {
     const dualCase = (items) => {
       /** @type string[] */
       const result = [];
-      items.forEach(item => {
+      items.forEach((item) => {
         result.push(item);
         if (item.toLowerCase() === item) {
           result.push(item.toUpperCase());
@@ -323,87 +324,83 @@ var hljsGrammar = (function () {
     /**
      * @param {string[]} items */
     const normalizeKeywords = (items) => {
-      return items.map(item => {
+      return items.map((item) => {
         return item.replace(/\|\d+$/, "");
       });
     };
 
-    const CONSTRUCTOR_CALL = { variants: [
-      {
-        match: [
-          /new/,
-          regex.concat(WHITESPACE, "+"),
-          // to prevent built ins from being confused as the class constructor call
-          regex.concat("(?!", normalizeKeywords(BUILT_INS).join("\\b|"), "\\b)"),
-          PASCAL_CASE_CLASS_NAME_RE,
-        ],
-        scope: {
-          1: "keyword",
-          4: "title.class",
+    const CONSTRUCTOR_CALL = {
+      variants: [
+        {
+          match: [
+            /new/,
+            regex.concat(WHITESPACE, "+"),
+            // to prevent built ins from being confused as the class constructor call
+            regex.concat(
+              "(?!",
+              normalizeKeywords(BUILT_INS).join("\\b|"),
+              "\\b)",
+            ),
+            PASCAL_CASE_CLASS_NAME_RE,
+          ],
+          scope: {
+            1: "keyword",
+            4: "title.class",
+          },
         },
-      }
-    ] };
+      ],
+    };
 
     const CONSTANT_REFERENCE = regex.concat(IDENT_RE, "\\b(?!\\()");
 
-    const LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON = { variants: [
-      {
-        match: [
-          regex.concat(
-            /::/,
-            regex.lookahead(/(?!class\b)/)
-          ),
-          CONSTANT_REFERENCE,
-        ],
-        scope: { 2: "variable.constant", },
-      },
-      {
-        match: [
-          /::/,
-          /class/,
-        ],
-        scope: { 2: "variable.language", },
-      },
-      {
-        match: [
-          PASCAL_CASE_CLASS_NAME_RE,
-          regex.concat(
-            /::/,
-            regex.lookahead(/(?!class\b)/)
-          ),
-          CONSTANT_REFERENCE,
-        ],
-        scope: {
-          1: "title.class",
-          3: "variable.constant",
+    const LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON = {
+      variants: [
+        {
+          match: [
+            regex.concat(/::/, regex.lookahead(/(?!class\b)/)),
+            CONSTANT_REFERENCE,
+          ],
+          scope: { 2: "variable.constant" },
         },
-      },
-      {
-        match: [
-          PASCAL_CASE_CLASS_NAME_RE,
-          regex.concat(
-            "::",
-            regex.lookahead(/(?!class\b)/)
-          ),
-        ],
-        scope: { 1: "title.class", },
-      },
-      {
-        match: [
-          PASCAL_CASE_CLASS_NAME_RE,
-          /::/,
-          /class/,
-        ],
-        scope: {
-          1: "title.class",
-          3: "variable.language",
+        {
+          match: [/::/, /class/],
+          scope: { 2: "variable.language" },
         },
-      }
-    ] };
+        {
+          match: [
+            PASCAL_CASE_CLASS_NAME_RE,
+            regex.concat(/::/, regex.lookahead(/(?!class\b)/)),
+            CONSTANT_REFERENCE,
+          ],
+          scope: {
+            1: "title.class",
+            3: "variable.constant",
+          },
+        },
+        {
+          match: [
+            PASCAL_CASE_CLASS_NAME_RE,
+            regex.concat("::", regex.lookahead(/(?!class\b)/)),
+          ],
+          scope: { 1: "title.class" },
+        },
+        {
+          match: [PASCAL_CASE_CLASS_NAME_RE, /::/, /class/],
+          scope: {
+            1: "title.class",
+            3: "variable.language",
+          },
+        },
+      ],
+    };
 
     const NAMED_ARGUMENT = {
-      scope: 'attr',
-      match: regex.concat(IDENT_RE, regex.lookahead(':'), regex.lookahead(/(?!::)/)),
+      scope: "attr",
+      match: regex.concat(
+        IDENT_RE,
+        regex.lookahead(":"),
+        regex.lookahead(/(?!::)/),
+      ),
     };
     const PARAMS_MODE = {
       relevance: 0,
@@ -425,13 +422,19 @@ var hljsGrammar = (function () {
       match: [
         /\b/,
         // to prevent keywords from being confused as the function title
-        regex.concat("(?!fn\\b|function\\b|", normalizeKeywords(KWS).join("\\b|"), "|", normalizeKeywords(BUILT_INS).join("\\b|"), "\\b)"),
+        regex.concat(
+          "(?!fn\\b|function\\b|",
+          normalizeKeywords(KWS).join("\\b|"),
+          "|",
+          normalizeKeywords(BUILT_INS).join("\\b|"),
+          "\\b)",
+        ),
         IDENT_RE,
         regex.concat(WHITESPACE, "*"),
-        regex.lookahead(/(?=\()/)
+        regex.lookahead(/(?=\()/),
       ],
-      scope: { 3: "title.function.invoke", },
-      contains: [ PARAMS_MODE ]
+      scope: { 3: "title.function.invoke" },
+      contains: [PARAMS_MODE],
     };
     PARAMS_MODE.contains.push(FUNCTION_INVOKE);
 
@@ -451,10 +454,7 @@ var hljsGrammar = (function () {
       endScope: "meta",
       keywords: {
         literal: LITERALS,
-        keyword: [
-          'new',
-          'array',
-        ]
+        keyword: ["new", "array"],
       },
       contains: [
         {
@@ -462,22 +462,16 @@ var hljsGrammar = (function () {
           end: /]/,
           keywords: {
             literal: LITERALS,
-            keyword: [
-              'new',
-              'array',
-            ]
+            keyword: ["new", "array"],
           },
-          contains: [
-            'self',
-            ...ATTRIBUTE_CONTAINS,
-          ]
+          contains: ["self", ...ATTRIBUTE_CONTAINS],
         },
         ...ATTRIBUTE_CONTAINS,
         {
-          scope: 'meta',
-          match: PASCAL_CASE_CLASS_NAME_RE
-        }
-      ]
+          scope: "meta",
+          match: PASCAL_CASE_CLASS_NAME_RE,
+        },
+      ],
     };
 
     return {
@@ -486,20 +480,18 @@ var hljsGrammar = (function () {
       contains: [
         ATTRIBUTES,
         hljs.HASH_COMMENT_MODE,
-        hljs.COMMENT('//', '$'),
-        hljs.COMMENT(
-          '/\\*',
-          '\\*/',
-          { contains: [
+        hljs.COMMENT("//", "$"),
+        hljs.COMMENT("/\\*", "\\*/", {
+          contains: [
             {
-              scope: 'doctag',
-              match: '@[A-Za-z]+'
-            }
-          ] }
-        ),
+              scope: "doctag",
+              match: "@[A-Za-z]+",
+            },
+          ],
+        }),
         {
           match: /__halt_compiler\(\);/,
-          keywords: '__halt_compiler',
+          keywords: "__halt_compiler",
           starts: {
             scope: "comment",
             end: hljs.MATCH_NOTHING_RE,
@@ -507,25 +499,21 @@ var hljsGrammar = (function () {
               {
                 match: /\?>/,
                 scope: "meta",
-                endsParent: true
-              }
-            ]
-          }
+                endsParent: true,
+              },
+            ],
+          },
         },
         PREPROCESSOR,
         {
-          scope: 'variable.language',
-          match: /\$this\b/
+          scope: "variable.language",
+          match: /\$this\b/,
         },
         VARIABLE,
         FUNCTION_INVOKE,
         LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON,
         {
-          match: [
-            /const/,
-            /\s/,
-            IDENT_RE,
-          ],
+          match: [/const/, /\s/, IDENT_RE],
           scope: {
             1: "keyword",
             3: "variable.constant",
@@ -533,89 +521,89 @@ var hljsGrammar = (function () {
         },
         CONSTRUCTOR_CALL,
         {
-          scope: 'function',
+          scope: "function",
           relevance: 0,
-          beginKeywords: 'fn function',
+          beginKeywords: "fn function",
           end: /[;{]/,
           excludeEnd: true,
-          illegal: '[$%\\[]',
+          illegal: "[$%\\[]",
           contains: [
-            { beginKeywords: 'use', },
+            { beginKeywords: "use" },
             hljs.UNDERSCORE_TITLE_MODE,
             {
-              begin: '=>', // No markup, just a relevance booster
-              endsParent: true
+              begin: "=>", // No markup, just a relevance booster
+              endsParent: true,
             },
             {
-              scope: 'params',
-              begin: '\\(',
-              end: '\\)',
+              scope: "params",
+              begin: "\\(",
+              end: "\\)",
               excludeBegin: true,
               excludeEnd: true,
               keywords: KEYWORDS,
               contains: [
-                'self',
+                "self",
                 VARIABLE,
                 LEFT_AND_RIGHT_SIDE_OF_DOUBLE_COLON,
                 hljs.C_BLOCK_COMMENT_MODE,
                 STRING,
-                NUMBER
-              ]
+                NUMBER,
+              ],
             },
-          ]
+          ],
         },
         {
-          scope: 'class',
+          scope: "class",
           variants: [
             {
               beginKeywords: "enum",
-              illegal: /[($"]/
+              illegal: /[($"]/,
             },
             {
               beginKeywords: "class interface trait",
-              illegal: /[:($"]/
-            }
+              illegal: /[:($"]/,
+            },
           ],
           relevance: 0,
           end: /\{/,
           excludeEnd: true,
           contains: [
-            { beginKeywords: 'extends implements' },
-            hljs.UNDERSCORE_TITLE_MODE
-          ]
+            { beginKeywords: "extends implements" },
+            hljs.UNDERSCORE_TITLE_MODE,
+          ],
         },
         // both use and namespace still use "old style" rules (vs multi-match)
         // because the namespace name can include `\` and we still want each
         // element to be treated as its own *individual* title
         {
-          beginKeywords: 'namespace',
+          beginKeywords: "namespace",
           relevance: 0,
-          end: ';',
+          end: ";",
           illegal: /[.']/,
-          contains: [ hljs.inherit(hljs.UNDERSCORE_TITLE_MODE, { scope: "title.class" }) ]
+          contains: [
+            hljs.inherit(hljs.UNDERSCORE_TITLE_MODE, { scope: "title.class" }),
+          ],
         },
         {
-          beginKeywords: 'use',
+          beginKeywords: "use",
           relevance: 0,
-          end: ';',
+          end: ";",
           contains: [
             // TODO: title.function vs title.class
             {
               match: /\b(as|const|function)\b/,
-              scope: "keyword"
+              scope: "keyword",
             },
             // TODO: could be title.class or title.function
-            hljs.UNDERSCORE_TITLE_MODE
-          ]
+            hljs.UNDERSCORE_TITLE_MODE,
+          ],
         },
         STRING,
         NUMBER,
-      ]
+      ],
     };
   }
 
   return php;
-
 })();
-;
 export default hljsGrammar;

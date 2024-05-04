@@ -1,40 +1,46 @@
 /*! `kotlin` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   // https://docs.oracle.com/javase/specs/jls/se15/html/jls-3.html#jls-3.10
-  var decimalDigits = '[0-9](_*[0-9])*';
+  var decimalDigits = "[0-9](_*[0-9])*";
   var frac = `\\.(${decimalDigits})`;
-  var hexDigits = '[0-9a-fA-F](_*[0-9a-fA-F])*';
+  var hexDigits = "[0-9a-fA-F](_*[0-9a-fA-F])*";
   var NUMERIC = {
-    className: 'number',
+    className: "number",
     variants: [
       // DecimalFloatingPointLiteral
       // including ExponentPart
-      { begin: `(\\b(${decimalDigits})((${frac})|\\.)?|(${frac}))` +
-        `[eE][+-]?(${decimalDigits})[fFdD]?\\b` },
+      {
+        begin:
+          `(\\b(${decimalDigits})((${frac})|\\.)?|(${frac}))` +
+          `[eE][+-]?(${decimalDigits})[fFdD]?\\b`,
+      },
       // excluding ExponentPart
       { begin: `\\b(${decimalDigits})((${frac})[fFdD]?\\b|\\.([fFdD]\\b)?)` },
       { begin: `(${frac})[fFdD]?\\b` },
       { begin: `\\b(${decimalDigits})[fFdD]\\b` },
 
       // HexadecimalFloatingPointLiteral
-      { begin: `\\b0[xX]((${hexDigits})\\.?|(${hexDigits})?\\.(${hexDigits}))` +
-        `[pP][+-]?(${decimalDigits})[fFdD]?\\b` },
+      {
+        begin:
+          `\\b0[xX]((${hexDigits})\\.?|(${hexDigits})?\\.(${hexDigits}))` +
+          `[pP][+-]?(${decimalDigits})[fFdD]?\\b`,
+      },
 
       // DecimalIntegerLiteral
-      { begin: '\\b(0|[1-9](_*[0-9])*)[lL]?\\b' },
+      { begin: "\\b(0|[1-9](_*[0-9])*)[lL]?\\b" },
 
       // HexIntegerLiteral
       { begin: `\\b0[xX](${hexDigits})[lL]?\\b` },
 
       // OctalIntegerLiteral
-      { begin: '\\b0(_*[0-7])*[lL]?\\b' },
+      { begin: "\\b0(_*[0-7])*[lL]?\\b" },
 
       // BinaryIntegerLiteral
-      { begin: '\\b0[bB][01](_*[01])*[lL]?\\b' },
+      { begin: "\\b0[bB][01](_*[01])*[lL]?\\b" },
     ],
-    relevance: 0
+    relevance: 0,
   };
 
   /*
@@ -45,143 +51,130 @@ var hljsGrammar = (function () {
    Category: common
    */
 
-
   function kotlin(hljs) {
     const KEYWORDS = {
       keyword:
-        'abstract as val var vararg get set class object open private protected public noinline '
-        + 'crossinline dynamic final enum if else do while for when throw try catch finally '
-        + 'import package is in fun override companion reified inline lateinit init '
-        + 'interface annotation data sealed internal infix operator out by constructor super '
-        + 'tailrec where const inner suspend typealias external expect actual',
+        "abstract as val var vararg get set class object open private protected public noinline " +
+        "crossinline dynamic final enum if else do while for when throw try catch finally " +
+        "import package is in fun override companion reified inline lateinit init " +
+        "interface annotation data sealed internal infix operator out by constructor super " +
+        "tailrec where const inner suspend typealias external expect actual",
       built_in:
-        'Byte Short Char Int Long Boolean Float Double Void Unit Nothing',
-      literal:
-        'true false null'
+        "Byte Short Char Int Long Boolean Float Double Void Unit Nothing",
+      literal: "true false null",
     };
     const KEYWORDS_WITH_LABEL = {
-      className: 'keyword',
+      className: "keyword",
       begin: /\b(break|continue|return|this)\b/,
-      starts: { contains: [
-        {
-          className: 'symbol',
-          begin: /@\w+/
-        }
-      ] }
+      starts: {
+        contains: [
+          {
+            className: "symbol",
+            begin: /@\w+/,
+          },
+        ],
+      },
     };
     const LABEL = {
-      className: 'symbol',
-      begin: hljs.UNDERSCORE_IDENT_RE + '@'
+      className: "symbol",
+      begin: hljs.UNDERSCORE_IDENT_RE + "@",
     };
 
     // for string templates
     const SUBST = {
-      className: 'subst',
+      className: "subst",
       begin: /\$\{/,
       end: /\}/,
-      contains: [ hljs.C_NUMBER_MODE ]
+      contains: [hljs.C_NUMBER_MODE],
     };
     const VARIABLE = {
-      className: 'variable',
-      begin: '\\$' + hljs.UNDERSCORE_IDENT_RE
+      className: "variable",
+      begin: "\\$" + hljs.UNDERSCORE_IDENT_RE,
     };
     const STRING = {
-      className: 'string',
+      className: "string",
       variants: [
         {
           begin: '"""',
           end: '"""(?=[^"])',
-          contains: [
-            VARIABLE,
-            SUBST
-          ]
+          contains: [VARIABLE, SUBST],
         },
         // Can't use built-in modes easily, as we want to use STRING in the meta
         // context as 'meta-string' and there's no syntax to remove explicitly set
         // classNames in built-in modes.
         {
-          begin: '\'',
-          end: '\'',
+          begin: "'",
+          end: "'",
           illegal: /\n/,
-          contains: [ hljs.BACKSLASH_ESCAPE ]
+          contains: [hljs.BACKSLASH_ESCAPE],
         },
         {
           begin: '"',
           end: '"',
           illegal: /\n/,
-          contains: [
-            hljs.BACKSLASH_ESCAPE,
-            VARIABLE,
-            SUBST
-          ]
-        }
-      ]
+          contains: [hljs.BACKSLASH_ESCAPE, VARIABLE, SUBST],
+        },
+      ],
     };
     SUBST.contains.push(STRING);
 
     const ANNOTATION_USE_SITE = {
-      className: 'meta',
-      begin: '@(?:file|property|field|get|set|receiver|param|setparam|delegate)\\s*:(?:\\s*' + hljs.UNDERSCORE_IDENT_RE + ')?'
+      className: "meta",
+      begin:
+        "@(?:file|property|field|get|set|receiver|param|setparam|delegate)\\s*:(?:\\s*" +
+        hljs.UNDERSCORE_IDENT_RE +
+        ")?",
     };
     const ANNOTATION = {
-      className: 'meta',
-      begin: '@' + hljs.UNDERSCORE_IDENT_RE,
+      className: "meta",
+      begin: "@" + hljs.UNDERSCORE_IDENT_RE,
       contains: [
         {
           begin: /\(/,
           end: /\)/,
-          contains: [
-            hljs.inherit(STRING, { className: 'string' }),
-            "self"
-          ]
-        }
-      ]
+          contains: [hljs.inherit(STRING, { className: "string" }), "self"],
+        },
+      ],
     };
 
     // https://kotlinlang.org/docs/reference/whatsnew11.html#underscores-in-numeric-literals
     // According to the doc above, the number mode of kotlin is the same as java 8,
     // so the code below is copied from java.js
     const KOTLIN_NUMBER_MODE = NUMERIC;
-    const KOTLIN_NESTED_COMMENT = hljs.COMMENT(
-      '/\\*', '\\*/',
-      { contains: [ hljs.C_BLOCK_COMMENT_MODE ] }
-    );
-    const KOTLIN_PAREN_TYPE = { variants: [
-      {
-        className: 'type',
-        begin: hljs.UNDERSCORE_IDENT_RE
-      },
-      {
-        begin: /\(/,
-        end: /\)/,
-        contains: [] // defined later
-      }
-    ] };
+    const KOTLIN_NESTED_COMMENT = hljs.COMMENT("/\\*", "\\*/", {
+      contains: [hljs.C_BLOCK_COMMENT_MODE],
+    });
+    const KOTLIN_PAREN_TYPE = {
+      variants: [
+        {
+          className: "type",
+          begin: hljs.UNDERSCORE_IDENT_RE,
+        },
+        {
+          begin: /\(/,
+          end: /\)/,
+          contains: [], // defined later
+        },
+      ],
+    };
     const KOTLIN_PAREN_TYPE2 = KOTLIN_PAREN_TYPE;
-    KOTLIN_PAREN_TYPE2.variants[1].contains = [ KOTLIN_PAREN_TYPE ];
-    KOTLIN_PAREN_TYPE.variants[1].contains = [ KOTLIN_PAREN_TYPE2 ];
+    KOTLIN_PAREN_TYPE2.variants[1].contains = [KOTLIN_PAREN_TYPE];
+    KOTLIN_PAREN_TYPE.variants[1].contains = [KOTLIN_PAREN_TYPE2];
 
     return {
-      name: 'Kotlin',
-      aliases: [
-        'kt',
-        'kts'
-      ],
+      name: "Kotlin",
+      aliases: ["kt", "kts"],
       keywords: KEYWORDS,
       contains: [
-        hljs.COMMENT(
-          '/\\*\\*',
-          '\\*/',
-          {
-            relevance: 0,
-            contains: [
-              {
-                className: 'doctag',
-                begin: '@[A-Za-z]+'
-              }
-            ]
-          }
-        ),
+        hljs.COMMENT("/\\*\\*", "\\*/", {
+          relevance: 0,
+          contains: [
+            {
+              className: "doctag",
+              begin: "@[A-Za-z]+",
+            },
+          ],
+        }),
         hljs.C_LINE_COMMENT_MODE,
         KOTLIN_NESTED_COMMENT,
         KEYWORDS_WITH_LABEL,
@@ -189,29 +182,29 @@ var hljsGrammar = (function () {
         ANNOTATION_USE_SITE,
         ANNOTATION,
         {
-          className: 'function',
-          beginKeywords: 'fun',
-          end: '[(]|$',
+          className: "function",
+          beginKeywords: "fun",
+          end: "[(]|$",
           returnBegin: true,
           excludeEnd: true,
           keywords: KEYWORDS,
           relevance: 5,
           contains: [
             {
-              begin: hljs.UNDERSCORE_IDENT_RE + '\\s*\\(',
+              begin: hljs.UNDERSCORE_IDENT_RE + "\\s*\\(",
               returnBegin: true,
               relevance: 0,
-              contains: [ hljs.UNDERSCORE_TITLE_MODE ]
+              contains: [hljs.UNDERSCORE_TITLE_MODE],
             },
             {
-              className: 'type',
+              className: "type",
               begin: /</,
               end: />/,
-              keywords: 'reified',
-              relevance: 0
+              keywords: "reified",
+              relevance: 0,
             },
             {
-              className: 'params',
+              className: "params",
               begin: /\(/,
               end: /\)/,
               endsParent: true,
@@ -225,70 +218,64 @@ var hljsGrammar = (function () {
                   contains: [
                     KOTLIN_PAREN_TYPE,
                     hljs.C_LINE_COMMENT_MODE,
-                    KOTLIN_NESTED_COMMENT
+                    KOTLIN_NESTED_COMMENT,
                   ],
-                  relevance: 0
+                  relevance: 0,
                 },
                 hljs.C_LINE_COMMENT_MODE,
                 KOTLIN_NESTED_COMMENT,
                 ANNOTATION_USE_SITE,
                 ANNOTATION,
                 STRING,
-                hljs.C_NUMBER_MODE
-              ]
+                hljs.C_NUMBER_MODE,
+              ],
             },
-            KOTLIN_NESTED_COMMENT
-          ]
+            KOTLIN_NESTED_COMMENT,
+          ],
         },
         {
-          begin: [
-            /class|interface|trait/,
-            /\s+/,
-            hljs.UNDERSCORE_IDENT_RE
-          ],
+          begin: [/class|interface|trait/, /\s+/, hljs.UNDERSCORE_IDENT_RE],
           beginScope: {
-            3: "title.class"
+            3: "title.class",
           },
-          keywords: 'class interface trait',
+          keywords: "class interface trait",
           end: /[:\{(]|$/,
           excludeEnd: true,
-          illegal: 'extends implements',
+          illegal: "extends implements",
           contains: [
-            { beginKeywords: 'public protected internal private constructor' },
+            { beginKeywords: "public protected internal private constructor" },
             hljs.UNDERSCORE_TITLE_MODE,
             {
-              className: 'type',
+              className: "type",
               begin: /</,
               end: />/,
               excludeBegin: true,
               excludeEnd: true,
-              relevance: 0
+              relevance: 0,
             },
             {
-              className: 'type',
+              className: "type",
               begin: /[,:]\s*/,
               end: /[<\(,){\s]|$/,
               excludeBegin: true,
-              returnEnd: true
+              returnEnd: true,
             },
             ANNOTATION_USE_SITE,
-            ANNOTATION
-          ]
+            ANNOTATION,
+          ],
         },
         STRING,
         {
-          className: 'meta',
+          className: "meta",
           begin: "^#!/usr/bin/env",
-          end: '$',
-          illegal: '\n'
+          end: "$",
+          illegal: "\n",
         },
-        KOTLIN_NUMBER_MODE
-      ]
+        KOTLIN_NUMBER_MODE,
+      ],
     };
   }
 
   return kotlin;
-
 })();
-;
 export default hljsGrammar;

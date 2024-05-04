@@ -1,6 +1,6 @@
 /*! `sql` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
    Language: SQL
@@ -26,21 +26,21 @@ var hljsGrammar = (function () {
 
   function sql(hljs) {
     const regex = hljs.regex;
-    const COMMENT_MODE = hljs.COMMENT('--', '$');
+    const COMMENT_MODE = hljs.COMMENT("--", "$");
     const STRING = {
-      className: 'string',
+      className: "string",
       variants: [
         {
           begin: /'/,
           end: /'/,
-          contains: [ { begin: /''/ } ]
-        }
-      ]
+          contains: [{ begin: /''/ }],
+        },
+      ],
     };
     const QUOTED_IDENTIFIER = {
       begin: /"/,
       end: /"/,
-      contains: [ { begin: /""/ } ]
+      contains: [{ begin: /""/ }],
     };
 
     const LITERALS = [
@@ -48,44 +48,44 @@ var hljsGrammar = (function () {
       "false",
       // Not sure it's correct to call NULL literal, and clauses like IS [NOT] NULL look strange that way.
       // "null",
-      "unknown"
+      "unknown",
     ];
 
     const MULTI_WORD_TYPES = [
       "double precision",
       "large object",
       "with timezone",
-      "without timezone"
+      "without timezone",
     ];
 
     const TYPES = [
-      'bigint',
-      'binary',
-      'blob',
-      'boolean',
-      'char',
-      'character',
-      'clob',
-      'date',
-      'dec',
-      'decfloat',
-      'decimal',
-      'float',
-      'int',
-      'integer',
-      'interval',
-      'nchar',
-      'nclob',
-      'national',
-      'numeric',
-      'real',
-      'row',
-      'smallint',
-      'time',
-      'timestamp',
-      'varchar',
-      'varying', // modifier (character varying)
-      'varbinary'
+      "bigint",
+      "binary",
+      "blob",
+      "boolean",
+      "char",
+      "character",
+      "clob",
+      "date",
+      "dec",
+      "decfloat",
+      "decimal",
+      "float",
+      "int",
+      "integer",
+      "interval",
+      "nchar",
+      "nclob",
+      "national",
+      "numeric",
+      "real",
+      "row",
+      "smallint",
+      "time",
+      "timestamp",
+      "varchar",
+      "varying", // modifier (character varying)
+      "varbinary",
     ];
 
     const NON_RESERVED_WORDS = [
@@ -96,7 +96,7 @@ var hljsGrammar = (function () {
       "final",
       "first",
       "last",
-      "view"
+      "view",
     ];
 
     // https://jakewheat.github.io/sql-overview/sql-2016-foundation-grammar.html#reserved-word
@@ -576,7 +576,7 @@ var hljsGrammar = (function () {
       "current_time",
       "localtime",
       "current_timestamp",
-      "localtimestamp"
+      "localtimestamp",
     ];
 
     // those exist to boost relevance making these very
@@ -597,17 +597,16 @@ var hljsGrammar = (function () {
       "nulls first",
       "nulls last",
       "depth first",
-      "breadth first"
+      "breadth first",
     ];
 
     const FUNCTIONS = RESERVED_FUNCTIONS;
 
-    const KEYWORDS = [
-      ...RESERVED_WORDS,
-      ...NON_RESERVED_WORDS
-    ].filter((keyword) => {
-      return !RESERVED_FUNCTIONS.includes(keyword);
-    });
+    const KEYWORDS = [...RESERVED_WORDS, ...NON_RESERVED_WORDS].filter(
+      (keyword) => {
+        return !RESERVED_FUNCTIONS.includes(keyword);
+      },
+    );
 
     const VARIABLE = {
       className: "variable",
@@ -623,13 +622,11 @@ var hljsGrammar = (function () {
     const FUNCTION_CALL = {
       begin: regex.concat(/\b/, regex.either(...FUNCTIONS), /\s*\(/),
       relevance: 0,
-      keywords: { built_in: FUNCTIONS }
+      keywords: { built_in: FUNCTIONS },
     };
 
     // keywords with less than 3 letters are reduced in relevancy
-    function reduceRelevancy(list, {
-      exceptions, when
-    } = {}) {
+    function reduceRelevancy(list, { exceptions, when } = {}) {
       const qualifyFn = when;
       exceptions = exceptions || [];
       return list.map((item) => {
@@ -644,17 +641,16 @@ var hljsGrammar = (function () {
     }
 
     return {
-      name: 'SQL',
+      name: "SQL",
       case_insensitive: true,
       // does not include {} or HTML tags `</`
       illegal: /[{}]|<\//,
       keywords: {
         $pattern: /\b[\w\.]+/,
-        keyword:
-          reduceRelevancy(KEYWORDS, { when: (x) => x.length < 3 }),
+        keyword: reduceRelevancy(KEYWORDS, { when: (x) => x.length < 3 }),
         literal: LITERALS,
         type: TYPES,
-        built_in: POSSIBLE_WITHOUT_PARENS
+        built_in: POSSIBLE_WITHOUT_PARENS,
       },
       contains: [
         {
@@ -664,12 +660,12 @@ var hljsGrammar = (function () {
             $pattern: /[\w\.]+/,
             keyword: KEYWORDS.concat(COMBOS),
             literal: LITERALS,
-            type: TYPES
+            type: TYPES,
           },
         },
         {
           className: "type",
-          begin: regex.either(...MULTI_WORD_TYPES)
+          begin: regex.either(...MULTI_WORD_TYPES),
         },
         FUNCTION_CALL,
         VARIABLE,
@@ -678,13 +674,11 @@ var hljsGrammar = (function () {
         hljs.C_NUMBER_MODE,
         hljs.C_BLOCK_COMMENT_MODE,
         COMMENT_MODE,
-        OPERATOR
-      ]
+        OPERATOR,
+      ],
     };
   }
 
   return sql;
-
 })();
-;
 export default hljsGrammar;

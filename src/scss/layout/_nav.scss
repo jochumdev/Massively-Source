@@ -6,140 +6,139 @@
 
 /* Nav */
 #gh-language-switcher {
-	display: flex;
-	width: calc(100% - #{_size(padding) * 2});
-	margin: 0 auto;
-	// margin-bottom: -2.8rem;
-	overflow: hidden;
-	max-width: _size(gh-viewport);
-	height: 2.5rem;
-	z-index: 2;
+  display: flex;
+  width: calc(100% - #{_size(padding) * 2});
+  margin: 0 auto;
 
-	>.space {
-		display: flex;
-		flex-grow: 1;
-	}
+  // margin-bottom: -2.8rem;
+  overflow: hidden;
+  max-width: _size(gh-viewport);
+  height: 2.5rem;
+  z-index: 2;
 
-	>.main {
-		@include color-list(invert);
-		@include color-typography(invert);
-		@include vendor('transition', ('transform 1s ease',
-				'opacity 1s ease'
-			));
-		margin: 0;
-		padding: 0;
-		background: rgb(255 255 255 / 0.175);
-		height: 100%;
+  > .space {
+    display: flex;
+    flex-grow: 1;
+  }
 
-		padding: 0.5rem;
+  > .main {
+    @include color-list(invert);
+    @include color-typography(invert);
+    @include vendor("transition", ("transform 1s ease", "opacity 1s ease"));
 
-		>.gh-langselect {
-			display: inline-block;
-			list-style: none;
-			padding: 0;
+    margin: 0;
+    background: rgb(255 255 255 / 0.175);
+    height: 100%;
+    padding: 0.5rem;
 
-			>a {
-				>img {
-					max-height: 1.5rem;
-					opacity: 0.9;
-				}
-			}
+    > .gh-langselect {
+      display: inline-block;
+      list-style: none;
+      padding: 0;
 
-			&:nth-child(odd) {
-				padding-right: 0.5em;
-			}
-		}
-	}
+      > a {
+        > img {
+          max-height: 1.5rem;
+          opacity: 0.9;
+        }
+      }
+
+      &:nth-child(odd) {
+        padding-right: 0.5em;
+      }
+    }
+  }
 }
 
-
 #gh-navigation {
-	@include color-list(invert);
-	@include color-typography(invert);
-	@include vendor('transition', ('transform 1s ease',
-			'opacity 1s ease'
-		));
+  @include color-list(invert);
+  @include color-typography(invert);
+  @include vendor("transition", ("transform 1s ease", "opacity 1s ease"));
 
-	background: rgb(255 255 255 / 0.175);
-	height: 4rem;
-	line-height: 4rem;
-	margin: 0 auto;
-	overflow: hidden;
-	padding: 0;
-	position: relative;
-	width: calc(100% - #{_size(padding) * 2});
-	max-width: _size(gh-viewport);
-	z-index: 2;
+  background: rgb(255 255 255 / 0.175);
+  height: 4rem;
+  line-height: 4rem;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: calc(100% - #{_size(padding) * 2});
+  max-width: _size(gh-viewport);
+  z-index: 2;
 
-	.gh-navigation-logo {
-		position: relative;
-		font-size: calc(2.4rem * var(--factor, 1));
-		font-weight: 725;
-		white-space: nowrap;
+  .gh-navigation-logo {
+    position: relative;
+    font-size: calc(2.4rem * var(--factor, 1));
+    font-weight: 725;
+    white-space: nowrap;
 
-		>img {
-			margin-top: 0.25rem;
-			max-height: 3.5rem;
-		}
-	}
-	
-	ul {
-		&.links {
-			@include vendor('display', 'flex');
-			@include vendor('flex-grow', '1');
-			@include vendor('flex-shrink', '1');
+    > img {
+      margin-top: 0.25rem;
+      max-height: 3.5rem;
+    }
+  }
 
-			font-family: _font(family-heading);
-			font-weight: _font(weight-heading);
-			letter-spacing: 0.075em;
-			list-style: none;
-			margin-bottom: 0;
-			padding-left: 0;
-			text-transform: uppercase;
+  ul {
+    &.links {
+      @include vendor("display", "flex");
+      @include vendor("flex-grow", "1");
+      @include vendor("flex-shrink", "1");
 
-			li {
-				display: block;
-				padding-left: 0;
+      font-family: _font(family-heading);
+      font-weight: _font(weight-heading);
+      letter-spacing: 0.075em;
+      list-style: none;
+      margin-bottom: 0;
+      padding-left: 0;
+      text-transform: uppercase;
 
-				a {
-					@include vendor('transition', ('background-color #{_duration(transition)} ease-in-out',
-							'color #{_duration(transition)} ease-in-out'
-						));
+      li {
+        display: block;
+        padding-left: 0;
 
-					display: block;
-					font-size: 0.8rem;
-					outline: none;
-					padding: 0 2rem;
+        a {
+          @include vendor(
+            "transition",
+            (
+              "background-color #{_duration(transition)} ease-in-out",
+              "color #{_duration(transition)} ease-in-out"
+            )
+          );
 
-					&:hover {
-						color: inherit !important;
-						background-color: transparentize(_palette(invert, fg), 0.9);
-					}
-				}
+          display: block;
+          font-size: 0.8rem;
+          outline: none;
+          padding: 0 2rem;
 
-				&.active {
-					background-color: _palette(invert, fg);
+          &:hover {
+            color: inherit !important;
+            background-color: transparentize(_palette(invert, fg), 0.9);
+          }
+        }
 
-					a {
-						color: _palette(invert, bg);
+        &.active {
+          background-color: _palette(invert, fg);
 
-						&:hover {
-							color: var(--color-primary) !important;
-						}
-					}
-				}
-			}
-		}
+          a {
+            color: _palette(invert, bg);
 
-		&.icons {
-			@include vendor('flex-grow', '0');
-			@include vendor('flex-shrink', '0');
+            &:hover {
+              color: var(--color-primary) !important;
+            }
+          }
+        }
+      }
+    }
 
-			margin-bottom: 0;
-		}
-	}
+    &.icons {
+      @include vendor("flex-grow", "0");
+      @include vendor("flex-shrink", "0");
 
-	@include bp.get(0, m) {
-		display: none;
-	}
+      margin-bottom: 0;
+    }
+  }
+
+  @include bp.get(0, m) {
+    display: none;
+  }
 }

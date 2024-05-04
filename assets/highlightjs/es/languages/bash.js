@@ -1,6 +1,6 @@
 /*! `bash` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Bash
@@ -21,70 +21,66 @@ var hljsGrammar = (function () {
         "self",
         {
           begin: /:-/,
-          contains: [ VAR ]
-        } // default values
-      ]
+          contains: [VAR],
+        }, // default values
+      ],
     };
     Object.assign(VAR, {
-      className: 'variable',
+      className: "variable",
       variants: [
-        { begin: regex.concat(/\$[\w\d#@][\w\d_]*/,
-          // negative look-ahead tries to avoid matching patterns that are not
-          // Perl at all like $ident$, @ident@, etc.
-          `(?![\\w\\d])(?![$])`) },
-        BRACED_VAR
-      ]
+        {
+          begin: regex.concat(
+            /\$[\w\d#@][\w\d_]*/,
+            // negative look-ahead tries to avoid matching patterns that are not
+            // Perl at all like $ident$, @ident@, etc.
+            `(?![\\w\\d])(?![$])`,
+          ),
+        },
+        BRACED_VAR,
+      ],
     });
 
     const SUBST = {
-      className: 'subst',
+      className: "subst",
       begin: /\$\(/,
       end: /\)/,
-      contains: [ hljs.BACKSLASH_ESCAPE ]
+      contains: [hljs.BACKSLASH_ESCAPE],
     };
-    const COMMENT = hljs.inherit(
-      hljs.COMMENT(),
-      {
-        match: [
-          /(^|\s)/,
-          /#.*$/
-        ],
-        scope: {
-          2: 'comment'
-        }
-      }
-    );
+    const COMMENT = hljs.inherit(hljs.COMMENT(), {
+      match: [/(^|\s)/, /#.*$/],
+      scope: {
+        2: "comment",
+      },
+    });
     const HERE_DOC = {
       begin: /<<-?\s*(?=\w+)/,
-      starts: { contains: [
-        hljs.END_SAME_AS_BEGIN({
-          begin: /(\w+)/,
-          end: /(\w+)/,
-          className: 'string'
-        })
-      ] }
+      starts: {
+        contains: [
+          hljs.END_SAME_AS_BEGIN({
+            begin: /(\w+)/,
+            end: /(\w+)/,
+            className: "string",
+          }),
+        ],
+      },
     };
     const QUOTE_STRING = {
-      className: 'string',
+      className: "string",
       begin: /"/,
       end: /"/,
-      contains: [
-        hljs.BACKSLASH_ESCAPE,
-        VAR,
-        SUBST
-      ]
+      contains: [hljs.BACKSLASH_ESCAPE, VAR, SUBST],
     };
     SUBST.contains.push(QUOTE_STRING);
     const ESCAPED_QUOTE = {
-      match: /\\"/
+      match: /\\"/,
     };
     const APOS_STRING = {
-      className: 'string',
+      className: "string",
       begin: /'/,
-      end: /'/
+      end: /'/,
     };
     const ESCAPED_APOS = {
-      match: /\\'/
+      match: /\\'/,
     };
     const ARITHMETIC = {
       begin: /\$?\(\(/,
@@ -92,11 +88,11 @@ var hljsGrammar = (function () {
       contains: [
         {
           begin: /\d+#[0-9a-f]+/,
-          className: "number"
+          className: "number",
         },
         hljs.NUMBER_MODE,
-        VAR
-      ]
+        VAR,
+      ],
     };
     const SH_LIKE_SHELLS = [
       "fish",
@@ -111,14 +107,14 @@ var hljsGrammar = (function () {
     ];
     const KNOWN_SHEBANG = hljs.SHEBANG({
       binary: `(${SH_LIKE_SHELLS.join("|")})`,
-      relevance: 10
+      relevance: 10,
     });
     const FUNCTION = {
-      className: 'function',
+      className: "function",
       begin: /\w[\w\d_]*\s*\(\s*\)\s*\{/,
       returnBegin: true,
-      contains: [ hljs.inherit(hljs.TITLE_MODE, { begin: /\w[\w\d_]*/ }) ],
-      relevance: 0
+      contains: [hljs.inherit(hljs.TITLE_MODE, { begin: /\w[\w\d_]*/ })],
+      relevance: 0,
     };
 
     const KEYWORDS = [
@@ -136,13 +132,10 @@ var hljsGrammar = (function () {
       "case",
       "esac",
       "function",
-      "select"
+      "select",
     ];
 
-    const LITERALS = [
-      "true",
-      "false"
-    ];
+    const LITERALS = ["true", "false"];
 
     // to consume paths to prevent keyword matches inside them
     const PATH_MODE = { match: /(\/[a-z._-]+)+/ };
@@ -166,7 +159,7 @@ var hljsGrammar = (function () {
       "times",
       "trap",
       "umask",
-      "unset"
+      "unset",
     ];
 
     const BASH_BUILT_INS = [
@@ -190,7 +183,7 @@ var hljsGrammar = (function () {
       "type",
       "typeset",
       "ulimit",
-      "unalias"
+      "unalias",
     ];
 
     const ZSH_BUILT_INS = [
@@ -261,7 +254,7 @@ var hljsGrammar = (function () {
       "zregexparse",
       "zsocket",
       "zstyle",
-      "ztcp"
+      "ztcp",
     ];
 
     const GNU_CORE_UTILS = [
@@ -367,12 +360,12 @@ var hljsGrammar = (function () {
       "users",
       "who",
       "whoami",
-      "yes"
+      "yes",
     ];
 
     return {
-      name: 'Bash',
-      aliases: [ 'sh' ],
+      name: "Bash",
+      aliases: ["sh"],
       keywords: {
         $pattern: /\b[a-z][a-z0-9._-]+\b/,
         keyword: KEYWORDS,
@@ -384,8 +377,8 @@ var hljsGrammar = (function () {
           "set",
           "shopt",
           ...ZSH_BUILT_INS,
-          ...GNU_CORE_UTILS
-        ]
+          ...GNU_CORE_UTILS,
+        ],
       },
       contains: [
         KNOWN_SHEBANG, // to catch known shells and boost relevancy
@@ -399,13 +392,11 @@ var hljsGrammar = (function () {
         ESCAPED_QUOTE,
         APOS_STRING,
         ESCAPED_APOS,
-        VAR
-      ]
+        VAR,
+      ],
     };
   }
 
   return bash;
-
 })();
-;
 export default hljsGrammar;

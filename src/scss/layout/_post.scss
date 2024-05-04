@@ -7,212 +7,209 @@
 /* Main */
 
 #gh-main {
-	background-color: _palette(bg);
-	position: relative;
-	margin: 0 auto;
-	// width: calc(100% - #{_size(padding) * 2});
-	max-width: _size(gh-viewport);
-	z-index: 2;
+  background-color: _palette(bg);
+  position: relative;
+  margin: 0 auto;
 
-	.gh-card-link:hover {
-		opacity: 1;
-	}	
+  // width: calc(100% - #{_size(padding) * 2});
+  max-width: _size(gh-viewport);
+  z-index: 2;
 
-	.gh-card-link {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}	
+  .gh-card-link:hover {
+    opacity: 1;
+  }
 
-	// Author Archive
-	// --------------------------------------------
+  .gh-card-link {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-	>.author-header {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 4rem 4rem 2rem 4rem;
+  // Author Archive
+  // --------------------------------------------
 
-		>.author-profile-image {
-			flex-shrink: 0;
-			margin: 0 0 20px 0;
-			width: 100px;
-			height: 100px;
-			box-shadow: rgba(255, 255, 255, 0.1) 0 0 0 6px;
-			display: block;
-			background: #222;
-			border-radius: 100%;
+  > .author-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 4rem 2rem;
 
-			object-fit: cover;
-		}
+    > .author-profile-image {
+      flex-shrink: 0;
+      margin: 0 0 20px;
+      width: 100px;
+      height: 100px;
+      box-shadow: rgba(255, 255, 255, 0.1) 0 0 0 6px;
+      display: block;
+      background: #222222;
+      border-radius: 100%;
+      object-fit: cover;
+    }
 
-		>.author-meta {
-			display: flex;
-			align-items: center;
+    > .author-meta {
+      display: flex;
+      align-items: center;
 
-			>.icon,
-			>.bull {
-				padding: 5px 10px;
-			}
-		}
+      > .icon,
+      > .bull {
+        padding: 5px 10px;
+      }
+    }
 
-		>.author-location:before {
-			margin-right: 10px;
-		}
-	}
+    > .author-location::before {
+      margin-right: 10px;
+    }
+  }
 
-	>footer {
-		text-align: center;
-	}
+  > footer {
+    text-align: center;
+  }
 
-	>.post {
-		@include padding((_size(padding) * 4), (_size(padding) * 4));
+  > .post {
+    @include padding((_size(padding) * 4), (_size(padding) * 4));
 
-		header {
-			&.major {
-				.date {
-					text-align: center;
-				}				
+    header {
+      &.major {
+        .date {
+          text-align: center;
+        }
 
-				>h1,
-				h2 {
-					text-align: center;
-					font-size: 3rem;
-					line-height: 1.1;
-					margin: 0 0 _size(element-margin) 0;
-				}
-			}
-		}
+        > h1,
+        h2 {
+          text-align: center;
+          font-size: 3rem;
+          line-height: 1.1;
+          margin: 0 0 _size(element-margin);
+        }
+      }
+    }
 
-		&.featured {
-			text-align: center;
-		}
+    &.featured {
+      text-align: center;
+    }
 
-		@include bp.get(0, l) {
-			@include padding((_size(padding) * 3), (_size(padding) * 2));
-		}
-		@include bp.get(0, s) {
-			@include padding((_size(padding) * 2), (_size(padding) * 1));
+    @include bp.get(0, l) {
+      @include padding((_size(padding) * 3), (_size(padding) * 2));
+    }
 
-			header {
-				&.major {
-					>.image>.date {
-						margin-top: -1rem;
-						margin-bottom: _size(element-margin);
-					}
+    @include bp.get(0, s) {
+      @include padding((_size(padding) * 2), (_size(padding) * 1));
 
-					>h1,
-					h2 {
-						font-size: 2.5rem;
-						line-height: 1.2;
-						margin: 0 0 (_size(element-margin) * 0.75) 0;
-					}
-				}
-			}
-		}
-	}
+      header {
+        &.major {
+          > .image > .date {
+            margin-top: -1rem;
+            margin-bottom: _size(element-margin);
+          }
 
-	>.posts {
-		display: grid;
-		overflow: hidden;
-		grid-template-columns: repeat(2, 1fr);
-		grid-gap: 0 0;
+          > h1,
+          h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin: 0 0 (_size(element-margin) * 0.75);
+          }
+        }
+      }
+    }
+  }
 
-		width: 100%;
-		padding: 0;
-		margin: 0;
+  > .posts {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-bottom: 2px solid _palette(border);
 
-		border-bottom: 2px solid _palette(border);
+    @include bp.get(0, m) {
+      grid-template-columns: repeat(2, 1fr);
+    }
 
-		@include bp.get(0, m) {
-			grid-template-columns: repeat(2, 1fr);
-		}
+    @include bp.get(0, s) {
+      grid-template-columns: repeat(1, 1fr);
+    }
 
-		@include bp.get(0, s) {
-			grid-template-columns: repeat(1, 1fr);
-		}
+    > .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: _size(padding);
+      border-color: _palette(border);
+      border-left-width: 2px;
+      border-style: solid;
+      border-top-width: 2px;
+      text-align: center;
 
-		>.card {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			padding: _size(padding);
+      > :last-child {
+        margin-bottom: 0;
+      }
 
-			border-color: _palette(border);
-			border-left-width: 2px;
-			border-style: solid;
-			border-top-width: 2px;
-			text-align: center;
+      &:nth-child(2n - 1) {
+        border-left: 0;
+      }
 
-			>:last-child {
-				margin-bottom: 0;
-			}
+      &:nth-child(-n + 2) {
+        border-top: 0;
+      }
 
-			&:nth-child(2n - 1) {
-				border-left: 0;
-			}
+      > article {
+        height: 100%;
+        padding: _size(padding);
 
-			&:nth-child(-n + 2) {
-				border-top: 0;
-			}
+        > .actions.special {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+        }
+      }
+    }
 
-			>article {
-				height: 100%;
-				padding: _size(padding);
+    @include bp.get(0, s) {
+      > .card {
+        > :first-child {
+          border-top: 0;
+        }
 
-				>.actions.special {
-					position: absolute;
-					bottom: 0;
-					left: 0;
-				}
-			}
-	
-		}
+        &:nth-child(2n - 1) {
+          border-left-width: 2px;
+        }
 
-		@include bp.get(0, s) {
-			>.card {
-				>:first-child {
-					border-top: 0px;
-				}	
+        &:nth-child(-n + 2) {
+          border-top-width: 2px;
+        }
 
-				&:nth-child(2n - 1) {
-					border-left-width: 2px;
-				}
+        &:nth-child(n) {
+          border-left-width: 0;
+        }
 
-				&:nth-child(-n + 2) {
-					border-top-width: 2px;
-				}
+        &:nth-child(-n + 1) {
+          border-top-width: 0;
+        }
 
-				&:nth-child(n) {
-					border-left-width: 0;
-				}
+        .image {
+          max-width: 25rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+  }
 
-				&:nth-child(-n + 1) {
-					border-top-width: 0;
-				}
-
-				.image {
-					max-width: 25rem;
-					margin-left: auto;
-					margin-right: auto;
-				}
-			}
-		}
-	}
-
-	@include bp.get(xs) {
-		width: 100%;
-	}
+  @include bp.get(xs) {
+    width: 100%;
+  }
 }
 
 // TODO(jochumdev): Make font switching working
-.has-serif-title #gh-main>.posts header>h2,
-.has-serif-title #gh-main>.post header.major>h1,
-.has-serif-title #gh-main>.post header.major>h2 {
-	font-family: _font(family);
+.has-serif-title #gh-main > .posts header > h2,
+.has-serif-title #gh-main > .post header.major > h1,
+.has-serif-title #gh-main > .post header.major > h2 {
+  font-family: _font(family);
 }
 
-.has-sans-body header.major>p,
+.has-sans-body header.major > p,
 .has-sans-body .posts article p {
-	font-family: _font(family-heading);
+  font-family: _font(family-heading);
 }

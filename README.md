@@ -5,7 +5,7 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
 
 **Demo: https://rene.jochum.dev**
 
-## Features 
+## Features
 
 ### for users
 
@@ -19,14 +19,14 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
 ### for creators / developers
 
 - No external CDN dependencies, host all on your own:
-    - @tryghost/sodo-Search, @tryghost/portal GPR compatible
-    - Source Sans Pro, Merriweather fonts GPR compatible (no cdn)
+  - @tryghost/sodo-Search, @tryghost/portal GPR compatible
+  - Source Sans Pro, Merriweather fonts GPR compatible (no cdn)
 - No jQuery
 - [rollup](https://rollupjs.org/) with gulp for javascript.
-- i18n using [i18next](https://www.i18next.com/) as well as dynamic routing 
-    - Using [loc-i18next](https://github.com/mthh/loc-i18next) for data-i18n="" translations.
-    - Dynamic routing with https://example.com/{de,en,fr,it}/ routes.
-    - No i18n / javascript = english.
+- i18n using [i18next](https://www.i18next.com/) as well as dynamic routing
+  - Using [loc-i18next](https://github.com/mthh/loc-i18next) for data-i18n="" translations.
+  - Dynamic routing with https://example.com/{de,en,fr,it}/ routes.
+  - No i18n / javascript = english.
 - No more javascript grid
 - scss using dart-sass
 - Parallax effect background using jarallax

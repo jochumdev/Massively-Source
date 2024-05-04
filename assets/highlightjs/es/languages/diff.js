@@ -1,6 +1,6 @@
 /*! `diff` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Diff
@@ -14,20 +14,20 @@ var hljsGrammar = (function () {
   function diff(hljs) {
     const regex = hljs.regex;
     return {
-      name: 'Diff',
-      aliases: [ 'patch' ],
+      name: "Diff",
+      aliases: ["patch"],
       contains: [
         {
-          className: 'meta',
+          className: "meta",
           relevance: 10,
           match: regex.either(
             /^@@ +-\d+,\d+ +\+\d+,\d+ +@@/,
             /^\*\*\* +\d+,\d+ +\*\*\*\*$/,
-            /^--- +\d+,\d+ +----$/
-          )
+            /^--- +\d+,\d+ +----$/,
+          ),
         },
         {
-          className: 'comment',
+          className: "comment",
           variants: [
             {
               begin: regex.either(
@@ -37,34 +37,32 @@ var hljsGrammar = (function () {
                 /^-{3}/,
                 /^\*{3} /,
                 /^\+{3}/,
-                /^diff --git/
+                /^diff --git/,
               ),
-              end: /$/
+              end: /$/,
             },
-            { match: /^\*{15}$/ }
-          ]
+            { match: /^\*{15}$/ },
+          ],
         },
         {
-          className: 'addition',
+          className: "addition",
           begin: /^\+/,
-          end: /$/
+          end: /$/,
         },
         {
-          className: 'deletion',
+          className: "deletion",
           begin: /^-/,
-          end: /$/
+          end: /$/,
         },
         {
-          className: 'addition',
+          className: "addition",
           begin: /^!/,
-          end: /$/
-        }
-      ]
+          end: /$/,
+        },
+      ],
     };
   }
 
   return diff;
-
 })();
-;
 export default hljsGrammar;

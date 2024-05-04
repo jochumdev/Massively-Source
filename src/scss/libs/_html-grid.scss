@@ -5,150 +5,134 @@
 /// Initializes the current element as an HTML grid.
 /// @param {mixed} $gutters Gutters (either a single number to set both column/row gutters, or a list to set them individually).
 /// @param {mixed} $suffix Column class suffix (optional; either a single suffix or a list).
-@mixin html-grid($gutters: 1.5em, $suffix: '') {
+@mixin html-grid($gutters: 1.5em, $suffix: "") {
+  // Initialize.
+  $cols: 12;
+  $multipliers: 0, 0.25, 0.5, 1, 1.5, 2;
+  $unit: calc(100% / $cols);
 
-	// Initialize.
-	$cols: 12;
-	$multipliers: 0, 0.25, 0.5, 1, 1.50, 2.00;
-	$unit: calc(100% / $cols);
+  // Suffixes.
+  $suffixes: null;
 
-	// Suffixes.
-	$suffixes: null;
+  @if type-of($suffix) == "list" {
+    $suffixes: $suffix;
+  } @else {
+    $suffixes: ($suffix);
+  }
 
-	@if (type-of($suffix)=='list') {
-		$suffixes: $suffix;
-	}
+  // Gutters.
+  $guttersCols: null;
+  $guttersRows: null;
 
-	@else {
-		$suffixes: (
-			$suffix
-		);
-}
+  @if type-of($gutters) == "list" {
+    $guttersCols: nth($gutters, 1);
+    $guttersRows: nth($gutters, 2);
+  } @else {
+    $guttersCols: $gutters;
+    $guttersRows: 0;
+  }
 
-// Gutters.
-$guttersCols: null;
-$guttersRows: null;
+  // Row.
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  align-items: stretch;
 
-@if (type-of($gutters)=='list') {
+  // Columns.
+  > * {
+    box-sizing: border-box;
+  }
 
-	$guttersCols: nth($gutters, 1);
-	$guttersRows: nth($gutters, 2);
+  // Gutters.
+  &.gtr-uniform {
+    > * {
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 
-}
+  // Alignment.
+  &.aln-left {
+    justify-content: flex-start;
+  }
 
-@else {
+  &.aln-center {
+    justify-content: center;
+  }
 
-	$guttersCols: $gutters;
-	$guttersRows: 0;
+  &.aln-right {
+    justify-content: flex-end;
+  }
 
-}
+  &.aln-top {
+    align-items: flex-start;
+  }
 
-// Row.
-display: flex;
-flex-wrap: wrap;
-box-sizing: border-box;
-align-items: stretch;
+  &.aln-middle {
+    align-items: center;
+  }
 
-// Columns.
->* {
-	box-sizing: border-box;
-}
+  &.aln-bottom {
+    align-items: flex-end;
+  }
 
-// Gutters.
-&.gtr-uniform {
-	>* {
-		> :last-child {
-			margin-bottom: 0;
-		}
-	}
-}
+  // Step through suffixes.
+  @each $suffix in $suffixes {
+    // Suffix.
+    @if $suffix != "" {
+      $suffix: "-" + $suffix;
+    } @else {
+      $suffix: "";
+    }
 
-// Alignment.
-&.aln-left {
-	justify-content: flex-start;
-}
+    // Row.
 
-&.aln-center {
-	justify-content: center;
-}
+    // Important.
+    > .imp#{$suffix} {
+      order: -1;
+    }
 
-&.aln-right {
-	justify-content: flex-end;
-}
+    // Columns, offsets.
+    @for $i from 1 through $cols {
+      > .col-#{$i}#{$suffix} {
+        width: $unit * $i;
+      }
 
-&.aln-top {
-	align-items: flex-start;
-}
+      > .off-#{$i}#{$suffix} {
+        margin-left: $unit * $i;
+      }
+    }
 
-&.aln-middle {
-	align-items: center;
-}
+    // Step through multipliers.
+    @each $multiplier in $multipliers {
+      // Gutters.
+      $class: null;
 
-&.aln-bottom {
-	align-items: flex-end;
-}
+      @if $multiplier !=1 {
+        $class: ".gtr-" + ($multiplier * 100);
+      }
 
-// Step through suffixes.
-@each $suffix in $suffixes {
+      &#{$class} {
+        margin-top: ($guttersRows * $multiplier * -1);
+        margin-left: ($guttersCols * $multiplier * -1);
 
-	// Suffix.
-	@if ($suffix !='') {
-		$suffix: '-' + $suffix;
-	}
+        > * {
+          padding: ($guttersRows * $multiplier)
+            0
+            0
+            ($guttersCols * $multiplier);
+        }
 
-	@else {
-		$suffix: '';
-	}
+        // Uniform.
+        &.gtr-uniform {
+          margin-top: $guttersCols * $multiplier * -1;
 
-	// Row.
-
-	// Important.
-	>.imp#{$suffix} {
-		order: -1;
-	}
-
-	// Columns, offsets.
-	@for $i from 1 through $cols {
-		>.col-#{$i}#{$suffix} {
-			width: $unit * $i;
-		}
-
-		>.off-#{$i}#{$suffix} {
-			margin-left: $unit * $i;
-		}
-	}
-
-	// Step through multipliers.
-	@each $multiplier in $multipliers {
-
-		// Gutters.
-		$class: null;
-
-		@if ($multiplier !=1) {
-			$class: '.gtr-' + ($multiplier * 100);
-		}
-
-		&#{$class} {
-			margin-top: ($guttersRows * $multiplier * -1);
-			margin-left: ($guttersCols * $multiplier * -1);
-
-			>* {
-				padding: ($guttersRows * $multiplier) 0 0 ($guttersCols * $multiplier);
-			}
-
-			// Uniform.
-			&.gtr-uniform {
-				margin-top: $guttersCols * $multiplier * -1;
-
-				>* {
-					padding-top: $guttersCols * $multiplier;
-				}
-			}
-
-		}
-
-	}
-
-}
-
+          > * {
+            padding-top: $guttersCols * $multiplier;
+          }
+        }
+      }
+    }
+  }
 }

@@ -7,39 +7,42 @@
 /* Wrapper */
 
 #gh-viewport {
-	@include vendor('transition', 'opacity #{_duration(menu)} ease');
+  @include vendor("transition", "opacity #{_duration(menu)} ease");
 
-	position: relative;
-	z-index: 1;
-	overflow: hidden;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 
-	&.fade-in {
-		&::before {
-			@include vendor('pointer-events', 'none');
-			@include vendor('transition', 'opacity 1s ease-in-out');
-			@include vendor('transition-delay', '0.75s');
+  &.fade-in {
+    &::before {
+      @include vendor("pointer-events", "none");
+      @include vendor("transition", "opacity 1s ease-in-out");
+      @include vendor("transition-delay", "0.75s");
 
-			background: _palette(invert, bg);
-			content: '';
-			display: block;
-			height: 100%;
-			left: 0;
-			opacity: 0;
-			position: fixed;
-			top: 0;
-			width: 100%;
-		}
+      background: _palette(invert, bg);
+      content: "";
+      display: block;
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
 
-		body.is-preload & {
-			&::before {
-				opacity: 1;
-			}
-		}
-	}
+    body.is-preload & {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
 
-	@include orientation(portrait) {
-		>.bg {
-			background-size: auto, auto, auto 175%;
-		}
-	}
+  @include orientation(portrait) {
+    > .bg {
+      background-size:
+        auto,
+        auto,
+        auto 175%;
+    }
+  }
 }

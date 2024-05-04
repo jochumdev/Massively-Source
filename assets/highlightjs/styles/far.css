@@ -1,24 +1,27 @@
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em
+  padding: 1em;
 }
+
 code.hljs {
-  padding: 3px 5px
+  padding: 3px 5px;
 }
+
 /*
 
 FAR Style (c) MajestiC <majestic2k@gmail.com>
 
 */
 .hljs {
-  color: #0ff;
-  background: #000080
+  color: #00ffff;
+  background: #000080;
 }
+
 .hljs-subst {
   /* default */
-  
 }
+
 .hljs-string,
 .hljs-attribute,
 .hljs-symbol,
@@ -27,8 +30,9 @@ FAR Style (c) MajestiC <majestic2k@gmail.com>
 .hljs-template-tag,
 .hljs-template-variable,
 .hljs-addition {
-  color: #ff0
+  color: #ffff00;
 }
+
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-section,
@@ -37,31 +41,36 @@ FAR Style (c) MajestiC <majestic2k@gmail.com>
 .hljs-selector-id,
 .hljs-selector-class,
 .hljs-variable {
-  color: #fff
+  color: #ffffff;
 }
+
 .hljs-comment,
 .hljs-quote,
 .hljs-doctag,
 .hljs-deletion {
-  color: #888
+  color: #888888;
 }
+
 .hljs-number,
 .hljs-regexp,
 .hljs-literal,
 .hljs-link {
-  color: #0f0
+  color: #00ff00;
 }
+
 .hljs-meta {
-  color: #008080
+  color: #008080;
 }
+
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-title,
 .hljs-section,
 .hljs-name,
 .hljs-strong {
-  font-weight: bold
+  font-weight: bold;
 }
+
 .hljs-emphasis {
-  font-style: italic
+  font-style: italic;
 }

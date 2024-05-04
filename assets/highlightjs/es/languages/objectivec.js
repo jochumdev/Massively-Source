@@ -1,6 +1,6 @@
 /*! `objectivec` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Objective-C
@@ -12,8 +12,9 @@ var hljsGrammar = (function () {
 
   function objectivec(hljs) {
     const API_CLASS = {
-      className: 'built_in',
-      begin: '\\b(AV|CA|CF|CG|CI|CL|CM|CN|CT|MK|MP|MTK|MTL|NS|SCN|SK|UI|WK|XC)\\w+'
+      className: "built_in",
+      begin:
+        "\\b(AV|CA|CF|CG|CI|CL|CM|CN|CT|MK|MP|MTK|MTL|NS|SCN|SK|UI|WK|XC)\\w+",
     };
     const IDENTIFIER_RE = /[a-zA-Z@][a-zA-Z0-9_]*/;
     const TYPES = [
@@ -31,7 +32,7 @@ var hljsGrammar = (function () {
       "bool",
       "BOOL",
       "id|0",
-      "_Bool"
+      "_Bool",
     ];
     const KWS = [
       "while",
@@ -147,7 +148,7 @@ var hljsGrammar = (function () {
       "NS_HANDLER",
       "NS_ENDHANDLER",
       "NS_VALUERETURN",
-      "NS_VOIDRETURN"
+      "NS_VOIDRETURN",
     ];
     const LITERALS = [
       "false",
@@ -157,46 +158,32 @@ var hljsGrammar = (function () {
       "nil",
       "YES",
       "NO",
-      "NULL"
+      "NULL",
     ];
     const BUILT_INS = [
       "dispatch_once_t",
       "dispatch_queue_t",
       "dispatch_sync",
       "dispatch_async",
-      "dispatch_once"
+      "dispatch_once",
     ];
     const KEYWORDS = {
-      "variable.language": [
-        "this",
-        "super"
-      ],
+      "variable.language": ["this", "super"],
       $pattern: IDENTIFIER_RE,
       keyword: KWS,
       literal: LITERALS,
       built_in: BUILT_INS,
-      type: TYPES
+      type: TYPES,
     };
     const CLASS_KEYWORDS = {
       $pattern: IDENTIFIER_RE,
-      keyword: [
-        "@interface",
-        "@class",
-        "@protocol",
-        "@implementation"
-      ]
+      keyword: ["@interface", "@class", "@protocol", "@implementation"],
     };
     return {
-      name: 'Objective-C',
-      aliases: [
-        'mm',
-        'objc',
-        'obj-c',
-        'obj-c++',
-        'objective-c++'
-      ],
+      name: "Objective-C",
+      aliases: ["mm", "objc", "obj-c", "obj-c++", "objective-c++"],
       keywords: KEYWORDS,
-      illegal: '</',
+      illegal: "</",
       contains: [
         API_CLASS,
         hljs.C_LINE_COMMENT_MODE,
@@ -205,57 +192,57 @@ var hljsGrammar = (function () {
         hljs.QUOTE_STRING_MODE,
         hljs.APOS_STRING_MODE,
         {
-          className: 'string',
+          className: "string",
           variants: [
             {
               begin: '@"',
               end: '"',
-              illegal: '\\n',
-              contains: [ hljs.BACKSLASH_ESCAPE ]
-            }
-          ]
+              illegal: "\\n",
+              contains: [hljs.BACKSLASH_ESCAPE],
+            },
+          ],
         },
         {
-          className: 'meta',
+          className: "meta",
           begin: /#\s*[a-z]+\b/,
           end: /$/,
-          keywords: { keyword:
-              'if else elif endif define undef warning error line '
-              + 'pragma ifdef ifndef include' },
+          keywords: {
+            keyword:
+              "if else elif endif define undef warning error line " +
+              "pragma ifdef ifndef include",
+          },
           contains: [
             {
               begin: /\\\n/,
-              relevance: 0
+              relevance: 0,
             },
-            hljs.inherit(hljs.QUOTE_STRING_MODE, { className: 'string' }),
+            hljs.inherit(hljs.QUOTE_STRING_MODE, { className: "string" }),
             {
-              className: 'string',
+              className: "string",
               begin: /<.*?>/,
               end: /$/,
-              illegal: '\\n'
+              illegal: "\\n",
             },
             hljs.C_LINE_COMMENT_MODE,
-            hljs.C_BLOCK_COMMENT_MODE
-          ]
+            hljs.C_BLOCK_COMMENT_MODE,
+          ],
         },
         {
-          className: 'class',
-          begin: '(' + CLASS_KEYWORDS.keyword.join('|') + ')\\b',
+          className: "class",
+          begin: "(" + CLASS_KEYWORDS.keyword.join("|") + ")\\b",
           end: /(\{|$)/,
           excludeEnd: true,
           keywords: CLASS_KEYWORDS,
-          contains: [ hljs.UNDERSCORE_TITLE_MODE ]
+          contains: [hljs.UNDERSCORE_TITLE_MODE],
         },
         {
-          begin: '\\.' + hljs.UNDERSCORE_IDENT_RE,
-          relevance: 0
-        }
-      ]
+          begin: "\\." + hljs.UNDERSCORE_IDENT_RE,
+          relevance: 0,
+        },
+      ],
     };
   }
 
   return objectivec;
-
 })();
-;
 export default hljsGrammar;

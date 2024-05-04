@@ -1,6 +1,6 @@
 /*! `rust` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Rust
@@ -20,9 +20,10 @@ var hljsGrammar = (function () {
         /\b/,
         /(?!let|for|while|if|else|match\b)/,
         hljs.IDENT_RE,
-        regex.lookahead(/\s*\(/))
+        regex.lookahead(/\s*\(/),
+      ),
     };
-    const NUMBER_SUFFIX = '([ui](8|16|32|64|128|size)|f(32|64))\?';
+    const NUMBER_SUFFIX = "([ui](8|16|32|64|128|size)|f(32|64))?";
     const KEYWORDS = [
       "abstract",
       "as",
@@ -74,19 +75,12 @@ var hljsGrammar = (function () {
       "virtual",
       "where",
       "while",
-      "yield"
+      "yield",
     ];
-    const LITERALS = [
-      "true",
-      "false",
-      "Some",
-      "None",
-      "Ok",
-      "Err"
-    ];
+    const LITERALS = ["true", "false", "Some", "None", "Ok", "Err"];
     const BUILTINS = [
       // functions
-      'drop ',
+      "drop ",
       // traits
       "Copy",
       "Send",
@@ -150,7 +144,7 @@ var hljsGrammar = (function () {
       "writeln!",
       "macro_rules!",
       "assert_ne!",
-      "debug_assert_ne!"
+      "debug_assert_ne!",
     ];
     const TYPES = [
       "i8",
@@ -174,143 +168,123 @@ var hljsGrammar = (function () {
       "Option",
       "Result",
       "String",
-      "Vec"
+      "Vec",
     ];
     return {
-      name: 'Rust',
-      aliases: [ 'rs' ],
+      name: "Rust",
+      aliases: ["rs"],
       keywords: {
-        $pattern: hljs.IDENT_RE + '!?',
+        $pattern: hljs.IDENT_RE + "!?",
         type: TYPES,
         keyword: KEYWORDS,
         literal: LITERALS,
-        built_in: BUILTINS
+        built_in: BUILTINS,
       },
-      illegal: '</',
+      illegal: "</",
       contains: [
         hljs.C_LINE_COMMENT_MODE,
-        hljs.COMMENT('/\\*', '\\*/', { contains: [ 'self' ] }),
+        hljs.COMMENT("/\\*", "\\*/", { contains: ["self"] }),
         hljs.inherit(hljs.QUOTE_STRING_MODE, {
           begin: /b?"/,
-          illegal: null
+          illegal: null,
         }),
         {
-          className: 'string',
+          className: "string",
           variants: [
             { begin: /b?r(#*)"(.|\n)*?"\1(?!#)/ },
-            { begin: /b?'\\?(x\w{2}|u\w{4}|U\w{8}|.)'/ }
-          ]
+            { begin: /b?'\\?(x\w{2}|u\w{4}|U\w{8}|.)'/ },
+          ],
         },
         {
-          className: 'symbol',
-          begin: /'[a-zA-Z_][a-zA-Z0-9_]*/
+          className: "symbol",
+          begin: /'[a-zA-Z_][a-zA-Z0-9_]*/,
         },
         {
-          className: 'number',
+          className: "number",
           variants: [
-            { begin: '\\b0b([01_]+)' + NUMBER_SUFFIX },
-            { begin: '\\b0o([0-7_]+)' + NUMBER_SUFFIX },
-            { begin: '\\b0x([A-Fa-f0-9_]+)' + NUMBER_SUFFIX },
-            { begin: '\\b(\\d[\\d_]*(\\.[0-9_]+)?([eE][+-]?[0-9_]+)?)'
-                     + NUMBER_SUFFIX }
+            { begin: "\\b0b([01_]+)" + NUMBER_SUFFIX },
+            { begin: "\\b0o([0-7_]+)" + NUMBER_SUFFIX },
+            { begin: "\\b0x([A-Fa-f0-9_]+)" + NUMBER_SUFFIX },
+            {
+              begin:
+                "\\b(\\d[\\d_]*(\\.[0-9_]+)?([eE][+-]?[0-9_]+)?)" +
+                NUMBER_SUFFIX,
+            },
           ],
-          relevance: 0
+          relevance: 0,
         },
         {
-          begin: [
-            /fn/,
-            /\s+/,
-            hljs.UNDERSCORE_IDENT_RE
-          ],
+          begin: [/fn/, /\s+/, hljs.UNDERSCORE_IDENT_RE],
           className: {
             1: "keyword",
-            3: "title.function"
-          }
+            3: "title.function",
+          },
         },
         {
-          className: 'meta',
-          begin: '#!?\\[',
-          end: '\\]',
+          className: "meta",
+          begin: "#!?\\[",
+          end: "\\]",
           contains: [
             {
-              className: 'string',
+              className: "string",
               begin: /"/,
               end: /"/,
-              contains: [
-                hljs.BACKSLASH_ESCAPE
-              ]
-            }
-          ]
+              contains: [hljs.BACKSLASH_ESCAPE],
+            },
+          ],
         },
         {
-          begin: [
-            /let/,
-            /\s+/,
-            /(?:mut\s+)?/,
-            hljs.UNDERSCORE_IDENT_RE
-          ],
+          begin: [/let/, /\s+/, /(?:mut\s+)?/, hljs.UNDERSCORE_IDENT_RE],
           className: {
             1: "keyword",
             3: "keyword",
-            4: "variable"
-          }
+            4: "variable",
+          },
         },
         // must come before impl/for rule later
         {
-          begin: [
-            /for/,
-            /\s+/,
-            hljs.UNDERSCORE_IDENT_RE,
-            /\s+/,
-            /in/
-          ],
+          begin: [/for/, /\s+/, hljs.UNDERSCORE_IDENT_RE, /\s+/, /in/],
           className: {
             1: "keyword",
             3: "variable",
-            5: "keyword"
-          }
+            5: "keyword",
+          },
         },
         {
-          begin: [
-            /type/,
-            /\s+/,
-            hljs.UNDERSCORE_IDENT_RE
-          ],
+          begin: [/type/, /\s+/, hljs.UNDERSCORE_IDENT_RE],
           className: {
             1: "keyword",
-            3: "title.class"
-          }
+            3: "title.class",
+          },
         },
         {
           begin: [
             /(?:trait|enum|struct|union|impl|for)/,
             /\s+/,
-            hljs.UNDERSCORE_IDENT_RE
+            hljs.UNDERSCORE_IDENT_RE,
           ],
           className: {
             1: "keyword",
-            3: "title.class"
-          }
+            3: "title.class",
+          },
         },
         {
-          begin: hljs.IDENT_RE + '::',
+          begin: hljs.IDENT_RE + "::",
           keywords: {
             keyword: "Self",
             built_in: BUILTINS,
-            type: TYPES
-          }
+            type: TYPES,
+          },
         },
         {
           className: "punctuation",
-          begin: '->'
+          begin: "->",
         },
-        FUNCTION_INVOKE
-      ]
+        FUNCTION_INVOKE,
+      ],
     };
   }
 
   return rust;
-
 })();
-;
 export default hljsGrammar;

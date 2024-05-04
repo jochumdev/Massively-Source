@@ -1,6 +1,6 @@
 /*! `wasm` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: WebAssembly
@@ -62,68 +62,62 @@ var hljsGrammar = (function () {
       "tee_local",
       "then",
       "type",
-      "unreachable"
+      "unreachable",
     ];
 
     const FUNCTION_REFERENCE = {
-      begin: [
-        /(?:func|call|call_indirect)/,
-        /\s+/,
-        /\$[^\s)]+/
-      ],
+      begin: [/(?:func|call|call_indirect)/, /\s+/, /\$[^\s)]+/],
       className: {
         1: "keyword",
-        3: "title.function"
-      }
+        3: "title.function",
+      },
     };
 
     const ARGUMENT = {
       className: "variable",
-      begin: /\$[\w_]+/
+      begin: /\$[\w_]+/,
     };
 
     const PARENS = {
       match: /(\((?!;)|\))+/,
       className: "punctuation",
-      relevance: 0
+      relevance: 0,
     };
 
     const NUMBER = {
       className: "number",
       relevance: 0,
       // borrowed from Prism, TODO: split out into variants
-      match: /[+-]?\b(?:\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(?:[eE][+-]?\d(?:_?\d)*)?|0x[\da-fA-F](?:_?[\da-fA-F])*(?:\.[\da-fA-F](?:_?[\da-fA-D])*)?(?:[pP][+-]?\d(?:_?\d)*)?)\b|\binf\b|\bnan(?::0x[\da-fA-F](?:_?[\da-fA-D])*)?\b/
+      match:
+        /[+-]?\b(?:\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(?:[eE][+-]?\d(?:_?\d)*)?|0x[\da-fA-F](?:_?[\da-fA-F])*(?:\.[\da-fA-F](?:_?[\da-fA-D])*)?(?:[pP][+-]?\d(?:_?\d)*)?)\b|\binf\b|\bnan(?::0x[\da-fA-F](?:_?[\da-fA-D])*)?\b/,
     };
 
     const TYPE = {
       // look-ahead prevents us from gobbling up opcodes
       match: /(i32|i64|f32|f64)(?!\.)/,
-      className: "type"
+      className: "type",
     };
 
     const MATH_OPERATIONS = {
       className: "keyword",
       // borrowed from Prism, TODO: split out into variants
-      match: /\b(f32|f64|i32|i64)(?:\.(?:abs|add|and|ceil|clz|const|convert_[su]\/i(?:32|64)|copysign|ctz|demote\/f64|div(?:_[su])?|eqz?|extend_[su]\/i32|floor|ge(?:_[su])?|gt(?:_[su])?|le(?:_[su])?|load(?:(?:8|16|32)_[su])?|lt(?:_[su])?|max|min|mul|nearest|neg?|or|popcnt|promote\/f32|reinterpret\/[fi](?:32|64)|rem_[su]|rot[lr]|shl|shr_[su]|store(?:8|16|32)?|sqrt|sub|trunc(?:_[su]\/f(?:32|64))?|wrap\/i64|xor))\b/
+      match:
+        /\b(f32|f64|i32|i64)(?:\.(?:abs|add|and|ceil|clz|const|convert_[su]\/i(?:32|64)|copysign|ctz|demote\/f64|div(?:_[su])?|eqz?|extend_[su]\/i32|floor|ge(?:_[su])?|gt(?:_[su])?|le(?:_[su])?|load(?:(?:8|16|32)_[su])?|lt(?:_[su])?|max|min|mul|nearest|neg?|or|popcnt|promote\/f32|reinterpret\/[fi](?:32|64)|rem_[su]|rot[lr]|shl|shr_[su]|store(?:8|16|32)?|sqrt|sub|trunc(?:_[su]\/f(?:32|64))?|wrap\/i64|xor))\b/,
     };
 
     const OFFSET_ALIGN = {
-      match: [
-        /(?:offset|align)/,
-        /\s*/,
-        /=/
-      ],
+      match: [/(?:offset|align)/, /\s*/, /=/],
       className: {
         1: "keyword",
-        3: "operator"
-      }
+        3: "operator",
+      },
     };
 
     return {
-      name: 'WebAssembly',
+      name: "WebAssembly",
       keywords: {
         $pattern: /[\w.]+/,
-        keyword: KWS
+        keyword: KWS,
       },
       contains: [
         LINE_COMMENT,
@@ -135,13 +129,11 @@ var hljsGrammar = (function () {
         hljs.QUOTE_STRING_MODE,
         TYPE,
         MATH_OPERATIONS,
-        NUMBER
-      ]
+        NUMBER,
+      ],
     };
   }
 
   return wasm;
-
 })();
-;
 export default hljsGrammar;

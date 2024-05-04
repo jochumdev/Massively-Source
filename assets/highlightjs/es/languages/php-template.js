@@ -1,6 +1,6 @@
 /*! `php-template` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: PHP Template
@@ -13,50 +13,48 @@ var hljsGrammar = (function () {
   function phpTemplate(hljs) {
     return {
       name: "PHP template",
-      subLanguage: 'xml',
+      subLanguage: "xml",
       contains: [
         {
           begin: /<\?(php|=)?/,
           end: /\?>/,
-          subLanguage: 'php',
+          subLanguage: "php",
           contains: [
             // We don't want the php closing tag ?> to close the PHP block when
             // inside any of the following blocks:
             {
-              begin: '/\\*',
-              end: '\\*/',
-              skip: true
+              begin: "/\\*",
+              end: "\\*/",
+              skip: true,
             },
             {
               begin: 'b"',
               end: '"',
-              skip: true
+              skip: true,
             },
             {
-              begin: 'b\'',
-              end: '\'',
-              skip: true
+              begin: "b'",
+              end: "'",
+              skip: true,
             },
             hljs.inherit(hljs.APOS_STRING_MODE, {
               illegal: null,
               className: null,
               contains: null,
-              skip: true
+              skip: true,
             }),
             hljs.inherit(hljs.QUOTE_STRING_MODE, {
               illegal: null,
               className: null,
               contains: null,
-              skip: true
-            })
-          ]
-        }
-      ]
+              skip: true,
+            }),
+          ],
+        },
+      ],
     };
   }
 
   return phpTemplate;
-
 })();
-;
 export default hljsGrammar;

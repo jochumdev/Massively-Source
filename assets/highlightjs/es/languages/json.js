@@ -1,6 +1,6 @@
 /*! `json` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: JSON
@@ -12,20 +12,16 @@ var hljsGrammar = (function () {
 
   function json(hljs) {
     const ATTRIBUTE = {
-      className: 'attr',
+      className: "attr",
       begin: /"(\\.|[^\\"\r\n])*"(?=\s*:)/,
-      relevance: 1.01
+      relevance: 1.01,
     };
     const PUNCTUATION = {
       match: /[{}[\],:]/,
       className: "punctuation",
-      relevance: 0
+      relevance: 0,
     };
-    const LITERALS = [
-      "true",
-      "false",
-      "null"
-    ];
+    const LITERALS = ["true", "false", "null"];
     // NOTE: normally we would rely on `keywords` for this but using a mode here allows us
     // - to use the very tight `illegal: \S` rule later to flag any other character
     // - as illegal indicating that despite looking like JSON we do not truly have
@@ -37,8 +33,8 @@ var hljsGrammar = (function () {
     };
 
     return {
-      name: 'JSON',
-      keywords:{
+      name: "JSON",
+      keywords: {
         literal: LITERALS,
       },
       contains: [
@@ -48,14 +44,12 @@ var hljsGrammar = (function () {
         LITERALS_MODE,
         hljs.C_NUMBER_MODE,
         hljs.C_LINE_COMMENT_MODE,
-        hljs.C_BLOCK_COMMENT_MODE
+        hljs.C_BLOCK_COMMENT_MODE,
       ],
-      illegal: '\\S'
+      illegal: "\\S",
     };
   }
 
   return json;
-
 })();
-;
 export default hljsGrammar;

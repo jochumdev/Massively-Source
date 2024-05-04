@@ -1,6 +1,6 @@
 /*! `gradle` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Gradle
@@ -173,10 +173,10 @@ var hljsGrammar = (function () {
       "withWriter",
       "withWriterAppend",
       "write",
-      "writeLine"
+      "writeLine",
     ];
     return {
-      name: 'Gradle',
+      name: "Gradle",
       case_insensitive: true,
       keywords: KEYWORDS,
       contains: [
@@ -185,14 +185,11 @@ var hljsGrammar = (function () {
         hljs.APOS_STRING_MODE,
         hljs.QUOTE_STRING_MODE,
         hljs.NUMBER_MODE,
-        hljs.REGEXP_MODE
-
-      ]
+        hljs.REGEXP_MODE,
+      ],
     };
   }
 
   return gradle;
-
 })();
-;
 export default hljsGrammar;

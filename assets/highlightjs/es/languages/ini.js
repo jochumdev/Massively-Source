@@ -1,6 +1,6 @@
 /*! `ini` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: TOML, also INI
@@ -13,117 +13,100 @@ var hljsGrammar = (function () {
   function ini(hljs) {
     const regex = hljs.regex;
     const NUMBERS = {
-      className: 'number',
+      className: "number",
       relevance: 0,
-      variants: [
-        { begin: /([+-]+)?[\d]+_[\d_]+/ },
-        { begin: hljs.NUMBER_RE }
-      ]
+      variants: [{ begin: /([+-]+)?[\d]+_[\d_]+/ }, { begin: hljs.NUMBER_RE }],
     };
     const COMMENTS = hljs.COMMENT();
     COMMENTS.variants = [
       {
         begin: /;/,
-        end: /$/
+        end: /$/,
       },
       {
         begin: /#/,
-        end: /$/
-      }
+        end: /$/,
+      },
     ];
     const VARIABLES = {
-      className: 'variable',
-      variants: [
-        { begin: /\$[\w\d"][\w\d_]*/ },
-        { begin: /\$\{(.*?)\}/ }
-      ]
+      className: "variable",
+      variants: [{ begin: /\$[\w\d"][\w\d_]*/ }, { begin: /\$\{(.*?)\}/ }],
     };
     const LITERALS = {
-      className: 'literal',
-      begin: /\bon|off|true|false|yes|no\b/
+      className: "literal",
+      begin: /\bon|off|true|false|yes|no\b/,
     };
     const STRINGS = {
       className: "string",
-      contains: [ hljs.BACKSLASH_ESCAPE ],
+      contains: [hljs.BACKSLASH_ESCAPE],
       variants: [
         {
           begin: "'''",
           end: "'''",
-          relevance: 10
+          relevance: 10,
         },
         {
           begin: '"""',
           end: '"""',
-          relevance: 10
+          relevance: 10,
         },
         {
           begin: '"',
-          end: '"'
+          end: '"',
         },
         {
           begin: "'",
-          end: "'"
-        }
-      ]
+          end: "'",
+        },
+      ],
     };
     const ARRAY = {
       begin: /\[/,
       end: /\]/,
-      contains: [
-        COMMENTS,
-        LITERALS,
-        VARIABLES,
-        STRINGS,
-        NUMBERS,
-        'self'
-      ],
-      relevance: 0
+      contains: [COMMENTS, LITERALS, VARIABLES, STRINGS, NUMBERS, "self"],
+      relevance: 0,
     };
 
     const BARE_KEY = /[A-Za-z0-9_-]+/;
     const QUOTED_KEY_DOUBLE_QUOTE = /"(\\"|[^"])*"/;
     const QUOTED_KEY_SINGLE_QUOTE = /'[^']*'/;
     const ANY_KEY = regex.either(
-      BARE_KEY, QUOTED_KEY_DOUBLE_QUOTE, QUOTED_KEY_SINGLE_QUOTE
+      BARE_KEY,
+      QUOTED_KEY_DOUBLE_QUOTE,
+      QUOTED_KEY_SINGLE_QUOTE,
     );
     const DOTTED_KEY = regex.concat(
-      ANY_KEY, '(\\s*\\.\\s*', ANY_KEY, ')*',
-      regex.lookahead(/\s*=\s*[^#\s]/)
+      ANY_KEY,
+      "(\\s*\\.\\s*",
+      ANY_KEY,
+      ")*",
+      regex.lookahead(/\s*=\s*[^#\s]/),
     );
 
     return {
-      name: 'TOML, also INI',
-      aliases: [ 'toml' ],
+      name: "TOML, also INI",
+      aliases: ["toml"],
       case_insensitive: true,
       illegal: /\S/,
       contains: [
         COMMENTS,
         {
-          className: 'section',
+          className: "section",
           begin: /\[+/,
-          end: /\]+/
+          end: /\]+/,
         },
         {
           begin: DOTTED_KEY,
-          className: 'attr',
+          className: "attr",
           starts: {
             end: /$/,
-            contains: [
-              COMMENTS,
-              ARRAY,
-              LITERALS,
-              VARIABLES,
-              STRINGS,
-              NUMBERS
-            ]
-          }
-        }
-      ]
+            contains: [COMMENTS, ARRAY, LITERALS, VARIABLES, STRINGS, NUMBERS],
+          },
+        },
+      ],
     };
   }
 
   return ini;
-
 })();
-;
 export default hljsGrammar;

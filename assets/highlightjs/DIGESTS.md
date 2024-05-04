@@ -7,11 +7,13 @@ To do this you simply need to add the `integrity` attribute for each JavaScript 
 ```html
 <script
   src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
-  integrity="sha384-9mu2JKpUImscOMmwjm1y6MA2YsW3amSoFNYwKeUHxaXYKQ1naywWmamEGMdviEen"></script>
+  integrity="sha384-9mu2JKpUImscOMmwjm1y6MA2YsW3amSoFNYwKeUHxaXYKQ1naywWmamEGMdviEen"
+></script>
 <!-- including any other grammars you might need to load -->
 <script
   src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"
-  integrity="sha384-WmGkHEmwSI19EhTfO1nrSk3RziUQKRWg3vO0Ur3VYZjWvJRdRnX4/scQg+S2w1fI"></script>
+  integrity="sha384-WmGkHEmwSI19EhTfO1nrSk3RziUQKRWg3vO0Ur3VYZjWvJRdRnX4/scQg+S2w1fI"
+></script>
 ```
 
 The full list of digests for every file can be found below.
@@ -182,4 +184,3 @@ sha384-WC56y8OaFPt5Kj2HX6JAumxUYEjQmBDcSTJy2pn/N8g7dg1hKjeNVrJYoxlpeVmz /languag
 sha384-+fVoluWwQHU6XsZYLQXrAmd3wJEK4GiVGTHUB0bHe/YaFAX6pPKyDAjtWnIFI0ek /highlight.js
 sha384-PjyzU2lW52H8wvnhxkWM6W61By0spP164a2DY3Klff3FNWnQoqB+iym98a5c3zIV /highlight.min.js
 ```
-

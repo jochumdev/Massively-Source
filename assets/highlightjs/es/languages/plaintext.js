@@ -1,6 +1,6 @@
 /*! `plaintext` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Plain text
@@ -11,17 +11,12 @@ var hljsGrammar = (function () {
 
   function plaintext(hljs) {
     return {
-      name: 'Plain text',
-      aliases: [
-        'text',
-        'txt'
-      ],
-      disableAutodetect: true
+      name: "Plain text",
+      aliases: ["text", "txt"],
+      disableAutodetect: true,
     };
   }
 
   return plaintext;
-
 })();
-;
 export default hljsGrammar;

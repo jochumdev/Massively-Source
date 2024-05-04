@@ -1,6 +1,6 @@
 /*! `ruby` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Ruby
@@ -13,15 +13,18 @@ var hljsGrammar = (function () {
 
   function ruby(hljs) {
     const regex = hljs.regex;
-    const RUBY_METHOD_RE = '([a-zA-Z_]\\w*[!?=]?|[-+~]@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?)';
+    const RUBY_METHOD_RE =
+      "([a-zA-Z_]\\w*[!?=]?|[-+~]@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?)";
     // TODO: move concepts like CAMEL_CASE into `modes.js`
     const CLASS_NAME_RE = regex.either(
       /\b([A-Z]+[a-z0-9]+)+/,
       // ends in caps
       /\b([A-Z]+[a-z0-9]+)+[A-Z]+/,
-    )
-    ;
-    const CLASS_NAME_WITH_NAMESPACE_RE = regex.concat(CLASS_NAME_RE, /(::\w+)*/);
+    );
+    const CLASS_NAME_WITH_NAMESPACE_RE = regex.concat(
+      CLASS_NAME_RE,
+      /(::\w+)*/,
+    );
     // very popular ruby built-ins that one might even assume
     // are actual keywords (despite that not being the case)
     const PSEUDO_KWS = [
@@ -32,18 +35,11 @@ var hljsGrammar = (function () {
       "private",
       "protected",
       "raise",
-      "throw"
+      "throw",
     ];
     const RUBY_KEYWORDS = {
-      "variable.constant": [
-        "__FILE__",
-        "__LINE__",
-        "__ENCODING__"
-      ],
-      "variable.language": [
-        "self",
-        "super",
-      ],
+      "variable.constant": ["__FILE__", "__LINE__", "__ENCODING__"],
+      "variable.language": ["self", "super"],
       keyword: [
         "alias",
         "and",
@@ -78,7 +74,7 @@ var hljsGrammar = (function () {
         "when",
         "while",
         "yield",
-        ...PSEUDO_KWS
+        ...PSEUDO_KWS,
       ],
       built_in: [
         "proc",
@@ -88,94 +84,79 @@ var hljsGrammar = (function () {
         "attr_writer",
         "define_method",
         "private_constant",
-        "module_function"
+        "module_function",
       ],
-      literal: [
-        "true",
-        "false",
-        "nil"
-      ]
+      literal: ["true", "false", "nil"],
     };
     const YARDOCTAG = {
-      className: 'doctag',
-      begin: '@[A-Za-z]+'
+      className: "doctag",
+      begin: "@[A-Za-z]+",
     };
     const IRB_OBJECT = {
-      begin: '#<',
-      end: '>'
+      begin: "#<",
+      end: ">",
     };
     const COMMENT_MODES = [
-      hljs.COMMENT(
-        '#',
-        '$',
-        { contains: [ YARDOCTAG ] }
-      ),
-      hljs.COMMENT(
-        '^=begin',
-        '^=end',
-        {
-          contains: [ YARDOCTAG ],
-          relevance: 10
-        }
-      ),
-      hljs.COMMENT('^__END__', hljs.MATCH_NOTHING_RE)
+      hljs.COMMENT("#", "$", { contains: [YARDOCTAG] }),
+      hljs.COMMENT("^=begin", "^=end", {
+        contains: [YARDOCTAG],
+        relevance: 10,
+      }),
+      hljs.COMMENT("^__END__", hljs.MATCH_NOTHING_RE),
     ];
     const SUBST = {
-      className: 'subst',
+      className: "subst",
       begin: /#\{/,
       end: /\}/,
-      keywords: RUBY_KEYWORDS
+      keywords: RUBY_KEYWORDS,
     };
     const STRING = {
-      className: 'string',
-      contains: [
-        hljs.BACKSLASH_ESCAPE,
-        SUBST
-      ],
+      className: "string",
+      contains: [hljs.BACKSLASH_ESCAPE, SUBST],
       variants: [
         {
           begin: /'/,
-          end: /'/
+          end: /'/,
         },
         {
           begin: /"/,
-          end: /"/
+          end: /"/,
         },
         {
           begin: /`/,
-          end: /`/
+          end: /`/,
         },
         {
           begin: /%[qQwWx]?\(/,
-          end: /\)/
+          end: /\)/,
         },
         {
           begin: /%[qQwWx]?\[/,
-          end: /\]/
+          end: /\]/,
         },
         {
           begin: /%[qQwWx]?\{/,
-          end: /\}/
+          end: /\}/,
         },
         {
           begin: /%[qQwWx]?</,
-          end: />/
+          end: />/,
         },
         {
           begin: /%[qQwWx]?\//,
-          end: /\//
+          end: /\//,
         },
         {
           begin: /%[qQwWx]?%/,
-          end: /%/
+          end: /%/,
         },
         {
           begin: /%[qQwWx]?-/,
-          end: /-/
+          end: /-/,
         },
         {
           begin: /%[qQwWx]?\|/,
-          end: /\|/
+          end: /\|/,
         },
         // in the following expressions, \B in the beginning suppresses recognition of ?-sequences
         // where ? is the last character of a preceding identifier, as in: `func?4`
@@ -191,33 +172,32 @@ var hljsGrammar = (function () {
           // positive (auto-detect, etc.)
           begin: regex.concat(
             /<<[-~]?'?/,
-            regex.lookahead(/(\w+)(?=\W)[^\n]*\n(?:[^\n]*\n)*?\s*\1\b/)
+            regex.lookahead(/(\w+)(?=\W)[^\n]*\n(?:[^\n]*\n)*?\s*\1\b/),
           ),
           contains: [
             hljs.END_SAME_AS_BEGIN({
               begin: /(\w+)/,
               end: /(\w+)/,
-              contains: [
-                hljs.BACKSLASH_ESCAPE,
-                SUBST
-              ]
-            })
-          ]
-        }
-      ]
+              contains: [hljs.BACKSLASH_ESCAPE, SUBST],
+            }),
+          ],
+        },
+      ],
     };
 
     // Ruby syntax is underdocumented, but this grammar seems to be accurate
     // as of version 2.7.2 (confirmed with (irb and `Ripper.sexp(...)`)
     // https://docs.ruby-lang.org/en/2.7.0/doc/syntax/literals_rdoc.html#label-Numbers
-    const decimal = '[1-9](_?[0-9])*|0';
-    const digits = '[0-9](_?[0-9])*';
+    const decimal = "[1-9](_?[0-9])*|0";
+    const digits = "[0-9](_?[0-9])*";
     const NUMBER = {
-      className: 'number',
+      className: "number",
       relevance: 0,
       variants: [
         // decimal integer/float, optionally exponential or rational, optionally imaginary
-        { begin: `\\b(${decimal})(\\.(${digits}))?([eE][+-]?(${digits})|r)?i?\\b` },
+        {
+          begin: `\\b(${decimal})(\\.(${digits}))?([eE][+-]?(${digits})|r)?i?\\b`,
+        },
 
         // explicit decimal/binary/octal/hexadecimal integer,
         // optionally rational and/or imaginary
@@ -227,8 +207,8 @@ var hljsGrammar = (function () {
         { begin: "\\b0[xX][0-9a-fA-F](_?[0-9a-fA-F])*r?i?\\b" },
 
         // 0-prefixed implicit octal integer, optionally rational and/or imaginary
-        { begin: "\\b0(_?[0-7])+r?i?\\b" }
-      ]
+        { begin: "\\b0(_?[0-7])+r?i?\\b" },
+      ],
     };
 
     const PARAMS = {
@@ -237,25 +217,22 @@ var hljsGrammar = (function () {
           match: /\(\)/,
         },
         {
-          className: 'params',
+          className: "params",
           begin: /\(/,
           end: /(?=\))/,
           excludeBegin: true,
           endsParent: true,
           keywords: RUBY_KEYWORDS,
-        }
-      ]
+        },
+      ],
     };
 
     const INCLUDE_EXTEND = {
-      match: [
-        /(include|extend)\s+/,
-        CLASS_NAME_WITH_NAMESPACE_RE
-      ],
+      match: [/(include|extend)\s+/, CLASS_NAME_WITH_NAMESPACE_RE],
       scope: {
-        2: "title.class"
+        2: "title.class",
       },
-      keywords: RUBY_KEYWORDS
+      keywords: RUBY_KEYWORDS,
     };
 
     const CLASS_DEFINITION = {
@@ -265,59 +242,48 @@ var hljsGrammar = (function () {
             /class\s+/,
             CLASS_NAME_WITH_NAMESPACE_RE,
             /\s+<\s+/,
-            CLASS_NAME_WITH_NAMESPACE_RE
-          ]
+            CLASS_NAME_WITH_NAMESPACE_RE,
+          ],
         },
         {
-          match: [
-            /\b(class|module)\s+/,
-            CLASS_NAME_WITH_NAMESPACE_RE
-          ]
-        }
+          match: [/\b(class|module)\s+/, CLASS_NAME_WITH_NAMESPACE_RE],
+        },
       ],
       scope: {
         2: "title.class",
-        4: "title.class.inherited"
+        4: "title.class.inherited",
       },
-      keywords: RUBY_KEYWORDS
+      keywords: RUBY_KEYWORDS,
     };
 
     const UPPER_CASE_CONSTANT = {
       relevance: 0,
       match: /\b[A-Z][A-Z_0-9]+\b/,
-      className: "variable.constant"
+      className: "variable.constant",
     };
 
     const METHOD_DEFINITION = {
-      match: [
-        /def/, /\s+/,
-        RUBY_METHOD_RE
-      ],
+      match: [/def/, /\s+/, RUBY_METHOD_RE],
       scope: {
         1: "keyword",
-        3: "title.function"
+        3: "title.function",
       },
-      contains: [
-        PARAMS
-      ]
+      contains: [PARAMS],
     };
 
     const OBJECT_CREATION = {
       relevance: 0,
-      match: [
-        CLASS_NAME_WITH_NAMESPACE_RE,
-        /\.new[. (]/
-      ],
+      match: [CLASS_NAME_WITH_NAMESPACE_RE, /\.new[. (]/],
       scope: {
-        1: "title.class"
-      }
+        1: "title.class",
+      },
     };
 
     // CamelCase
     const CLASS_REFERENCE = {
       relevance: 0,
       match: CLASS_NAME_RE,
-      scope: "title.class"
+      scope: "title.class",
     };
 
     const RUBY_DEFAULT_CONTAINS = [
@@ -330,74 +296,71 @@ var hljsGrammar = (function () {
       METHOD_DEFINITION,
       {
         // swallow namespace qualifiers before symbols
-        begin: hljs.IDENT_RE + '::' },
-      {
-        className: 'symbol',
-        begin: hljs.UNDERSCORE_IDENT_RE + '(!|\\?)?:',
-        relevance: 0
+        begin: hljs.IDENT_RE + "::",
       },
       {
-        className: 'symbol',
-        begin: ':(?!\\s)',
-        contains: [
-          STRING,
-          { begin: RUBY_METHOD_RE }
-        ],
-        relevance: 0
+        className: "symbol",
+        begin: hljs.UNDERSCORE_IDENT_RE + "(!|\\?)?:",
+        relevance: 0,
+      },
+      {
+        className: "symbol",
+        begin: ":(?!\\s)",
+        contains: [STRING, { begin: RUBY_METHOD_RE }],
+        relevance: 0,
       },
       NUMBER,
       {
         // negative-look forward attempts to prevent false matches like:
         // @ident@ or $ident$ that might indicate this is not ruby at all
         className: "variable",
-        begin: '(\\$\\W)|((\\$|@@?)(\\w+))(?=[^@$?])' + `(?![A-Za-z])(?![@$?'])`
+        begin:
+          "(\\$\\W)|((\\$|@@?)(\\w+))(?=[^@$?])" + `(?![A-Za-z])(?![@$?'])`,
       },
       {
-        className: 'params',
+        className: "params",
         begin: /\|/,
         end: /\|/,
         excludeBegin: true,
         excludeEnd: true,
         relevance: 0, // this could be a lot of things (in other languages) other than params
-        keywords: RUBY_KEYWORDS
+        keywords: RUBY_KEYWORDS,
       },
-      { // regexp container
-        begin: '(' + hljs.RE_STARTERS_RE + '|unless)\\s*',
-        keywords: 'unless',
+      {
+        // regexp container
+        begin: "(" + hljs.RE_STARTERS_RE + "|unless)\\s*",
+        keywords: "unless",
         contains: [
           {
-            className: 'regexp',
-            contains: [
-              hljs.BACKSLASH_ESCAPE,
-              SUBST
-            ],
+            className: "regexp",
+            contains: [hljs.BACKSLASH_ESCAPE, SUBST],
             illegal: /\n/,
             variants: [
               {
-                begin: '/',
-                end: '/[a-z]*'
+                begin: "/",
+                end: "/[a-z]*",
               },
               {
                 begin: /%r\{/,
-                end: /\}[a-z]*/
+                end: /\}[a-z]*/,
               },
               {
-                begin: '%r\\(',
-                end: '\\)[a-z]*'
+                begin: "%r\\(",
+                end: "\\)[a-z]*",
               },
               {
-                begin: '%r!',
-                end: '![a-z]*'
+                begin: "%r!",
+                end: "![a-z]*",
               },
               {
-                begin: '%r\\[',
-                end: '\\][a-z]*'
-              }
-            ]
-          }
+                begin: "%r\\[",
+                end: "\\][a-z]*",
+              },
+            ],
+          },
         ].concat(IRB_OBJECT, COMMENT_MODES),
-        relevance: 0
-      }
+        relevance: 0,
+      },
     ].concat(IRB_OBJECT, COMMENT_MODES);
 
     SUBST.contains = RUBY_DEFAULT_CONTAINS;
@@ -414,43 +377,42 @@ var hljsGrammar = (function () {
       {
         begin: /^\s*=>/,
         starts: {
-          end: '$',
-          contains: RUBY_DEFAULT_CONTAINS
-        }
+          end: "$",
+          contains: RUBY_DEFAULT_CONTAINS,
+        },
       },
       {
-        className: 'meta.prompt',
-        begin: '^(' + SIMPLE_PROMPT + "|" + DEFAULT_PROMPT + '|' + RVM_PROMPT + ')(?=[ ])',
+        className: "meta.prompt",
+        begin:
+          "^(" +
+          SIMPLE_PROMPT +
+          "|" +
+          DEFAULT_PROMPT +
+          "|" +
+          RVM_PROMPT +
+          ")(?=[ ])",
         starts: {
-          end: '$',
+          end: "$",
           keywords: RUBY_KEYWORDS,
-          contains: RUBY_DEFAULT_CONTAINS
-        }
-      }
+          contains: RUBY_DEFAULT_CONTAINS,
+        },
+      },
     ];
 
     COMMENT_MODES.unshift(IRB_OBJECT);
 
     return {
-      name: 'Ruby',
-      aliases: [
-        'rb',
-        'gemspec',
-        'podspec',
-        'thor',
-        'irb'
-      ],
+      name: "Ruby",
+      aliases: ["rb", "gemspec", "podspec", "thor", "irb"],
       keywords: RUBY_KEYWORDS,
       illegal: /\/\*/,
-      contains: [ hljs.SHEBANG({ binary: "ruby" }) ]
+      contains: [hljs.SHEBANG({ binary: "ruby" })]
         .concat(IRB_DEFAULT)
         .concat(COMMENT_MODES)
-        .concat(RUBY_DEFAULT_CONTAINS)
+        .concat(RUBY_DEFAULT_CONTAINS),
     };
   }
 
   return ruby;
-
 })();
-;
 export default hljsGrammar;

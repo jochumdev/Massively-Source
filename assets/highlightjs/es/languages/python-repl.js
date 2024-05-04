@@ -1,6 +1,6 @@
 /*! `python-repl` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Python REPL
@@ -11,30 +11,25 @@ var hljsGrammar = (function () {
 
   function pythonRepl(hljs) {
     return {
-      aliases: [ 'pycon' ],
+      aliases: ["pycon"],
       contains: [
         {
-          className: 'meta.prompt',
+          className: "meta.prompt",
           starts: {
             // a space separates the REPL prefix from the actual code
             // this is purely for cleaner HTML output
             end: / |$/,
             starts: {
-              end: '$',
-              subLanguage: 'python'
-            }
+              end: "$",
+              subLanguage: "python",
+            },
           },
-          variants: [
-            { begin: /^>>>(?=[ ]|$)/ },
-            { begin: /^\.\.\.(?=[ ]|$)/ }
-          ]
-        }
-      ]
+          variants: [{ begin: /^>>>(?=[ ]|$)/ }, { begin: /^\.\.\.(?=[ ]|$)/ }],
+        },
+      ],
     };
   }
 
   return pythonRepl;
-
 })();
-;
 export default hljsGrammar;

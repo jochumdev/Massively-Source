@@ -1,6 +1,6 @@
 /*! `go` grammar compiled for Highlight.js 11.9.0 */
 var hljsGrammar = (function () {
-  'use strict';
+  "use strict";
 
   /*
   Language: Go
@@ -12,12 +12,7 @@ var hljsGrammar = (function () {
   */
 
   function go(hljs) {
-    const LITERALS = [
-      "true",
-      "false",
-      "iota",
-      "nil"
-    ];
+    const LITERALS = ["true", "false", "iota", "nil"];
     const BUILT_INS = [
       "append",
       "cap",
@@ -33,7 +28,7 @@ var hljsGrammar = (function () {
       "println",
       "real",
       "recover",
-      "delete"
+      "delete",
     ];
     const TYPES = [
       "bool",
@@ -55,7 +50,7 @@ var hljsGrammar = (function () {
       "int",
       "uint",
       "uintptr",
-      "rune"
+      "rune",
     ];
     const KWS = [
       "break",
@@ -88,62 +83,61 @@ var hljsGrammar = (function () {
       keyword: KWS,
       type: TYPES,
       literal: LITERALS,
-      built_in: BUILT_INS
+      built_in: BUILT_INS,
     };
     return {
-      name: 'Go',
-      aliases: [ 'golang' ],
+      name: "Go",
+      aliases: ["golang"],
       keywords: KEYWORDS,
-      illegal: '</',
+      illegal: "</",
       contains: [
         hljs.C_LINE_COMMENT_MODE,
         hljs.C_BLOCK_COMMENT_MODE,
         {
-          className: 'string',
+          className: "string",
           variants: [
             hljs.QUOTE_STRING_MODE,
             hljs.APOS_STRING_MODE,
             {
-              begin: '`',
-              end: '`'
-            }
-          ]
+              begin: "`",
+              end: "`",
+            },
+          ],
         },
         {
-          className: 'number',
+          className: "number",
           variants: [
             {
-              begin: hljs.C_NUMBER_RE + '[i]',
-              relevance: 1
+              begin: hljs.C_NUMBER_RE + "[i]",
+              relevance: 1,
             },
-            hljs.C_NUMBER_MODE
-          ]
-        },
-        { begin: /:=/ // relevance booster
+            hljs.C_NUMBER_MODE,
+          ],
         },
         {
-          className: 'function',
-          beginKeywords: 'func',
-          end: '\\s*(\\{|$)',
+          begin: /:=/, // relevance booster
+        },
+        {
+          className: "function",
+          beginKeywords: "func",
+          end: "\\s*(\\{|$)",
           excludeEnd: true,
           contains: [
             hljs.TITLE_MODE,
             {
-              className: 'params',
+              className: "params",
               begin: /\(/,
               end: /\)/,
               endsParent: true,
               keywords: KEYWORDS,
-              illegal: /["']/
-            }
-          ]
-        }
-      ]
+              illegal: /["']/,
+            },
+          ],
+        },
+      ],
     };
   }
 
   return go;
-
 })();
-;
 export default hljsGrammar;

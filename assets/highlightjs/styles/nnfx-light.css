@@ -1,11 +1,13 @@
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em
+  padding: 1em;
 }
+
 code.hljs {
-  padding: 3px 5px
+  padding: 3px 5px;
 }
+
 /*!
   Theme: nnfx light
   Description: a theme inspired by Netscape Navigator/Firefox
@@ -17,88 +19,105 @@ code.hljs {
   @version 1.1.0
 */
 .hljs {
-  background: #fff;
-  color: #000
+  background: #ffffff;
+  color: #000000;
 }
+
 .language-xml .hljs-meta,
 .language-xml .hljs-meta-string {
   font-weight: bold;
   font-style: italic;
-  color: #48b
+  color: #4488bb;
 }
+
 .hljs-comment,
 .hljs-quote {
   font-style: italic;
-  color: #070
+  color: #007700;
 }
+
 .hljs-name,
 .hljs-keyword,
 .hljs-built_in {
-  color: #808
+  color: #880088;
 }
+
 .hljs-name,
 .hljs-attr {
-  font-weight: bold
+  font-weight: bold;
 }
+
 .hljs-string {
-  font-weight: normal
+  font-weight: normal;
 }
+
 .hljs-code,
 .hljs-string,
 .hljs-meta .hljs-string,
 .hljs-number,
 .hljs-regexp,
 .hljs-link {
-  color: #00f
+  color: #0000ff;
 }
+
 .hljs-title,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-variable,
 .hljs-template-variable {
-  color: #f40
+  color: #ff4400;
 }
+
 .hljs-title.class_,
 .hljs-class .hljs-title,
 .hljs-type {
   font-weight: bold;
-  color: #639
+  color: #663399;
 }
+
 .hljs-title.function_,
 .hljs-function .hljs-title,
 .hljs-attr,
 .hljs-subst,
 .hljs-tag {
-  color: #000
+  color: #000000;
 }
+
 .hljs-formula {
-  background-color: #eee;
-  font-style: italic
+  background-color: #eeeeee;
+  font-style: italic;
 }
+
 .hljs-addition {
-  background-color: #beb
+  background-color: #bbeebb;
 }
+
 .hljs-deletion {
-  background-color: #fbb
+  background-color: #ffbbbb;
 }
+
 .hljs-meta {
-  color: #269
+  color: #226699;
 }
+
 .hljs-section,
 .hljs-selector-id,
 .hljs-selector-class,
 .hljs-selector-pseudo,
 .hljs-selector-tag {
   font-weight: bold;
-  color: #48b
+  color: #4488bb;
 }
+
 .hljs-selector-pseudo {
-  font-style: italic
+  font-style: italic;
 }
+
 .hljs-doctag,
 .hljs-strong {
-  font-weight: bold
+  font-weight: bold;
 }
+
 .hljs-emphasis {
-  font-style: italic
+  font-style: italic;
 }
