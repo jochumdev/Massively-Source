@@ -21,6 +21,11 @@ i18n.use(HttpBackend).use(Cache).use(postProcessor).use(LanguageDetector);
 
 i18n.myInit = function () {
   if (i18n.isInitialized || i18n.isInitializing) {
+    // Update <html lang="??">
+    i18n.promise.then(function() {
+        document.documentElement.setAttribute('lang', i18n.language);
+    });
+
     return i18n.promise;
   }
 
