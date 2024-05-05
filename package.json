@@ -57,6 +57,7 @@
     "gulp-dart-sass": "^1.1.0",
     "gulp-livereload": "4.0.2",
     "gulp-postcss": "10.0.0",
+    "gulp-rename": "^2.0.0",
     "gulp-zip": "6.0.0",
     "highlight.js": "^11.9.0",
     "i18next": "^23.11.3",
