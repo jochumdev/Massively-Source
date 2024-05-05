@@ -7,8 +7,6 @@ import inquirer from "inquirer";
 // gulp plugins and utils
 import livereload from "gulp-livereload";
 import { default as gZip } from "gulp-zip";
-import concat from "gulp-concat";
-import uglify from "gulp-uglify";
 import beeper from "beeper";
 import rename from "gulp-rename";
 import fs from "fs";
@@ -22,7 +20,6 @@ import buffer from "vinyl-buffer";
 import rollup from "@rollup/stream";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import { babel } from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 
 // i18next
@@ -56,9 +53,6 @@ function hbs(done) {
 
 function copy(done) {
     [
-        src('node_modules/@tryghost/sodo-search/**/*', { encoding: false }).pipe(dest('assets/jsdelivr/sodo-search/')),
-        src('node_modules/@tryghost/portal/**/*', { encoding: false }).pipe(dest('assets/jsdelivr/portal/')),
-        src('node_modules/@tryghost/comments-ui/**/*', { encoding: false }).pipe(dest('assets/jsdelivr/comments-ui/')),
         src('node_modules/@fontsource/source-sans-pro/**/*', { encoding: false }).pipe(dest('assets/fonts/source-sans-pro/')),
         src('node_modules/@fontsource/merriweather/**/*', { encoding: false }).pipe(dest('assets/fonts/merriweather/')),
         done()

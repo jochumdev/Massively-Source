@@ -1,7 +1,7 @@
 # Massively-source
 
 This is Massively-source, a text-heavy, article-oriented design built around a huge background
-image and scroll effects powered by Scrollex. Originally created by [@ajlkn](https://twitter.com/ajlkn) for [HTML5 UP](https://html5up.net) and later ported to [Ghost](https://ghost.org), then merged with the [Source](https://github.com/TryGhost/Source) theme by [jochumdev](https://jochum.dev).
+image. Originally created by [@ajlkn](https://twitter.com/ajlkn) for [HTML5 UP](https://html5up.net) and later ported to [Ghost](https://ghost.org), then merged with the [Source](https://github.com/TryGhost/Source) theme by [jochumdev](https://jochum.dev).
 
 **Demo: https://rene.jochum.dev**
 
@@ -18,9 +18,6 @@ image and scroll effects powered by Scrollex. Originally created by [@ajlkn](htt
 
 ### for creators / developers
 
-- No external CDN dependencies, host all on your own:
-  - @tryghost/sodo-Search, @tryghost/portal GPR compatible
-  - Source Sans Pro, Merriweather fonts GPR compatible (no cdn)
 - No jQuery
 - [rollup](https://rollupjs.org/) with gulp for javascript.
 - i18n using [i18next](https://www.i18next.com/) as well as dynamic routing
