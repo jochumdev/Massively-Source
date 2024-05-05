@@ -4,7 +4,9 @@
 <main id="gh-main" class="post_index">
     {{#page}}
     <article class="gh-article {{page_class}}">
-        {{> "components/post-header" titleFirst=true}}
+        {{#match @page.show_title_and_feature_image}}
+            {{> "components/post-header" titleFirst=true}}
+        {{/match}}
 
         <div class="content">
             {{content}}
