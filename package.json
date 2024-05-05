@@ -2,7 +2,7 @@
   "name": "massively-source",
   "description": "This is Massively-Source, a text-heavy, article-oriented theme based on Source for Ghost.",
   "demo": "https://massively-source.ghost.io",
-  "version": "1.0.0",
+  "version": "0.0.1-rc0",
   "engines": {
     "ghost": ">=5.80.0"
   },
