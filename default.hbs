@@ -64,10 +64,11 @@
 <script type="text/javascript" src="{{asset "highlightjs/highlight.js" hasMinFile="true"}}"></script>
 <script type="text/javascript" src="{{asset "build/theme.js" hasMinFile="true"}}"></script>
 
-{{!-- i18n: Translate the page. --}}
-{{#match custom.i18n "!=" ""}}
+{{!-- 
+    Writes the settings from the them into the javascript memory, then initalizes the theme. 
+    TODO(jochumdev): Find a way to collect the settings from the API.
+--}}
 <script type="text/javascript">
-
 (async function () {
     const settings = theme.settings;
     const SKEYS = settings.KEYS;
@@ -76,12 +77,11 @@
     settings.Set(SKEYS.I18N_LANGUAGES, '{{@custom.i18n}}'.split(','));
     settings.Set(SKEYS.I18N_NAMESPACES, '{{@custom.i18n_namespaces}}'.split(','));
     settings.Set(SKEYS.I18N_DEFAULT_LANGUAGE, '{{@site.locale}}');
+    settings.Done();
 
-    await theme.i18n.myInit();
-    theme.localize('.i18n-target');
+    await theme.init();
 })();
 </script>
-{{/match}}
 
 <img class="jarallax-img" src="{{img_url @site.cover_image}}" alt="">
 
@@ -112,13 +112,6 @@
 
 {{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}
-
-{{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
-<script type="text/javascript">
-(async function () {
-    theme.functional.init();
-})();
-</script>
 
 </body>
 </html>

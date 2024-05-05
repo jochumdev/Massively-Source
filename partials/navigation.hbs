@@ -3,7 +3,7 @@
     <div class="gh-langswitcher space"></div>
     <ul class="gh-langswitcher main">
         <li class="gh-langselect en"><a href="/en/"><img src="{{asset "/images/i18n/en.png"}}" alt="en"></a></li>
-        <li class="gh-langselect de"><a href="/de/"><img src="{{asset "/assets/images/i18n/de.png"}}" alt="de"></a></li>
+        <li class="gh-langselect de"><a href="/de/"><img src="{{asset "/images/i18n/de.png"}}" alt="de"></a></li>
     </ul>
 </div>
 {{/match}}
@@ -47,53 +47,3 @@
     </nav>
     <a href="#navPanel" class="close"></a>
 </div>
-
-{{!--
-  Hack to implement language switching.
-  TODO(jochumdev): find a better way!
-  --}}
-{{#match custom.i18n "!=" ""}}
-<script type="text/javascript">
-(async function() {
-    const settings = theme.settings;
-    const SKEYS = settings.KEYS;
-
-    // Create language switchers.
-    const langs = settings.Get(SKEYS.I18N_LANGUAGES);
-    var switchers = '';
-    langs.forEach(function(lang) {
-        switchers += '<li class="gh-langselect '+lang+'"><a href="/'+lang+'/">'+'<img src="/assets/images/i18n/'+lang+'.png" alt="'+lang+'" /></a></li>';
-    });
-
-    var switcher = document.querySelector('#gh-language-switcher ul');
-    switcher.innerHTML = switchers;
-
-
-    // Wait for i18next to be ready.
-    await theme.i18n.myInit();
-
-    // Update nav menus.
-    const language = theme.i18n.language;
-    const navs = [document.getElementById('nav'), document.getElementById('panel-nav')];
-
-    for (n = 0; n < navs.length; n++) {
-        var navLinks = navs[n].querySelectorAll('.links>li');
-
-        var activeEL = null;
-        for (i = 0; i < navLinks.length; i++) {
-            var el = navLinks[i];
-            var link = new URL(el.firstChild.getAttribute("href"), window.location.origin);
-            var langLink = "/" + language + "/" + link.pathname.substring(4)
-            if (theme.util.pathIsCurrent(langLink)) {
-                activeEL = el;
-            }
-            el.firstChild.setAttribute("href", langLink);
-        };
-
-        if (activeEL != null) {
-            activeEL.classList.add("active");
-        }
-    };
-})();
-</script>
-{{/match}}
