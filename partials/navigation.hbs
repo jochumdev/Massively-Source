@@ -82,8 +82,8 @@
         var activeEL = null;
         for (i = 0; i < navLinks.length; i++) {
             var el = navLinks[i];
-            var link = el.firstChild.getAttribute("href");
-            var langLink = "/" + language + "/" + link.substring(4)
+            var link = new URL(el.firstChild.getAttribute("href"), window.location.origin);
+            var langLink = "/" + language + "/" + link.pathname.substring(4)
             if (theme.util.pathIsCurrent(langLink)) {
                 activeEL = el;
             }
