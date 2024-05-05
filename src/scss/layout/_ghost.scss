@@ -818,19 +818,6 @@ Search                         LOGO                    Login Subscribe
   position: relative;
 }
 
-.gh-card-image {
-  position: relative;
-  flex-shrink: 0;
-  aspect-ratio: 16 / 9;
-}
-
-.gh-card-image img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 .gh-card-wrapper {
   flex-grow: 1;
