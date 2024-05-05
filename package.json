@@ -9,8 +9,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "gulp",
-    "zip": "gulp build && gulp zip && gscan -z dist/massively-source.zip",
-    "test:ci": "gscan --fatal --verbose .",
+    "zip": "gulp build && gulp zip",
+    "test": "gscan --verbose -z dist/massively-source.zip",
     "lint": "npx stylelint \"assets/scss/*.scss\"",
     "lintformatfix": "npx stylelint \"assets/scss/*.scss\" --formatter --fix",
     "pretest": "gulp build",
