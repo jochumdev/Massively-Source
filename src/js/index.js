@@ -6,11 +6,11 @@ import util from "./src/util";
 // This intializes the theme.
 // It has to be called AFTER settings has been populated.
 async function init() {
-    // Await i18n;
-    await i18n.init();
+  // None i18n stuff.
+  await functional.init();
 
-    // None i18n stuff.
-    await functional.init();
-};
-ar
+  // Await i18n;
+  await i18n.init();
+}
+
 export default { init, settings, util };

@@ -2,7 +2,7 @@ import lightbox from "../lib/lightbox";
 import reframe from "reframe.js";
 import { jarallax } from "jarallax";
 
-function init() {
+async function init() {
   /*
    * Play initial animations on page load.
    */

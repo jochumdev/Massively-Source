@@ -61,28 +61,6 @@
 --}}
 <body class="is-preload {{body_class}}">
 
-<script type="text/javascript" src="{{asset "highlightjs/highlight.js" hasMinFile="true"}}"></script>
-<script type="text/javascript" src="{{asset "build/theme.js" hasMinFile="true"}}"></script>
-
-{{!-- 
-    Writes the settings from the them into the javascript memory, then initalizes the theme. 
-    TODO(jochumdev): Find a way to collect the settings from the API.
---}}
-<script type="text/javascript">
-(async function () {
-    const settings = theme.settings;
-    const SKEYS = settings.KEYS;
-
-    settings.Set(SKEYS.I18N, {{#match custom.i18n "==" ""}}false{{else}}true{{/match}});
-    settings.Set(SKEYS.I18N_LANGUAGES, '{{@custom.i18n}}'.split(','));
-    settings.Set(SKEYS.I18N_NAMESPACES, '{{@custom.i18n_namespaces}}'.split(','));
-    settings.Set(SKEYS.I18N_DEFAULT_LANGUAGE, '{{@site.locale}}');
-    settings.Done();
-
-    await theme.init();
-})();
-</script>
-
 <img class="jarallax-img" src="{{img_url @site.cover_image}}" alt="">
 
 <div id="gh-viewport" class="gh-viewport">
@@ -112,6 +90,29 @@
 
 {{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}
+
+<script type="text/javascript" src="{{asset "highlightjs/highlight.js" hasMinFile="true"}}"></script>
+<script type="text/javascript" src="{{asset "build/theme.js" hasMinFile="true"}}"></script>
+
+{{!-- 
+    Writes the settings from the them into the javascript memory, then initalizes the theme. 
+    TODO(jochumdev): Find a way to collect the settings from the API.
+--}}
+<script type="text/javascript">
+(async function () {
+    const settings = theme.settings;
+    const SKEYS = settings.KEYS;
+
+    settings.Set(SKEYS.I18N, {{#match custom.i18n "==" ""}}false{{else}}true{{/match}});
+    settings.Set(SKEYS.I18N_LANGUAGES, '{{@custom.i18n}}'.split(','));
+    settings.Set(SKEYS.I18N_NAMESPACES, '{{@custom.i18n_namespaces}}'.split(','));
+    settings.Set(SKEYS.I18N_DEFAULT_LANGUAGE, '{{@site.locale}}');
+    settings.Done();
+
+    await theme.init();
+})();
+</script>
+
 
 </body>
 </html>
