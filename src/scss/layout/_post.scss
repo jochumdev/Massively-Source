@@ -94,6 +94,12 @@
       text-align: center;
     }
 
+    .content {
+      a {
+        color: _palette(accent) !important;
+      }
+    }
+
 
 
     @include bp.get(0, l) {
