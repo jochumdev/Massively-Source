@@ -2,6 +2,7 @@
 {{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
 
 <main id="gh-main" class="post_index">
+    {{#match pagination.page 1}}
     {{#page}}
     <article class="gh-article {{page_class}}">
         {{#match @page.show_title_and_feature_image}}
@@ -13,6 +14,7 @@
         </div>
     </article>
     {{/page}}
+    {{/match}}
 
     {{> "components/post-list" feed="index" postFeedStyle=@custom.post_feed_style showTitle=true}}
 </main>

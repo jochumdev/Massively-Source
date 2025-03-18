@@ -3,7 +3,7 @@
 This is Massively-source, a text-heavy, article-oriented design built around a huge background
 image. Originally created by [@ajlkn](https://twitter.com/ajlkn) for [HTML5 UP](https://html5up.net) and later ported to [Ghost](https://ghost.org), then merged with the [Source](https://github.com/TryGhost/Source) theme by [jochumdev](https://jochum.dev).
 
-**Demo: https://rene.jochum.dev**
+**Demo: https://jochum.dev**
 
 ## Features
 
@@ -47,4 +47,4 @@ image. Originally created by [@ajlkn](https://twitter.com/ajlkn) for [HTML5 UP](
 
 ## Copyright & License
 
-Copyright (c) 2013-2024 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2013-2025 Ghost Foundation - Released under the [MIT license](LICENSE).

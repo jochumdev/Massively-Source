@@ -29,8 +29,8 @@ import sort from "gulp-sort";
 
 const PACKAGE_JSON = JSON.parse(fs.readFileSync("./package.json"));
 
-const REPO = "TryGhost/Source";
-const REPO_READONLY = "TryGhost/Source";
+const REPO = "jochumdev/Massively-Source";
+const REPO_READONLY = "jochumdev/Massively-Source";
 const CHANGELOG_PATH = path.join(process.cwd(), ".", "changelog.md");
 
 function serve(done) {
@@ -106,6 +106,7 @@ function js(done) {
         output: {
           name: "theme",
           format: "iife",
+          inlineDynamicImports: true
         },
         plugins: [
           nodeResolve({
@@ -141,6 +142,7 @@ function js_prod(done) {
         output: {
           name: "theme",
           format: "iife",
+          inlineDynamicImports: true
         },
         plugins: [
           nodeResolve({

@@ -9,10 +9,10 @@
         {{> "feature-image"}}
     {{/if}}
     <h1>{{title}}</h1>
-    {{#if titleFirst}}
-        {{> "feature-image"}}
-    {{/if}}
     {{#if custom_excerpt}}
         <p class="gh-article-excerpt">{{custom_excerpt}}</p>
+    {{/if}}
+    {{#if titleFirst}}
+        {{> "feature-image"}}
     {{/if}}
 </header>

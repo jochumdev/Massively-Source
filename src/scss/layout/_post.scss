@@ -94,6 +94,8 @@
       text-align: center;
     }
 
+
+
     @include bp.get(0, l) {
       @include padding((_size(padding) * 3), (_size(padding) * 2));
     }
@@ -143,12 +145,15 @@
       position: relative;
       width: 100%;
       height: 100%;
-      padding: _size(padding);
       border-color: _palette(border);
       border-left-width: 2px;
       border-style: solid;
       border-top-width: 2px;
       text-align: center;
+
+      .is-body {
+        padding-top: 2rem;
+      }
 
       > :last-child {
         margin-bottom: 0;
