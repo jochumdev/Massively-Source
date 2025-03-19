@@ -1,6 +1,6 @@
 {{!--
     Parameters:
-    * feed (index, home, archive, recent)
+    * feed (index, home, archive)
     * postFeedStyle (list, grid)
 --}}
 
@@ -8,48 +8,15 @@
     <section class="posts">
         {{!-- Homepage --}}
         {{#match feed "home"}}
-            {{#match @custom.header_style "Highlight"}}
-                {{#if @custom.show_featured_posts}}
-                    {{#match posts.length ">=" 4}}
-                        {{#get "posts" include="authors"}}
-                            {{#foreach posts from="5" limit="12"}}
-                                {{> "post-card" lazyLoad=true}}
-                            {{/foreach}}
-                        {{/get}}
-                    {{/match}}
-                {{else}}
-                    {{#match posts.length ">=" 10}}
-                        {{#get "posts" include="authors" limit="22"}}
-                            {{#foreach posts from="11" limit="12"}}
-                                {{> "post-card" lazyLoad=true}}
-                            {{/foreach}}
-                        {{/get}}
-                    {{/match}}
-                {{/if}}
-            {{else match @custom.header_style "Magazine"}}
-                {{#match posts.length ">=" 7}}
-                    {{#get "posts" include="authors" limit="19"}}
-                        {{#foreach posts from="8" limit="12"}}
-                            {{> "post-card" lazyLoad=true}}
-                        {{/foreach}}
-                    {{/get}}
-                {{/match}}
-            {{else}}
-                {{#get "posts" include="authors" page=pagination.page limit=@config.posts_per_page}}
-                    {{#foreach posts}}
-                        {{> "post-card" lazyLoad=true}}
-                    {{/foreach}}
-                {{/get}}
-            {{/match}}
+            {{#get "posts" include="authors" page=pagination.page limit=@config.posts_per_page}}
+                {{#foreach posts}}
+                    {{> "post-card" lazyLoad=true}}
+                {{/foreach}}
+            {{/get}}
         {{/match}}
 
         {{!-- All posts --}}
         {{#match feed "index"}}
-            {{#get "posts" include="authors" page=pagination.page limit=@config.posts_per_page as |recent|}}
-                {{#foreach recent}}
-                    {{> "post-card"}}
-                {{/foreach}}
-            {{/get}}
             {{#foreach posts}}
                 {{> "post-card" lazyLoad=true}}
             {{/foreach}}
